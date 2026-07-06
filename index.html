@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>China Gas Import Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">China natural gas</p>
+          <h1>Import Forecast Dashboard</h1>
+        </div>
+        <div class="meta">
+          <span id="latest-actual">Latest actual</span>
+          <span id="forecast-range">Forecast range</span>
+        </div>
+      </header>
+
+      <section class="control-band" aria-label="Dashboard controls">
+        <div class="segmented" role="group" aria-label="Scenario selector">
+          <button class="segment is-active" data-scenario="Base" aria-pressed="true">Base</button>
+          <button class="segment" data-scenario="Bull" aria-pressed="false">Bull</button>
+          <button class="segment" data-scenario="Bear" aria-pressed="false">Bear</button>
+        </div>
+        <p id="scenario-note" class="scenario-note"></p>
+      </section>
+
+      <section class="kpi-grid" id="kpi-grid" aria-label="Key forecast metrics"></section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Gross imports</p>
+              <h2>Base / Bull / Bear Forecast</h2>
+            </div>
+          </div>
+          <div id="line-chart" class="chart" role="img" aria-label="Monthly import forecast line chart"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Supply stack</p>
+              <h2 id="supply-title">Base Import Components</h2>
+            </div>
+          </div>
+          <div id="stack-chart" class="chart" role="img" aria-label="Monthly import component chart"></div>
+        </article>
+      </section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Demand detail</p>
+              <h2 id="demand-title">Base Sector Demand</h2>
+            </div>
+          </div>
+          <div id="demand-chart" class="chart" role="img" aria-label="Monthly demand sector chart"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Model mechanics</p>
+              <h2>How the Forecast Works</h2>
+            </div>
+          </div>
+          <ol class="model-flow">
+            <li>Start from JODI monthly China gas balance actuals.</li>
+            <li>Split total demand into power, industrial, buildings/city gas, and transport using editable shares and seasonal profiles.</li>
+            <li>Apply driver adjustments for weather, fuel switching, power output mix, industrial activity, policy, and prices.</li>
+            <li>Forecast domestic production, storage change, exports, and pipeline route flows.</li>
+            <li>Use contracted LNG first, then solve the remaining LNG gap as spot need.</li>
+          </ol>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Monthly table</p>
+            <h2>Forecast and Explanation</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="forecast-table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Imports</th>
+                <th>Pipeline</th>
+                <th>Contracted LNG</th>
+                <th>Spot LNG</th>
+                <th>Demand</th>
+                <th>Domestic Prod.</th>
+                <th>Change vs Base</th>
+                <th>Explanation</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Assumptions</p>
+              <h2>Editable Model Inputs</h2>
+            </div>
+          </div>
+          <div id="assumptions" class="assumption-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Sources</p>
+              <h2>Where the Data Comes From</h2>
+            </div>
+          </div>
+          <div id="sources" class="source-list"></div>
+        </article>
+      </section>
+    </main>
+
+    <script src="src/data.js"></script>
+    <script src="src/app.js"></script>
+  </body>
+</html>
+
