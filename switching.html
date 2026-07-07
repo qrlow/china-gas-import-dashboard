@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>China Gas-to-Coal Switching Model</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">China natural gas</p>
+          <h1>Gas-to-Coal Switching Model</h1>
+        </div>
+        <div class="topbar-actions">
+          <nav class="topnav" aria-label="Dashboard navigation">
+            <a href="index.html">JODI actuals</a>
+            <a href="sector.html">Sector model</a>
+            <a class="is-active" href="switching.html">Switch model</a>
+          </nav>
+          <div class="meta">
+            <span id="switch-latest">Latest actual</span>
+            <span id="switch-report">IEA report pages</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="control-band switch-control-band" aria-label="Switch model controls">
+        <div class="field">
+          <label for="switch-scenario">Scenario</label>
+          <select id="switch-scenario"></select>
+        </div>
+        <p id="switch-note" class="dashboard-note"></p>
+      </section>
+
+      <section class="switch-input-grid" id="switch-inputs" aria-label="Model inputs"></section>
+
+      <section class="kpi-grid" id="switch-kpis" aria-label="Switching model key metrics"></section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Generation economics</p>
+              <h2>Gas and Coal Short-Run Cost</h2>
+            </div>
+          </div>
+          <div id="switch-cost-chart" class="chart" role="img" aria-label="Gas and coal short-run marginal cost comparison"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Monthly profile</p>
+              <h2>Annual Gas Saving by Month</h2>
+            </div>
+          </div>
+          <div id="switch-monthly-chart" class="chart" role="img" aria-label="Modeled monthly gas saving profile"></div>
+        </article>
+      </section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Regional envelope</p>
+              <h2>China Coastal Switching Clusters</h2>
+            </div>
+          </div>
+          <div id="switch-region-chart" class="chart" role="img" aria-label="Regional switching envelope chart"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Sensitivity</p>
+              <h2>Gas Price Activation Curve</h2>
+            </div>
+          </div>
+          <div id="switch-sensitivity-chart" class="chart" role="img" aria-label="Gas price sensitivity chart"></div>
+        </article>
+      </section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Model construction</p>
+              <h2>Calculation Mechanics</h2>
+            </div>
+          </div>
+          <div id="switch-methodology" class="assumption-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Report readout</p>
+              <h2>IEA Pages 47-53 Inputs</h2>
+            </div>
+          </div>
+          <div id="switch-report-findings" class="assumption-list"></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Monthly table</p>
+            <h2>Modeled Switching Volume</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="switch-table" class="switch-table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Gas Saving</th>
+                <th>Power Shift</th>
+                <th>Coal Required</th>
+                <th>CO2 Delta</th>
+                <th>Feasibility</th>
+                <th>Constraint Read</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">GitHub scan</p>
+              <h2>Similar Public Projects Checked</h2>
+            </div>
+          </div>
+          <div id="switch-github" class="source-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Sources</p>
+              <h2>Data and Assumption Sources</h2>
+            </div>
+          </div>
+          <div id="switch-sources" class="source-list"></div>
+        </article>
+      </section>
+    </main>
+
+    <script src="src/switching-data.js"></script>
+    <script src="src/switching-app.js"></script>
+  </body>
+</html>

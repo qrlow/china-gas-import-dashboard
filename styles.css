@@ -170,6 +170,53 @@ textarea {
   font-size: 14px;
 }
 
+.switch-control-band {
+  align-items: flex-start;
+}
+
+.switch-input-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.input-card {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: var(--shadow);
+}
+
+.input-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.input-head label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.input-head strong {
+  color: var(--ink);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.input-card input[type="range"] {
+  width: 100%;
+  accent-color: var(--navy);
+}
+
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -309,6 +356,12 @@ svg {
   font-size: 12px;
 }
 
+.chart-value {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 750;
+}
+
 .grid-line {
   stroke: #e5ebf1;
   stroke-width: 1;
@@ -401,6 +454,11 @@ th.num {
   overflow-wrap: anywhere;
 }
 
+.local-source {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
 .anchor-list {
   display: grid;
   gap: 8px;
@@ -487,6 +545,10 @@ th.num {
   min-width: 980px;
 }
 
+.switch-table {
+  min-width: 1080px;
+}
+
 .legend {
   display: flex;
   gap: 14px;
@@ -525,6 +587,7 @@ th.num {
   }
 
   .kpi-grid,
+  .switch-input-grid,
   .two-col {
     grid-template-columns: 1fr;
   }
