@@ -52,11 +52,19 @@ For recent China rows, `STOCKCH` is often not reported. In that case the residua
 
 JODI does not publish monthly China gas demand by sector, route-level pipeline imports, contracted-versus-spot LNG, or price/weather adjustments in this dataset. Those fields are intentionally not shown in the JODI-only dashboard.
 
-## Sector Demand Model
+## Apparent Sector Demand Model
 
-The sector dashboard is a historical allocation model for JODI calculated demand. It is not official monthly sector demand data.
+The sector dashboard is a historical allocation model for JODI `TOTDEMC` apparent demand. It is not official monthly sector end-use demand data.
 
 The model covers months where both JODI China calculated demand and Carbon Monitor China proxy data are available. In the current generated file, that range is `2019-01` through `2026-03`.
+
+For China, stock change is reported as zero in this JODI extract. That means `TOTDEMC` is effectively:
+
+```text
+production + imports - exports
+```
+
+not a storage-adjusted end-use demand number. If China is injecting gas into storage, actual end-use demand from power, industrial, buildings, and transport is lower than `TOTDEMC`. If China is withdrawing from storage, actual end-use demand is higher than `TOTDEMC`. The dashboard does not estimate that storage adjustment.
 
 ### Sector Buckets
 
@@ -108,14 +116,14 @@ For each month:
 ```text
 sector weight = annual anchor share × Carbon Monitor monthly proxy index
 sector share = sector weight ÷ sum(all sector weights)
-sector demand = JODI calculated demand × sector share
+apparent sector demand = JODI TOTDEMC apparent demand × sector share
 ```
 
-The four sector demands always sum to JODI calculated demand for the month.
+The four modeled sector buckets sum to JODI `TOTDEMC` apparent demand for the month. They should not be read as storage-adjusted actual end-use demand.
 
 ### Caveats
 
 - Carbon Monitor measures CO2 emissions/activity, not gas consumption by fuel.
 - The buildings bucket uses Carbon Monitor residential emissions as the monthly proxy, while the annual anchor includes residential plus tertiary/commercial gas use.
 - The industrial bucket includes non-energy/chemical gas use because the requested dashboard has one broad industrial category.
-- JODI China stock change is reported as zero in this extract, so calculated demand is apparent demand and can include storage injection.
+- JODI China stock change is reported as zero in this extract, so calculated demand is apparent demand. Storage injection would make actual end-use demand lower than `TOTDEMC`; storage withdrawal would make actual end-use demand higher.

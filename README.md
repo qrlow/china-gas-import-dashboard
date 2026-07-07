@@ -34,7 +34,7 @@ node scripts/build-sector-data.mjs
 - Selected-gas-year import stack for LNG and pipeline imports, with prior-five-gas-year monthly average overlays for total imports and LNG imports.
 - Total imports, LNG imports, pipeline imports, production, calculated demand, exports, net imports, and residual balance checks.
 - JODI flow-code definitions and source links.
-- Historical monthly sector allocation for JODI calculated demand, split into power, industrial/chemical, buildings/city gas, and transport.
+- Historical monthly allocation of JODI apparent demand, split into power, industrial/chemical, buildings/city gas, and transport.
 - Carbon Monitor China monthly proxy indexes and IEA annual sector anchor shares used by the sector model.
 
 ## Data Sources
@@ -60,7 +60,7 @@ The sector page adds free public sources:
 
 These dashboards do not forecast. The JODI page is actuals only.
 
-The sector page is a model, not official monthly China gas demand by sector. It forces every month to match JODI `TOTDEMC` calculated demand, derives final-consumption sector weights from the public IEA China natural gas country page, adds a power/CHP transformation layer from the IEA balance, and uses Carbon Monitor China sector emissions as monthly activity-shape proxies. Because JODI China stock change is reported as zero in this extract, calculated demand is apparent demand and can include gas going into storage.
+The sector page is a model, not official monthly China gas demand by sector. It allocates JODI `TOTDEMC` apparent demand, derives final-consumption sector weights from the public IEA China natural gas country page, adds a power/CHP transformation layer from the IEA balance, and uses Carbon Monitor China sector emissions as monthly activity-shape proxies. Because JODI China stock change is reported as zero in this extract, storage is not separated. During storage builds, actual end-use demand from power, industrial, buildings, and transport would be lower than `TOTDEMC`; during storage withdrawals, actual end-use demand would be higher.
 
 ## License
 

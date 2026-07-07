@@ -256,7 +256,7 @@ function buildMonthlyModel(jodi, proxyIndexes) {
         shares: Object.fromEntries(SECTOR_ORDER.map((sector) => [sector, round(shares[sector], 4)])),
         proxyIndex: Object.fromEntries(SECTOR_ORDER.map((sector) => [sector, round(proxy[sector], 3)])),
         source: {
-          controlTotal: "JODI TOTDEMC calculated demand",
+          controlTotal: "JODI TOTDEMC apparent demand; China stock change is not separated",
           monthlyShape: "Carbon Monitor China sector proxy indexes",
           annualAnchor: "IEA 2023 China gas-balance sector shares",
         },
@@ -299,7 +299,7 @@ function buildOutput() {
       latestModeledPeriod: latest?.period ?? null,
       currentGasYear: latest?.gasYear ?? jodi.meta.currentGasYear,
       units: "bcm unless otherwise stated",
-      note: "Historical top-down sector allocation. JODI calculated demand is the monthly control total; sector split is modeled, not official sector demand.",
+      note: "Historical top-down allocation of JODI apparent demand. Because China stock change is not reported in this JODI extract, modeled sectors are not storage-adjusted end-use demand.",
       carbonMonitorPeriod: {
         earliest: carbon.periods[0],
         latest: carbon.periods.at(-1),
@@ -316,7 +316,7 @@ function buildOutput() {
     methodology: [
       {
         title: "Control total",
-        text: "Each month sums exactly to JODI China TOTDEMC calculated demand. Because China stock change is reported as zero in the JODI extract, this is apparent demand and can include storage injection.",
+        text: "The model scales the four buckets to JODI China TOTDEMC apparent demand because no free monthly China stock-change series is included. Since China stock change is reported as zero in this JODI extract, unobserved storage builds would make actual power, industrial, buildings, and transport end-use demand lower than TOTDEMC; storage withdrawals would make actual end-use demand higher. Storage is not separated in this dashboard.",
       },
       {
         title: "Annual sector anchor",
@@ -328,14 +328,14 @@ function buildOutput() {
       },
       {
         title: "Reconciliation",
-        text: "For each month, anchor share times proxy index creates preliminary sector weights. Those weights are normalized, then multiplied by the JODI control total.",
+        text: "For each month, anchor share times proxy index creates preliminary sector weights. Those weights are normalized, then multiplied by the JODI apparent-demand control total, not a storage-adjusted end-use total.",
       },
     ],
     sources: [
       {
         name: "JODI Gas World Database",
         url: "https://www.jodidata.org/gas/database/data-downloads.aspx",
-        note: "Monthly China gas balance. The sector model uses JODI TOTDEMC calculated demand as the control total.",
+        note: "Monthly China gas balance. The sector model uses JODI TOTDEMC as an apparent-demand control total because China stock change is reported as zero in this extract.",
       },
       {
         name: "Carbon Monitor China",

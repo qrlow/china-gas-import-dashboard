@@ -82,11 +82,11 @@
     const first = rows[0]?.period ?? "";
     const last = rows.at(-1)?.period ?? "";
     byId("sector-gas-year-range").textContent = `${gasYear}: ${first} to ${last}`;
-    byId("sector-dashboard-note").textContent = "Historical model only. JODI calculated demand is the control total; IEA sets the annual split; Carbon Monitor China sets monthly sector shape.";
-    byId("sector-stack-title").textContent = `Modeled Sector Stack, ${gasYear}`;
+    byId("sector-dashboard-note").textContent = "Historical model only. JODI TOTDEMC is treated as apparent demand; storage builds/withdrawals are not separated from the sector allocation.";
+    byId("sector-stack-title").textContent = `Modeled Apparent Sector Stack, ${gasYear}`;
     byId("sector-share-title").textContent = `Monthly Sector Shares, ${gasYear}`;
     byId("proxy-title").textContent = `Carbon Monitor Monthly Index, ${gasYear}`;
-    byId("sector-table-title").textContent = `Modeled Monthly Sector Demand, ${gasYear}`;
+    byId("sector-table-title").textContent = `Modeled Monthly Apparent Sector Demand, ${gasYear}`;
     renderKpis(rows);
     renderSectorStack(rows);
     renderShareChart(rows);
@@ -107,9 +107,9 @@
       ? latestSectorValues.reduce((best, item) => (item.value > best.value ? item : best), latestSectorValues[0])
       : null;
     const items = [
-      ["Modeled Demand", `${fmt.format(total)} bcm`, `${rows.length} modeled month${rows.length === 1 ? "" : "s"}`],
+      ["Modeled Apparent Demand", `${fmt.format(total)} bcm`, `${rows.length} modeled month${rows.length === 1 ? "" : "s"}`],
       [largest.shortLabel, `${fmt.format(largest.value)} bcm`, `${percent(total ? largest.value / total : null)} of selected gas year`],
-      ["Latest Month", latest ? `${fmt.format(latest.totalDemand)} bcm` : "", latest ? `${latest.period}, JODI control total` : ""],
+      ["Latest Month", latest ? `${fmt.format(latest.totalDemand)} bcm` : "", latest ? `${latest.period}, JODI apparent total` : ""],
       ["Latest Lead Sector", latestSector ? latestSector.shortLabel : "", latestSector && latest ? `${fmt.format(latestSector.value)} bcm in ${latest.period}` : ""],
     ];
     byId("sector-kpis").innerHTML = items.map(([label, value, sub]) => `

@@ -1,11 +1,11 @@
 window.CHINA_GAS_SECTOR_DATA = {
   "meta": {
-    "generatedAt": "2026-07-07T07:36:09.119Z",
+    "generatedAt": "2026-07-07T07:47:59.519Z",
     "earliestModeledPeriod": "2019-01",
     "latestModeledPeriod": "2026-03",
     "currentGasYear": "2025/26",
     "units": "bcm unless otherwise stated",
-    "note": "Historical top-down sector allocation. JODI calculated demand is the monthly control total; sector split is modeled, not official sector demand.",
+    "note": "Historical top-down allocation of JODI apparent demand. Because China stock change is not reported in this JODI extract, modeled sectors are not storage-adjusted end-use demand.",
     "carbonMonitorPeriod": {
       "earliest": "2019-01",
       "latest": "2026-03"
@@ -205,7 +205,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.979
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -235,7 +235,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.928
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -265,7 +265,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.003
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -295,7 +295,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.95
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -325,7 +325,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.98
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -355,7 +355,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.98
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -385,7 +385,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.998
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -415,7 +415,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.003
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -445,7 +445,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.027
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -475,7 +475,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.032
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -505,7 +505,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.972
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -535,7 +535,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.988
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -565,7 +565,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.799
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -595,7 +595,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.775
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -625,7 +625,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.954
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -655,7 +655,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.923
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -685,7 +685,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.002
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -715,7 +715,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.033
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -745,7 +745,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.107
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -775,7 +775,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.107
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -805,7 +805,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.243
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -835,7 +835,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.986
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -865,7 +865,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.006
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -895,7 +895,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.019
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -925,7 +925,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.955
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -955,7 +955,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.916
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -985,7 +985,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.944
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1015,7 +1015,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.895
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1045,7 +1045,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.992
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1075,7 +1075,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.006
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1105,7 +1105,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.102
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1135,7 +1135,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.124
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1165,7 +1165,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.08
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1195,7 +1195,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.145
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1225,7 +1225,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.228
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1255,7 +1255,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.221
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1285,7 +1285,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.099
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1315,7 +1315,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.083
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1345,7 +1345,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.08
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1375,7 +1375,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.927
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1405,7 +1405,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.975
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1435,7 +1435,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.956
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1465,7 +1465,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.936
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1495,7 +1495,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.928
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1525,7 +1525,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.02
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1555,7 +1555,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.1
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1585,7 +1585,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.031
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1615,7 +1615,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.003
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1645,7 +1645,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.996
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1675,7 +1675,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.999
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1705,7 +1705,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.135
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1735,7 +1735,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.127
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1765,7 +1765,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.108
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1795,7 +1795,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.097
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1825,7 +1825,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.076
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1855,7 +1855,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.069
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1885,7 +1885,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.067
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1915,7 +1915,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.092
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1945,7 +1945,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.974
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -1975,7 +1975,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.018
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2005,7 +2005,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.036
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2035,7 +2035,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.908
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2065,7 +2065,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.015
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2095,7 +2095,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.984
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2125,7 +2125,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.979
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2155,7 +2155,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.959
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2185,7 +2185,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.973
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2215,7 +2215,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.965
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2245,7 +2245,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.001
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2275,7 +2275,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.018
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2305,7 +2305,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.957
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2335,7 +2335,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.009
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2365,7 +2365,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.004
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2395,7 +2395,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.913
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2425,7 +2425,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.988
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2455,7 +2455,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.931
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2485,7 +2485,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.959
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2515,7 +2515,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.984
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2545,7 +2545,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.002
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2575,7 +2575,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.019
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2605,7 +2605,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.047
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2635,7 +2635,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.052
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2665,7 +2665,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.014
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2695,7 +2695,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.044
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2725,7 +2725,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.051
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2755,7 +2755,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 0.95
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -2785,7 +2785,7 @@ window.CHINA_GAS_SECTOR_DATA = {
         "transport": 1.036
       },
       "source": {
-        "controlTotal": "JODI TOTDEMC calculated demand",
+        "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
         "annualAnchor": "IEA 2023 China gas-balance sector shares"
       }
@@ -4101,7 +4101,7 @@ window.CHINA_GAS_SECTOR_DATA = {
   "methodology": [
     {
       "title": "Control total",
-      "text": "Each month sums exactly to JODI China TOTDEMC calculated demand. Because China stock change is reported as zero in the JODI extract, this is apparent demand and can include storage injection."
+      "text": "The model scales the four buckets to JODI China TOTDEMC apparent demand because no free monthly China stock-change series is included. Since China stock change is reported as zero in this JODI extract, unobserved storage builds would make actual power, industrial, buildings, and transport end-use demand lower than TOTDEMC; storage withdrawals would make actual end-use demand higher. Storage is not separated in this dashboard."
     },
     {
       "title": "Annual sector anchor",
@@ -4113,14 +4113,14 @@ window.CHINA_GAS_SECTOR_DATA = {
     },
     {
       "title": "Reconciliation",
-      "text": "For each month, anchor share times proxy index creates preliminary sector weights. Those weights are normalized, then multiplied by the JODI control total."
+      "text": "For each month, anchor share times proxy index creates preliminary sector weights. Those weights are normalized, then multiplied by the JODI apparent-demand control total, not a storage-adjusted end-use total."
     }
   ],
   "sources": [
     {
       "name": "JODI Gas World Database",
       "url": "https://www.jodidata.org/gas/database/data-downloads.aspx",
-      "note": "Monthly China gas balance. The sector model uses JODI TOTDEMC calculated demand as the control total."
+      "note": "Monthly China gas balance. The sector model uses JODI TOTDEMC as an apparent-demand control total because China stock change is reported as zero in this extract."
     },
     {
       "name": "Carbon Monitor China",

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>China Gas Sector Demand Model</title>
+    <title>China Gas Apparent Sector Demand Model</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -11,7 +11,7 @@
       <header class="topbar">
         <div>
           <p class="eyebrow">China natural gas</p>
-          <h1>Sector Demand Model</h1>
+          <h1>Apparent Sector Demand Model</h1>
         </div>
         <div class="topbar-actions">
           <nav class="topnav" aria-label="Dashboard navigation">
@@ -33,17 +33,17 @@
         <p id="sector-dashboard-note" class="dashboard-note"></p>
       </section>
 
-      <section class="kpi-grid" id="sector-kpis" aria-label="Modeled sector demand metrics"></section>
+      <section class="kpi-grid" id="sector-kpis" aria-label="Modeled apparent sector demand metrics"></section>
 
       <section class="grid two-col">
         <article class="panel">
           <div class="panel-head">
             <div>
               <p class="eyebrow">Monthly demand</p>
-              <h2 id="sector-stack-title">Modeled Sector Stack</h2>
+              <h2 id="sector-stack-title">Modeled Apparent Sector Stack</h2>
             </div>
           </div>
-          <div id="sector-stack-chart" class="chart" role="img" aria-label="Monthly modeled gas demand by sector"></div>
+          <div id="sector-stack-chart" class="chart" role="img" aria-label="Monthly modeled apparent gas demand by sector"></div>
         </article>
 
         <article class="panel">
@@ -53,7 +53,7 @@
               <h2 id="sector-share-title">Monthly Sector Shares</h2>
             </div>
           </div>
-          <div id="sector-share-chart" class="chart" role="img" aria-label="Monthly modeled sector demand shares"></div>
+          <div id="sector-share-chart" class="chart" role="img" aria-label="Monthly modeled apparent sector demand shares"></div>
         </article>
       </section>
 
@@ -74,8 +74,8 @@
               <p class="eyebrow">Model construction</p>
               <h2 class="title-with-info">
                 <span>How the Allocation Works</span>
-                <span class="info-tip" tabindex="0" aria-label="Model scope" title="This is a historical sector allocation model, not official sector demand data. Every month is forced to match JODI calculated demand.">i
-                  <span class="tooltip" role="tooltip">This is a historical sector allocation model, not official sector demand data. Every month is forced to match JODI calculated demand.</span>
+                <span class="info-tip" tabindex="0" aria-label="Model scope" title="This is a historical allocation of JODI apparent demand, not storage-adjusted end-use sector demand.">i
+                  <span class="tooltip" role="tooltip">This is a historical allocation of JODI apparent demand, not storage-adjusted end-use sector demand.</span>
                 </span>
               </h2>
             </div>
@@ -110,7 +110,7 @@
         <div class="panel-head">
           <div>
             <p class="eyebrow">Monthly table</p>
-            <h2 id="sector-table-title">Modeled Monthly Sector Demand</h2>
+            <h2 id="sector-table-title">Modeled Monthly Apparent Sector Demand</h2>
           </div>
         </div>
         <div class="table-wrap">
@@ -118,7 +118,7 @@
             <thead>
               <tr>
                 <th>Month</th>
-                <th>JODI Demand</th>
+                <th>JODI Apparent Demand</th>
                 <th>Power</th>
                 <th>Industrial</th>
                 <th>Buildings</th>
