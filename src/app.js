@@ -153,8 +153,11 @@
         ] : [],
       };
     });
-    const avgPoints = monthlyAverageSeries(avgYears, "totalImports");
-    byId("stack-chart").innerHTML = stackedBarWithAverage(chartRows, avgPoints, ["LNG", "Pipeline", "Other / rounding"], "bcm", data.gasYearMonths.map((month) => month.label));
+    const avgSeries = [
+      { label: "Prior 5-year avg total", color: colors.total, dash: "7 5", points: monthlyAverageSeries(avgYears, "totalImports") },
+      { label: "Prior 5-year avg LNG", color: colors.lng, dash: "3 4", points: monthlyAverageSeries(avgYears, "lngImports") },
+    ];
+    byId("stack-chart").innerHTML = stackedBarWithAverage(chartRows, avgSeries, ["LNG", "Pipeline", "Other / rounding"], "bcm", data.gasYearMonths.map((month) => month.label));
   }
 
   function renderBalanceChart(years) {
@@ -273,11 +276,11 @@
     `;
   }
 
-  function stackedBarWithAverage(rows, avgPoints, keys, unit, xLabels) {
+  function stackedBarWithAverage(rows, avgSeries, keys, unit, xLabels) {
     const width = 760;
     const height = 320;
     const pad = { top: 18, right: 18, bottom: 48, left: 50 };
-    const totals = rows.map((row) => row.total).concat(avgPoints.map((point) => point.value));
+    const totals = rows.map((row) => row.total).concat(avgSeries.flatMap((series) => series.points.map((point) => point.value)));
     const scale = chartScales(totals, width, height, pad);
     const count = xLabels?.length ?? rows.length;
     const band = (width - pad.left - pad.right) / Math.max(rows.length, 1);
@@ -292,17 +295,20 @@
         return `<rect x="${x}" y="${yTop}" width="${barWidth}" height="${Math.max(0, h)}" fill="${part.color}"><title>${part.key} ${row.period}: ${fmt.format(number(part.value))} ${unit}</title></rect>`;
       }).join("");
     }).join("");
-    const avgLinePoints = avgPoints
-      .filter((point) => point.value != null && !Number.isNaN(point.value))
-      .map((point) => `${scale.x(point.xIndex, count)},${scale.y(point.value)}`)
-      .join(" ");
-    const avgDots = avgPoints
+    const avgLines = avgSeries.map((series) => {
+      const points = series.points
+        .filter((point) => point.value != null && !Number.isNaN(point.value))
+        .map((point) => `${scale.x(point.xIndex, count)},${scale.y(point.value)}`)
+        .join(" ");
+      return `<polyline fill="none" stroke="${series.color}" stroke-width="3" stroke-dasharray="${series.dash}" points="${points}"></polyline>`;
+    }).join("");
+    const avgDots = avgSeries.map((series) => series.points
       .filter((point) => point.value != null && !Number.isNaN(point.value))
       .map((point) => `
-        <circle cx="${scale.x(point.xIndex, count)}" cy="${scale.y(point.value)}" r="3" fill="${colors.total}">
-          <title>Prior ${point.yearsUsed}-year avg total imports ${point.period}: ${fmt.format(number(point.value))} ${unit}</title>
+        <circle cx="${scale.x(point.xIndex, count)}" cy="${scale.y(point.value)}" r="3" fill="${series.color}">
+          <title>${series.label} (${point.yearsUsed} years) ${point.period}: ${fmt.format(number(point.value))} ${unit}</title>
         </circle>
-      `).join("");
+      `).join("")).join("");
     const monthLabels = (xLabels ?? rows.map((row) => row.label)).map((label, i) => `
       <text x="${scale.x(i, count)}" y="${height - 12}" text-anchor="middle" class="chart-label">${label}</text>
     `).join("");
@@ -319,11 +325,11 @@
       <svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
         ${tickVals.map((tick) => `<line class="grid-line" x1="${pad.left}" y1="${scale.y(tick)}" x2="${width - pad.right}" y2="${scale.y(tick)}"></line><text x="8" y="${scale.y(tick) + 4}" class="chart-label">${fmt.format(tick)}</text>`).join("")}
         ${bars}
-        <polyline fill="none" stroke="${colors.total}" stroke-width="3" stroke-dasharray="7 5" points="${avgLinePoints}"></polyline>
+        ${avgLines}
         ${avgDots}
         ${monthLabels}
       </svg>
-      ${legend(componentLegend.concat([{ label: "Prior 5-year avg total", color: colors.total, line: true, dash: true }]))}
+      ${legend(componentLegend.concat(avgSeries.map((series) => ({ label: series.label, color: series.color, line: true, dash: true }))))}
     `;
   }
 

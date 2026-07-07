@@ -19,7 +19,7 @@ The dashboard defaults to the gas year containing the latest JODI actual month.
 
 The KPI cards, monthly table, and import stack show the selected gas year from the dashboard dropdown. The gross imports and balance chart panels compare the selected gas year against the prior four gas years where available.
 
-The import stack overlays a monthly average total-import line from the five gas years before the selected gas year. For example, gas year `2025/26` is shown against the average of `2020/21` through `2024/25` where data is available.
+The import stack overlays monthly average lines for total imports and LNG imports from the five gas years before the selected gas year. For example, gas year `2025/26` is shown against the average of `2020/21` through `2024/25` where data is available.
 
 ## Flow Codes
 
