@@ -285,7 +285,7 @@
       },
       {
         title: "Monthly shape",
-        text: `The annual result is distributed across gas-year months using the existing sector model's recent power/residual monthly shape, then adjusted down in summer and winter peak months. Context: JODI 2025 apparent gas demand is ${fmt.format(context.calendar2025ApparentDemandBcm)} bcm and LNG imports are ${fmt.format(context.calendar2025LNGImportsBcm)} bcm.`,
+        text: `The annual result is distributed across gas-year months using the existing sector model's Power / residual bucket as the gas-fired power proxy, then adjusted down in summer and winter peak months. The note is that this bucket is not metered plant-level gas burn; it may include small residual items, but it is the best available monthly shape in this dashboard. Context: JODI 2025 apparent gas demand is ${fmt.format(context.calendar2025ApparentDemandBcm)} bcm and LNG imports are ${fmt.format(context.calendar2025LNGImportsBcm)} bcm.`,
       },
       {
         title: "Break-even checks",

@@ -1,6 +1,6 @@
 window.CHINA_GAS_SWITCHING_DATA = {
   "meta": {
-    "generatedAt": "2026-07-07T12:18:58.140Z",
+    "generatedAt": "2026-07-07T12:54:36.605Z",
     "title": "China gas-to-coal switching model",
     "report": "IEA Gas Market Report, Q3-2026, pages 47-53",
     "latestActualPeriod": "2026-03",
@@ -291,7 +291,7 @@ window.CHINA_GAS_SWITCHING_DATA = {
     {
       "name": "Carbon Monitor China",
       "url": "https://cn.carbonmonitor.org/",
-      "note": "Existing sector dashboard source used here only to shape the monthly power/residual switching profile."
+      "note": "Existing sector dashboard source used here only to shape the monthly Power / residual switching profile. The switch model treats that bucket as a gas-fired power proxy, with a caveat that it can include small residual items."
     }
   ]
 };

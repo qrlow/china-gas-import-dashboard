@@ -60,7 +60,11 @@ The low/high displayed range applies the same factor to the 27.5-32.5 bcm/year C
 
 ## Monthly Shape
 
-The annual result is distributed by gas-year month using the existing sector dashboard's recent modeled power/residual monthly shape, then adjusted for seasonal feasibility. Summer and winter peak months receive lower feasibility factors because the report says gas plants remain important for peak balancing.
+The annual result is distributed by gas-year month using the existing sector dashboard's recent modeled `Power / residual` bucket as the gas-fired power proxy, then adjusted for seasonal feasibility.
+
+This bucket is not metered plant-level gas burn. It is the leftover after visible industry, buildings, and transport buckets are separated from JODI apparent demand. The model treats the leftover as mostly gas-fired power for monthly timing, with the note that it can include small residual items.
+
+Summer and winter peak months receive lower feasibility factors because the report says gas plants remain important for peak balancing.
 
 ## GitHub Scan
 
