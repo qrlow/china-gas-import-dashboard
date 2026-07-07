@@ -136,6 +136,53 @@ apparent sector demand = JODI TOTDEMC apparent demand × sector share
 
 The four modeled sector buckets sum to JODI `TOTDEMC` apparent demand for the month. They should not be read as storage-adjusted actual end-use demand.
 
+### Numerical Example
+
+For March 2026, JODI apparent demand is 33.554 bcm.
+
+The 2023 annual anchor shares are:
+
+- Power / residual: 24.18%
+- Industrial / chemical: 46.00%
+- Buildings / city gas: 21.21%
+- Transport: 8.61%
+
+The March 2026 Carbon Monitor indexes are:
+
+- Power / residual: 0.999
+- Industrial / chemical: 1.026
+- Buildings / city gas: 1.390
+- Transport: 1.036
+
+First, the model multiplies each annual anchor share by its Carbon Monitor index:
+
+```text
+power / residual = 0.2418 × 0.999 = 0.2416
+industrial / chemical = 0.4600 × 1.026 = 0.4720
+buildings / city gas = 0.2121 × 1.390 = 0.2948
+transport = 0.0861 × 1.036 = 0.0892
+```
+
+Those adjusted weights add to 1.0976, not 1.0000. The model normalizes them by dividing each adjusted weight by 1.0976:
+
+```text
+power / residual = 0.2416 ÷ 1.0976 = 22.0%
+industrial / chemical = 0.4720 ÷ 1.0976 = 43.0%
+buildings / city gas = 0.2948 ÷ 1.0976 = 26.9%
+transport = 0.0892 ÷ 1.0976 = 8.1%
+```
+
+Finally, the model multiplies JODI apparent demand by those normalized shares:
+
+```text
+power / residual = 33.554 × 22.0% = 7.4 bcm
+industrial / chemical = 33.554 × 43.0% = 14.4 bcm
+buildings / city gas = 33.554 × 26.9% = 9.0 bcm
+transport = 33.554 × 8.1% = 2.7 bcm
+```
+
+This is mathematically the same as multiplying JODI demand by each IEA anchor share and Carbon Monitor index, then scaling the four results so they add back to total JODI demand.
+
 ### Caveats
 
 - Carbon Monitor measures CO2 emissions/activity, not gas consumption by fuel.
