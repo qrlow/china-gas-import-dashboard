@@ -442,7 +442,7 @@
   function sensitivityChart(result) {
     const width = 760;
     const height = 320;
-    const pad = { top: 18, right: 18, bottom: 52, left: 54 };
+    const pad = { top: 18, right: 18, bottom: 68, left: 70 };
     const gasPrices = Array.from({ length: 25 }, (_, i) => 4 + i);
     const points = gasPrices.map((price) => {
       const point = compute({ ...inputs, gasPriceUsdMmbtu: price });
@@ -455,13 +455,16 @@
     const ticksX = [4, 8, 12, 16, 20, 24, 28];
     const currentX = xScale(clamp(inputs.gasPriceUsdMmbtu, 4, 28));
     const parityX = xScale(clamp(result.parityGasPrice, 4, 28));
+    const plotMiddleY = pad.top + (height - pad.top - pad.bottom) / 2;
     return `
       <svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
-        ${ticksY.map((tick) => `<line class="grid-line" x1="${pad.left}" y1="${scale.y(tick)}" x2="${width - pad.right}" y2="${scale.y(tick)}"></line><text x="8" y="${scale.y(tick) + 4}" class="chart-label">${fmt.format(tick)}</text>`).join("")}
-        ${ticksX.map((tick) => `<line class="grid-line" x1="${xScale(tick)}" y1="${pad.top}" x2="${xScale(tick)}" y2="${height - pad.bottom}" opacity="0.55"></line><text x="${xScale(tick)}" y="${height - 16}" text-anchor="middle" class="chart-label">${tick}</text>`).join("")}
+        ${ticksY.map((tick) => `<line class="grid-line" x1="${pad.left}" y1="${scale.y(tick)}" x2="${width - pad.right}" y2="${scale.y(tick)}"></line><text x="${pad.left - 10}" y="${scale.y(tick) + 4}" text-anchor="end" class="chart-label">${fmt.format(tick)}</text>`).join("")}
+        ${ticksX.map((tick) => `<line class="grid-line" x1="${xScale(tick)}" y1="${pad.top}" x2="${xScale(tick)}" y2="${height - pad.bottom}" opacity="0.55"></line><text x="${xScale(tick)}" y="${height - 34}" text-anchor="middle" class="chart-label">${tick}</text>`).join("")}
         <polyline fill="none" stroke="${colors.feasible}" stroke-width="3" points="${line}"></polyline>
         <line x1="${parityX}" y1="${pad.top}" x2="${parityX}" y2="${height - pad.bottom}" stroke="${colors.envelope}" stroke-width="2" stroke-dasharray="5 5"><title>Parity gas price: ${fmt.format(result.parityGasPrice)} USD/MBtu</title></line>
         <line x1="${currentX}" y1="${pad.top}" x2="${currentX}" y2="${height - pad.bottom}" stroke="${colors.coal}" stroke-width="2"><title>Current gas price: ${fmt.format(inputs.gasPriceUsdMmbtu)} USD/MBtu</title></line>
+        <text x="${pad.left + (width - pad.left - pad.right) / 2}" y="${height - 10}" text-anchor="middle" class="chart-label">Gas price (USD/MBtu)</text>
+        <text x="16" y="${plotMiddleY}" text-anchor="middle" class="chart-label" transform="rotate(-90 16 ${plotMiddleY})">Feasible gas saving (bcm/yr)</text>
       </svg>
       ${legend([
         { label: "Feasible gas saving", color: colors.feasible, line: true },
