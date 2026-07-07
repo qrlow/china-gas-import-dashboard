@@ -1,6 +1,6 @@
 window.CHINA_GAS_DATA = {
   "meta": {
-    "generatedAt": "2026-07-07T02:38:39.516Z",
+    "generatedAt": "2026-07-07T02:56:56.279Z",
     "earliestActualPeriod": "2009-01",
     "latestActualPeriod": "2026-03",
     "currentGasYear": "2025/26",
@@ -26,6 +26,56 @@ window.CHINA_GAS_DATA = {
     "2023/24",
     "2024/25",
     "2025/26"
+  ],
+  "gasYearMonths": [
+    {
+      "index": 1,
+      "label": "Oct"
+    },
+    {
+      "index": 2,
+      "label": "Nov"
+    },
+    {
+      "index": 3,
+      "label": "Dec"
+    },
+    {
+      "index": 4,
+      "label": "Jan"
+    },
+    {
+      "index": 5,
+      "label": "Feb"
+    },
+    {
+      "index": 6,
+      "label": "Mar"
+    },
+    {
+      "index": 7,
+      "label": "Apr"
+    },
+    {
+      "index": 8,
+      "label": "May"
+    },
+    {
+      "index": 9,
+      "label": "Jun"
+    },
+    {
+      "index": 10,
+      "label": "Jul"
+    },
+    {
+      "index": 11,
+      "label": "Aug"
+    },
+    {
+      "index": 12,
+      "label": "Sep"
+    }
   ],
   "actuals": [
     {

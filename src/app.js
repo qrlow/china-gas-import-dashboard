@@ -11,6 +11,7 @@
     production: "#3f7d45",
     exports: "#b14b4b",
   };
+  const gasYearColors = ["#1c3f5f", "#3c78b5", "#16837a", "#c4821e", "#b14b4b"];
 
   const fmt = new Intl.NumberFormat("en", { maximumFractionDigits: 1, minimumFractionDigits: 1 });
   const fmt0 = new Intl.NumberFormat("en", { maximumFractionDigits: 0 });
@@ -42,6 +43,15 @@
       .sort((a, b) => a.gasYearMonth - b.gasYearMonth);
   }
 
+  function activeGasYears() {
+    const index = data.gasYears.indexOf(gasYear);
+    return data.gasYears.slice(Math.max(0, index - 4), index + 1);
+  }
+
+  function rowForGasYearMonth(rows, monthIndex) {
+    return rows.find((row) => row.gasYearMonth === monthIndex);
+  }
+
   function init() {
     byId("latest-actual").textContent = `Latest actual: ${data.meta.latestActualPeriod}`;
 
@@ -61,12 +71,14 @@
 
   function render() {
     const rows = activeRows();
+    const years = activeGasYears();
     const first = rows[0]?.period ?? "";
     const last = rows.at(-1)?.period ?? "";
     byId("gas-year-range").textContent = `${gasYear}: ${first} to ${last}`;
-    byId("dashboard-note").textContent = `JODI actuals only. Gas year ${gasYear} is ordered October to September and currently has ${rows.length} reported month${rows.length === 1 ? "" : "s"}.`;
+    byId("dashboard-note").textContent = `JODI actuals only. The main chart shows ${years.join(", ")} by gas-year month; ${gasYear} currently has ${rows.length} reported month${rows.length === 1 ? "" : "s"}.`;
+    byId("line-chart-title").textContent = `Total Imports, ${years[0]} to ${years.at(-1)}`;
     renderKpis(rows);
-    renderLineChart(rows);
+    renderLineChart(years);
     renderStackedImports(rows);
     renderBalanceChart(rows);
     renderTable(rows);
@@ -88,22 +100,35 @@
     `).join("");
   }
 
-  function renderLineChart(rows) {
-    const series = [
-      { name: "Total Imports", color: colors.total, values: rows.map((row) => ({ period: row.period, value: row.totalImports })) },
-      { name: "LNG Imports", color: colors.lng, values: rows.map((row) => ({ period: row.period, value: row.lngImports })) },
-      { name: "Pipeline Imports", color: colors.pipeline, values: rows.map((row) => ({ period: row.period, value: row.pipelineImports })) },
-    ];
-    byId("line-chart").innerHTML = lineChart(series, "bcm");
+  function renderLineChart(years) {
+    const series = years.map((year, index) => {
+      const rows = data.actuals.filter((row) => row.gasYear === year);
+      return {
+        name: year,
+        color: gasYearColors[index % gasYearColors.length],
+        values: data.gasYearMonths.map((month, xIndex) => {
+          const row = rowForGasYearMonth(rows, month.index);
+          return {
+            xIndex,
+            label: month.label,
+            period: row?.period ?? `${year} ${month.label}`,
+            value: row?.totalImports ?? null,
+          };
+        }),
+      };
+    });
+    byId("line-chart").innerHTML = lineChart(series, "bcm", data.gasYearMonths.map((month) => month.label));
   }
 
   function renderStackedImports(rows) {
-    const chartRows = rows.map((row) => {
-      const lng = number(row.lngImports);
-      const pipeline = number(row.pipelineImports);
-      const other = Math.max(0, number(row.totalImports) - lng - pipeline);
+    const chartRows = data.gasYearMonths.map((month) => {
+      const row = rowForGasYearMonth(rows, month.index);
+      const lng = number(row?.lngImports);
+      const pipeline = number(row?.pipelineImports);
+      const other = Math.max(0, number(row?.totalImports) - lng - pipeline);
       return {
-        period: row.period,
+        period: row?.period ?? `${gasYear} ${month.label}`,
+        label: month.label,
         values: [
           { key: "LNG", value: lng, color: colors.lng },
           { key: "Pipeline", value: pipeline, color: colors.pipeline },
@@ -111,16 +136,25 @@
         ],
       };
     });
-    byId("stack-chart").innerHTML = stackedBar(chartRows, ["LNG", "Pipeline", "Other / rounding"], "bcm");
+    byId("stack-chart").innerHTML = stackedBar(chartRows, ["LNG", "Pipeline", "Other / rounding"], "bcm", data.gasYearMonths.map((month) => month.label));
   }
 
   function renderBalanceChart(rows) {
+    const valuesFor = (key) => data.gasYearMonths.map((month, xIndex) => {
+      const row = rowForGasYearMonth(rows, month.index);
+      return {
+        xIndex,
+        label: month.label,
+        period: row?.period ?? `${gasYear} ${month.label}`,
+        value: row?.[key] ?? null,
+      };
+    });
     const series = [
-      { name: "Calculated Demand", color: colors.demand, values: rows.map((row) => ({ period: row.period, value: row.calculatedDemand })) },
-      { name: "Production", color: colors.production, values: rows.map((row) => ({ period: row.period, value: row.production })) },
-      { name: "Total Imports", color: colors.total, values: rows.map((row) => ({ period: row.period, value: row.totalImports })) },
+      { name: "Calculated Demand", color: colors.demand, values: valuesFor("calculatedDemand") },
+      { name: "Production", color: colors.production, values: valuesFor("production") },
+      { name: "Total Imports", color: colors.total, values: valuesFor("totalImports") },
     ];
-    byId("balance-chart").innerHTML = lineChart(series, "bcm");
+    byId("balance-chart").innerHTML = lineChart(series, "bcm", data.gasYearMonths.map((month) => month.label));
   }
 
   function renderTable(rows) {
@@ -162,7 +196,7 @@
   }
 
   function chartScales(values, width, height, pad) {
-    const numeric = values.map(number);
+    const numeric = values.filter((value) => value != null && !Number.isNaN(value)).map(number);
     const max = Math.max(...numeric, 1);
     const min = Math.min(0, ...numeric);
     const x = (i, count) => pad.left + (count === 1 ? 0 : (i / (count - 1)) * (width - pad.left - pad.right));
@@ -170,25 +204,30 @@
     return { max, min, x, y };
   }
 
-  function lineChart(series, unit) {
+  function lineChart(series, unit, xLabels) {
     const width = 760;
     const height = 300;
     const pad = { top: 18, right: 18, bottom: 44, left: 50 };
     const allValues = series.flatMap((item) => item.values.map((point) => point.value));
     const scale = chartScales(allValues, width, height, pad);
-    const count = series[0]?.values.length ?? 0;
+    const count = xLabels?.length ?? series[0]?.values.length ?? 0;
     const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) => scale.min + (scale.max - scale.min) * t);
     const lines = series.map((item) => {
-      const points = item.values.map((point, i) => `${scale.x(i, count)},${scale.y(point.value)}`).join(" ");
+      const points = item.values
+        .filter((point) => point.value != null && !Number.isNaN(point.value))
+        .map((point, i) => `${scale.x(point.xIndex ?? i, count)},${scale.y(point.value)}`)
+        .join(" ");
       return `<polyline fill="none" stroke="${item.color}" stroke-width="3" points="${points}"></polyline>`;
     }).join("");
-    const dots = series.map((item) => item.values.map((point, i) => `
-      <circle cx="${scale.x(i, count)}" cy="${scale.y(point.value)}" r="3" fill="${item.color}">
+    const dots = series.map((item) => item.values
+      .filter((point) => point.value != null && !Number.isNaN(point.value))
+      .map((point, i) => `
+      <circle cx="${scale.x(point.xIndex ?? i, count)}" cy="${scale.y(point.value)}" r="3" fill="${item.color}">
         <title>${item.name} ${point.period}: ${fmt.format(number(point.value))} ${unit}</title>
       </circle>
     `).join("")).join("");
-    const monthLabels = (series[0]?.values ?? []).map((point, i) => `
-      <text x="${scale.x(i, count)}" y="${height - 12}" text-anchor="middle" class="chart-label">${point.period.slice(5)}</text>
+    const monthLabels = (xLabels ?? (series[0]?.values ?? []).map((point) => point.label ?? point.period.slice(5))).map((label, i) => `
+      <text x="${scale.x(i, count)}" y="${height - 12}" text-anchor="middle" class="chart-label">${label}</text>
     `).join("");
     return `
       <svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
@@ -201,7 +240,7 @@
     `;
   }
 
-  function stackedBar(rows, keys, unit) {
+  function stackedBar(rows, keys, unit, xLabels) {
     const width = 760;
     const height = 300;
     const pad = { top: 18, right: 18, bottom: 44, left: 50 };
@@ -218,8 +257,8 @@
         return `<rect x="${x}" y="${yTop}" width="${barWidth}" height="${Math.max(0, h)}" fill="${part.color}"><title>${part.key} ${row.period}: ${fmt.format(number(part.value))} ${unit}</title></rect>`;
       }).join("");
     }).join("");
-    const monthLabels = rows.map((row, i) => `
-      <text x="${pad.left + i * band + band / 2}" y="${height - 12}" text-anchor="middle" class="chart-label">${row.period.slice(5)}</text>
+    const monthLabels = (xLabels ?? rows.map((row) => row.label ?? row.period.slice(5))).map((label, i) => `
+      <text x="${pad.left + i * band + band / 2}" y="${height - 12}" text-anchor="middle" class="chart-label">${label}</text>
     `).join("");
     const tickVals = [0, scale.max * 0.25, scale.max * 0.5, scale.max * 0.75, scale.max];
     const legendItems = keys.map((key) => {
