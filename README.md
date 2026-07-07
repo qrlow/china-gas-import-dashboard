@@ -52,6 +52,7 @@ The sector page adds free public sources:
 
 - Carbon Monitor China: https://cn.carbonmonitor.org/
 - Carbon Monitor China CSV endpoint: https://datas.carbonmonitor.org/API/downloadFullDataset.php?source=carbon_china
+- IEA China natural gas country page: https://www.iea.org/countries/china/natural-gas
 - IEA Energy Statistics Data Browser: https://www.iea.org/data-and-statistics/data-tools/energy-statistics-data-browser
 - National Bureau of Statistics of China 2023 statistical communique: https://www.stats.gov.cn/sj/zxfb/202402/t20240228_1947915.html
 
@@ -59,7 +60,7 @@ The sector page adds free public sources:
 
 These dashboards do not forecast. The JODI page is actuals only.
 
-The sector page is a model, not official monthly China gas demand by sector. It forces every month to match JODI `TOTDEMC` calculated demand, derives annual sector weights from the IEA 2023 China gas balance, and uses Carbon Monitor China sector emissions as monthly activity-shape proxies. Because JODI China stock change is reported as zero in this extract, calculated demand is apparent demand and can include gas going into storage.
+The sector page is a model, not official monthly China gas demand by sector. It forces every month to match JODI `TOTDEMC` calculated demand, derives final-consumption sector weights from the public IEA China natural gas country page, adds a power/CHP transformation layer from the IEA balance, and uses Carbon Monitor China sector emissions as monthly activity-shape proxies. Because JODI China stock change is reported as zero in this extract, calculated demand is apparent demand and can include gas going into storage.
 
 ## License
 

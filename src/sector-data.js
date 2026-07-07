@@ -1,6 +1,6 @@
 window.CHINA_GAS_SECTOR_DATA = {
   "meta": {
-    "generatedAt": "2026-07-07T06:26:12.083Z",
+    "generatedAt": "2026-07-07T07:36:09.119Z",
     "earliestModeledPeriod": "2019-01",
     "latestModeledPeriod": "2026-03",
     "currentGasYear": "2025/26",
@@ -102,41 +102,81 @@ window.CHINA_GAS_SECTOR_DATA = {
     }
   ],
   "iea2023GasBalance": {
-    "totalUseBasis": "IEA 2023 China natural-gas balance percentages, normalized to the four dashboard sectors.",
+    "totalUseBasis": "IEA 2023 China natural-gas balance, normalized to the four dashboard sectors.",
+    "finalConsumptionSource": "IEA China natural gas country page, Final consumption of gas by sector, China, 2023.",
     "energySectorShare": 0.243,
     "finalConsumptionShare": 0.751,
     "energySectorDetail": {
       "electricity": 0.41,
       "chp": 0.44
     },
-    "finalConsumptionDetail": {
-      "industry": 0.55,
-      "nonEnergy": 0.05,
-      "residential": 0.22,
-      "tertiary": 0.06,
-      "transport": 0.11
+    "finalConsumptionValuesTJ": {
+      "industry": 6232455,
+      "transport": 1276255,
+      "residential": 2486965,
+      "commercialPublicServices": 657877,
+      "agricultureForestry": 9440,
+      "nonEnergyUse": 589056
     }
   },
   "annualAnchors": [
     {
       "sector": "power",
       "rawShare": 0.2066,
-      "normalizedShare": 0.2174
+      "normalizedShare": 0.2158
     },
     {
       "sector": "industrial",
-      "rawShare": 0.4506,
-      "normalizedShare": 0.4743
+      "rawShare": 0.4553,
+      "normalizedShare": 0.4758
     },
     {
       "sector": "buildings",
-      "rawShare": 0.2103,
-      "normalizedShare": 0.2213
+      "rawShare": 0.2099,
+      "normalizedShare": 0.2193
     },
     {
       "sector": "transport",
-      "rawShare": 0.0826,
-      "normalizedShare": 0.087
+      "rawShare": 0.0852,
+      "normalizedShare": 0.089
+    }
+  ],
+  "ieaFinalConsumptionRows": [
+    {
+      "sector": "Industry",
+      "valueTJ": 6232455,
+      "dashboardBucket": "Industrial / chemical",
+      "shareOfFinalConsumption": 0.5539
+    },
+    {
+      "sector": "Non-energy use",
+      "valueTJ": 589056,
+      "dashboardBucket": "Industrial / chemical",
+      "shareOfFinalConsumption": 0.0524
+    },
+    {
+      "sector": "Residential",
+      "valueTJ": 2486965,
+      "dashboardBucket": "Buildings / city gas",
+      "shareOfFinalConsumption": 0.221
+    },
+    {
+      "sector": "Commercial and public services",
+      "valueTJ": 657877,
+      "dashboardBucket": "Buildings / city gas",
+      "shareOfFinalConsumption": 0.0585
+    },
+    {
+      "sector": "Transport",
+      "valueTJ": 1276255,
+      "dashboardBucket": "Transport",
+      "shareOfFinalConsumption": 0.1134
+    },
+    {
+      "sector": "Agriculture and forestry",
+      "valueTJ": 9440,
+      "dashboardBucket": "Outside modeled buckets",
+      "shareOfFinalConsumption": 0.0008
     }
   ],
   "monthly": [
@@ -147,16 +187,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 28.981,
       "sectors": {
-        "power": 4.657,
-        "industrial": 9.578,
-        "buildings": 13.008,
-        "transport": 1.738
+        "power": 4.636,
+        "industrial": 9.634,
+        "buildings": 12.927,
+        "transport": 1.784
       },
       "shares": {
-        "power": 0.1607,
-        "industrial": 0.3305,
-        "buildings": 0.4489,
-        "transport": 0.06
+        "power": 0.16,
+        "industrial": 0.3324,
+        "buildings": 0.446,
+        "transport": 0.0616
       },
       "proxyIndex": {
         "power": 1.049,
@@ -177,16 +217,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 23.512,
       "sectors": {
-        "power": 4.146,
-        "industrial": 7.674,
-        "buildings": 10.061,
-        "transport": 1.631
+        "power": 4.127,
+        "industrial": 7.717,
+        "buildings": 9.995,
+        "transport": 1.674
       },
       "shares": {
-        "power": 0.1763,
-        "industrial": 0.3264,
-        "buildings": 0.4279,
-        "transport": 0.0694
+        "power": 0.1755,
+        "industrial": 0.3282,
+        "buildings": 0.4251,
+        "transport": 0.0712
       },
       "proxyIndex": {
         "power": 0.944,
@@ -207,16 +247,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 24.566,
       "sectors": {
-        "power": 4.809,
-        "industrial": 11.175,
-        "buildings": 6.625,
-        "transport": 1.958
+        "power": 4.777,
+        "industrial": 11.216,
+        "buildings": 6.568,
+        "transport": 2.005
       },
       "shares": {
-        "power": 0.1957,
-        "industrial": 0.4549,
-        "buildings": 0.2697,
-        "transport": 0.0797
+        "power": 0.1944,
+        "industrial": 0.4566,
+        "buildings": 0.2674,
+        "transport": 0.0816
       },
       "proxyIndex": {
         "power": 0.985,
@@ -237,16 +277,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 24.566,
       "sectors": {
-        "power": 5.266,
-        "industrial": 13.758,
-        "buildings": 3.228,
-        "transport": 2.313
+        "power": 5.221,
+        "industrial": 13.784,
+        "buildings": 3.195,
+        "transport": 2.365
       },
       "shares": {
-        "power": 0.2144,
-        "industrial": 0.5601,
-        "buildings": 0.1314,
-        "transport": 0.0942
+        "power": 0.2125,
+        "industrial": 0.5611,
+        "buildings": 0.1301,
+        "transport": 0.0963
       },
       "proxyIndex": {
         "power": 0.865,
@@ -267,16 +307,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 24.766,
       "sectors": {
-        "power": 5.821,
-        "industrial": 15.272,
-        "buildings": 1.084,
-        "transport": 2.589
+        "power": 5.766,
+        "industrial": 15.284,
+        "buildings": 1.072,
+        "transport": 2.644
       },
       "shares": {
-        "power": 0.2351,
-        "industrial": 0.6166,
-        "buildings": 0.0438,
-        "transport": 0.1045
+        "power": 0.2328,
+        "industrial": 0.6171,
+        "buildings": 0.0433,
+        "transport": 0.1067
       },
       "proxyIndex": {
         "power": 0.881,
@@ -297,16 +337,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 24.126,
       "sectors": {
-        "power": 6.37,
-        "industrial": 14.956,
-        "buildings": 0.216,
-        "transport": 2.584
+        "power": 6.308,
+        "industrial": 14.965,
+        "buildings": 0.213,
+        "transport": 2.639
       },
       "shares": {
-        "power": 0.264,
-        "industrial": 0.6199,
-        "buildings": 0.0089,
-        "transport": 0.1071
+        "power": 0.2615,
+        "industrial": 0.6203,
+        "buildings": 0.0088,
+        "transport": 0.1094
       },
       "proxyIndex": {
         "power": 0.966,
@@ -327,16 +367,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 24.568,
       "sectors": {
-        "power": 7.398,
-        "industrial": 14.466,
-        "buildings": 0.086,
-        "transport": 2.618
+        "power": 7.329,
+        "industrial": 14.48,
+        "buildings": 0.085,
+        "transport": 2.675
       },
       "shares": {
-        "power": 0.3011,
-        "industrial": 0.5888,
+        "power": 0.2983,
+        "industrial": 0.5894,
         "buildings": 0.0035,
-        "transport": 0.1066
+        "transport": 0.1089
       },
       "proxyIndex": {
         "power": 1.128,
@@ -357,16 +397,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 25.164,
       "sectors": {
-        "power": 7.717,
-        "industrial": 14.641,
-        "buildings": 0.147,
-        "transport": 2.659
+        "power": 7.646,
+        "industrial": 14.656,
+        "buildings": 0.145,
+        "transport": 2.717
       },
       "shares": {
-        "power": 0.3067,
-        "industrial": 0.5818,
+        "power": 0.3038,
+        "industrial": 0.5824,
         "buildings": 0.0058,
-        "transport": 0.1057
+        "transport": 0.108
       },
       "proxyIndex": {
         "power": 1.165,
@@ -387,16 +427,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 24.496,
       "sectors": {
-        "power": 6.532,
-        "industrial": 14.614,
-        "buildings": 0.617,
-        "transport": 2.733
+        "power": 6.47,
+        "industrial": 14.625,
+        "buildings": 0.61,
+        "transport": 2.791
       },
       "shares": {
-        "power": 0.2667,
-        "industrial": 0.5966,
-        "buildings": 0.0252,
-        "transport": 0.1116
+        "power": 0.2641,
+        "industrial": 0.597,
+        "buildings": 0.0249,
+        "transport": 0.1139
       },
       "proxyIndex": {
         "power": 0.982,
@@ -417,16 +457,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 23.352,
       "sectors": {
-        "power": 5.04,
-        "industrial": 12.083,
-        "buildings": 4.028,
-        "transport": 2.202
+        "power": 5,
+        "industrial": 12.111,
+        "buildings": 3.989,
+        "transport": 2.252
       },
       "shares": {
-        "power": 0.2158,
-        "industrial": 0.5174,
-        "buildings": 0.1725,
-        "transport": 0.0943
+        "power": 0.2141,
+        "industrial": 0.5186,
+        "buildings": 0.1708,
+        "transport": 0.0964
       },
       "proxyIndex": {
         "power": 0.945,
@@ -447,16 +487,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 28.044,
       "sectors": {
-        "power": 5.359,
-        "industrial": 11.794,
-        "buildings": 8.873,
-        "transport": 2.018
+        "power": 5.327,
+        "industrial": 11.845,
+        "buildings": 8.803,
+        "transport": 2.069
       },
       "shares": {
-        "power": 0.1911,
-        "industrial": 0.4205,
-        "buildings": 0.3164,
-        "transport": 0.072
+        "power": 0.19,
+        "industrial": 0.4224,
+        "buildings": 0.3139,
+        "transport": 0.0738
       },
       "proxyIndex": {
         "power": 1.032,
@@ -477,16 +517,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 29.012,
       "sectors": {
-        "power": 5.35,
-        "industrial": 10.254,
-        "buildings": 11.627,
-        "transport": 1.781
+        "power": 5.324,
+        "industrial": 10.311,
+        "buildings": 11.55,
+        "transport": 1.827
       },
       "shares": {
-        "power": 0.1844,
-        "industrial": 0.3534,
-        "buildings": 0.4008,
-        "transport": 0.0614
+        "power": 0.1835,
+        "industrial": 0.3554,
+        "buildings": 0.3981,
+        "transport": 0.063
       },
       "proxyIndex": {
         "power": 1.187,
@@ -507,16 +547,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 28.657,
       "sectors": {
-        "power": 4.041,
-        "industrial": 9.756,
-        "buildings": 13.349,
-        "transport": 1.511
+        "power": 4.024,
+        "industrial": 9.815,
+        "buildings": 13.267,
+        "transport": 1.552
       },
       "shares": {
-        "power": 0.141,
-        "industrial": 0.3404,
-        "buildings": 0.4658,
-        "transport": 0.0527
+        "power": 0.1404,
+        "industrial": 0.3425,
+        "buildings": 0.463,
+        "transport": 0.0541
       },
       "proxyIndex": {
         "power": 0.854,
@@ -537,16 +577,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 27.247,
       "sectors": {
-        "power": 5.584,
-        "industrial": 7.898,
-        "buildings": 12.027,
-        "transport": 1.738
+        "power": 5.561,
+        "industrial": 7.947,
+        "buildings": 11.955,
+        "transport": 1.784
       },
       "shares": {
-        "power": 0.2049,
-        "industrial": 0.2899,
-        "buildings": 0.4414,
-        "transport": 0.0638
+        "power": 0.2041,
+        "industrial": 0.2917,
+        "buildings": 0.4388,
+        "transport": 0.0655
       },
       "proxyIndex": {
         "power": 0.996,
@@ -567,16 +607,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 26.018,
       "sectors": {
-        "power": 5.028,
-        "industrial": 11.277,
-        "buildings": 7.619,
-        "transport": 2.095
+        "power": 4.995,
+        "industrial": 11.32,
+        "buildings": 7.556,
+        "transport": 2.147
       },
       "shares": {
-        "power": 0.1932,
-        "industrial": 0.4334,
-        "buildings": 0.2928,
-        "transport": 0.0805
+        "power": 0.192,
+        "industrial": 0.4351,
+        "buildings": 0.2904,
+        "transport": 0.0825
       },
       "proxyIndex": {
         "power": 0.916,
@@ -597,16 +637,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 26.572,
       "sectors": {
-        "power": 5.639,
-        "industrial": 14.188,
-        "buildings": 4.499,
-        "transport": 2.245
+        "power": 5.595,
+        "industrial": 14.224,
+        "buildings": 4.456,
+        "transport": 2.297
       },
       "shares": {
-        "power": 0.2122,
-        "industrial": 0.534,
-        "buildings": 0.1693,
-        "transport": 0.0845
+        "power": 0.2105,
+        "industrial": 0.5353,
+        "buildings": 0.1677,
+        "transport": 0.0865
       },
       "proxyIndex": {
         "power": 0.927,
@@ -627,16 +667,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 26.571,
       "sectors": {
-        "power": 6.482,
-        "industrial": 16.439,
-        "buildings": 0.981,
-        "transport": 2.668
+        "power": 6.421,
+        "industrial": 16.454,
+        "buildings": 0.97,
+        "transport": 2.726
       },
       "shares": {
-        "power": 0.244,
-        "industrial": 0.6187,
-        "buildings": 0.0369,
-        "transport": 0.1004
+        "power": 0.2417,
+        "industrial": 0.6193,
+        "buildings": 0.0365,
+        "transport": 0.1026
       },
       "proxyIndex": {
         "power": 0.973,
@@ -657,16 +697,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 26.34,
       "sectors": {
-        "power": 6.857,
-        "industrial": 16.435,
-        "buildings": 0.223,
-        "transport": 2.825
+        "power": 6.791,
+        "industrial": 16.444,
+        "buildings": 0.22,
+        "transport": 2.885
       },
       "shares": {
-        "power": 0.2603,
-        "industrial": 0.6239,
+        "power": 0.2578,
+        "industrial": 0.6243,
         "buildings": 0.0084,
-        "transport": 0.1073
+        "transport": 0.1095
       },
       "proxyIndex": {
         "power": 1.003,
@@ -687,16 +727,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 24.007,
       "sectors": {
-        "power": 6.59,
-        "industrial": 14.582,
-        "buildings": 0.103,
-        "transport": 2.731
+        "power": 6.526,
+        "industrial": 14.59,
+        "buildings": 0.102,
+        "transport": 2.789
       },
       "shares": {
-        "power": 0.2745,
-        "industrial": 0.6074,
+        "power": 0.2718,
+        "industrial": 0.6078,
         "buildings": 0.0043,
-        "transport": 0.1138
+        "transport": 0.1162
       },
       "proxyIndex": {
         "power": 1.069,
@@ -717,16 +757,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 26.758,
       "sectors": {
-        "power": 7.785,
-        "industrial": 15.881,
-        "buildings": 0.164,
-        "transport": 2.928
+        "power": 7.711,
+        "industrial": 15.895,
+        "buildings": 0.162,
+        "transport": 2.991
       },
       "shares": {
-        "power": 0.2909,
-        "industrial": 0.5935,
-        "buildings": 0.0061,
-        "transport": 0.1094
+        "power": 0.2882,
+        "industrial": 0.594,
+        "buildings": 0.006,
+        "transport": 0.1118
       },
       "proxyIndex": {
         "power": 1.177,
@@ -747,16 +787,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 26.194,
       "sectors": {
-        "power": 6.457,
-        "industrial": 15.673,
-        "buildings": 0.789,
-        "transport": 3.275
+        "power": 6.392,
+        "industrial": 15.679,
+        "buildings": 0.78,
+        "transport": 3.343
       },
       "shares": {
-        "power": 0.2465,
-        "industrial": 0.5984,
-        "buildings": 0.0301,
-        "transport": 0.125
+        "power": 0.244,
+        "industrial": 0.5986,
+        "buildings": 0.0298,
+        "transport": 0.1276
       },
       "proxyIndex": {
         "power": 0.98,
@@ -777,16 +817,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 26.235,
       "sectors": {
-        "power": 5.511,
-        "industrial": 14.161,
-        "buildings": 4.234,
-        "transport": 2.33
+        "power": 5.466,
+        "industrial": 14.194,
+        "buildings": 4.192,
+        "transport": 2.383
       },
       "shares": {
-        "power": 0.21,
-        "industrial": 0.5398,
-        "buildings": 0.1614,
-        "transport": 0.0888
+        "power": 0.2084,
+        "industrial": 0.541,
+        "buildings": 0.1598,
+        "transport": 0.0908
       },
       "proxyIndex": {
         "power": 0.933,
@@ -807,16 +847,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 29.215,
       "sectors": {
-        "power": 5.936,
-        "industrial": 12.913,
-        "buildings": 8.167,
-        "transport": 2.2
+        "power": 5.898,
+        "industrial": 12.964,
+        "buildings": 8.1,
+        "transport": 2.254
       },
       "shares": {
-        "power": 0.2032,
-        "industrial": 0.442,
-        "buildings": 0.2795,
-        "transport": 0.0753
+        "power": 0.2019,
+        "industrial": 0.4437,
+        "buildings": 0.2772,
+        "transport": 0.0771
       },
       "proxyIndex": {
         "power": 1.086,
@@ -837,16 +877,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 34.14,
       "sectors": {
-        "power": 6.342,
-        "industrial": 11.483,
-        "buildings": 14.306,
-        "transport": 2.009
+        "power": 6.314,
+        "industrial": 11.55,
+        "buildings": 14.215,
+        "transport": 2.062
       },
       "shares": {
-        "power": 0.1858,
-        "industrial": 0.3364,
-        "buildings": 0.419,
-        "transport": 0.0588
+        "power": 0.1849,
+        "industrial": 0.3383,
+        "buildings": 0.4164,
+        "transport": 0.0604
       },
       "proxyIndex": {
         "power": 1.286,
@@ -867,16 +907,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 27.289,
       "sectors": {
-        "power": 3.866,
-        "industrial": 9.622,
-        "buildings": 12.171,
-        "transport": 1.63
+        "power": 3.848,
+        "industrial": 9.677,
+        "buildings": 12.092,
+        "transport": 1.673
       },
       "shares": {
-        "power": 0.1417,
-        "industrial": 0.3526,
-        "buildings": 0.446,
-        "transport": 0.0597
+        "power": 0.141,
+        "industrial": 0.3546,
+        "buildings": 0.4431,
+        "transport": 0.0613
       },
       "proxyIndex": {
         "power": 0.906,
@@ -897,16 +937,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 23.008,
       "sectors": {
-        "power": 4.045,
-        "industrial": 8.152,
-        "buildings": 8.92,
-        "transport": 1.891
+        "power": 4.023,
+        "industrial": 8.192,
+        "buildings": 8.855,
+        "transport": 1.939
       },
       "shares": {
-        "power": 0.1758,
-        "industrial": 0.3543,
-        "buildings": 0.3877,
-        "transport": 0.0822
+        "power": 0.1748,
+        "industrial": 0.356,
+        "buildings": 0.3849,
+        "transport": 0.0843
       },
       "proxyIndex": {
         "power": 0.783,
@@ -927,16 +967,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 30.4,
       "sectors": {
-        "power": 5.735,
-        "industrial": 13.908,
-        "buildings": 8.333,
-        "transport": 2.423
+        "power": 5.697,
+        "industrial": 13.959,
+        "buildings": 8.262,
+        "transport": 2.482
       },
       "shares": {
-        "power": 0.1887,
-        "industrial": 0.4575,
-        "buildings": 0.2741,
-        "transport": 0.0797
+        "power": 0.1874,
+        "industrial": 0.4592,
+        "buildings": 0.2718,
+        "transport": 0.0816
       },
       "proxyIndex": {
         "power": 0.894,
@@ -957,16 +997,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 30.612,
       "sectors": {
-        "power": 6.182,
-        "industrial": 16.852,
-        "buildings": 4.878,
-        "transport": 2.699
+        "power": 6.132,
+        "industrial": 16.889,
+        "buildings": 4.83,
+        "transport": 2.76
       },
       "shares": {
-        "power": 0.202,
-        "industrial": 0.5505,
-        "buildings": 0.1594,
-        "transport": 0.0882
+        "power": 0.2003,
+        "industrial": 0.5517,
+        "buildings": 0.1578,
+        "transport": 0.0902
       },
       "proxyIndex": {
         "power": 0.82,
@@ -987,16 +1027,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 30.749,
       "sectors": {
-        "power": 6.978,
-        "industrial": 19.124,
-        "buildings": 1.311,
-        "transport": 3.336
+        "power": 6.911,
+        "industrial": 19.136,
+        "buildings": 1.296,
+        "transport": 3.406
       },
       "shares": {
-        "power": 0.2269,
-        "industrial": 0.6219,
-        "buildings": 0.0426,
-        "transport": 0.1085
+        "power": 0.2247,
+        "industrial": 0.6223,
+        "buildings": 0.0422,
+        "transport": 0.1108
       },
       "proxyIndex": {
         "power": 0.83,
@@ -1017,16 +1057,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 31.074,
       "sectors": {
-        "power": 7.894,
-        "industrial": 19.371,
-        "buildings": 0.294,
-        "transport": 3.515
+        "power": 7.816,
+        "industrial": 19.379,
+        "buildings": 0.29,
+        "transport": 3.589
       },
       "shares": {
-        "power": 0.254,
-        "industrial": 0.6234,
-        "buildings": 0.0095,
-        "transport": 0.1131
+        "power": 0.2515,
+        "industrial": 0.6237,
+        "buildings": 0.0093,
+        "transport": 0.1155
       },
       "proxyIndex": {
         "power": 0.904,
@@ -1047,16 +1087,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 28.313,
       "sectors": {
-        "power": 7.891,
-        "industrial": 16.825,
-        "buildings": 0.102,
-        "transport": 3.495
+        "power": 7.813,
+        "industrial": 16.832,
+        "buildings": 0.101,
+        "transport": 3.568
       },
       "shares": {
-        "power": 0.2787,
-        "industrial": 0.5943,
+        "power": 0.2759,
+        "industrial": 0.5945,
         "buildings": 0.0036,
-        "transport": 0.1234
+        "transport": 0.126
       },
       "proxyIndex": {
         "power": 0.995,
@@ -1077,16 +1117,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 29.924,
       "sectors": {
-        "power": 8.293,
-        "industrial": 17.711,
-        "buildings": 0.207,
-        "transport": 3.713
+        "power": 8.211,
+        "industrial": 17.718,
+        "buildings": 0.204,
+        "transport": 3.791
       },
       "shares": {
-        "power": 0.2772,
-        "industrial": 0.5919,
-        "buildings": 0.0069,
-        "transport": 0.1241
+        "power": 0.2744,
+        "industrial": 0.5921,
+        "buildings": 0.0068,
+        "transport": 0.1267
       },
       "proxyIndex": {
         "power": 1.004,
@@ -1107,16 +1147,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 29.894,
       "sectors": {
-        "power": 7.703,
-        "industrial": 17.736,
-        "buildings": 0.71,
-        "transport": 3.745
+        "power": 7.626,
+        "industrial": 17.743,
+        "buildings": 0.702,
+        "transport": 3.823
       },
       "shares": {
-        "power": 0.2577,
-        "industrial": 0.5933,
-        "buildings": 0.0237,
-        "transport": 0.1253
+        "power": 0.2551,
+        "industrial": 0.5935,
+        "buildings": 0.0235,
+        "transport": 0.1279
       },
       "proxyIndex": {
         "power": 0.888,
@@ -1137,16 +1177,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 29.083,
       "sectors": {
-        "power": 6.078,
-        "industrial": 14.565,
-        "buildings": 5.181,
-        "transport": 3.259
+        "power": 6.027,
+        "industrial": 14.594,
+        "buildings": 5.129,
+        "transport": 3.333
       },
       "shares": {
-        "power": 0.209,
-        "industrial": 0.5008,
-        "buildings": 0.1782,
-        "transport": 0.1121
+        "power": 0.2072,
+        "industrial": 0.5018,
+        "buildings": 0.1764,
+        "transport": 0.1146
       },
       "proxyIndex": {
         "power": 0.854,
@@ -1167,16 +1207,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 32.323,
       "sectors": {
-        "power": 6.006,
-        "industrial": 13.182,
-        "buildings": 10.007,
-        "transport": 3.128
+        "power": 5.966,
+        "industrial": 13.231,
+        "buildings": 9.922,
+        "transport": 3.204
       },
       "shares": {
-        "power": 0.1858,
-        "industrial": 0.4078,
-        "buildings": 0.3096,
-        "transport": 0.0968
+        "power": 0.1846,
+        "industrial": 0.4093,
+        "buildings": 0.307,
+        "transport": 0.0991
       },
       "proxyIndex": {
         "power": 0.943,
@@ -1197,16 +1237,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 35.117,
       "sectors": {
-        "power": 6.15,
-        "industrial": 12.072,
-        "buildings": 14.226,
-        "transport": 2.67
+        "power": 6.118,
+        "industrial": 12.134,
+        "buildings": 14.126,
+        "transport": 2.738
       },
       "shares": {
-        "power": 0.1751,
-        "industrial": 0.3438,
-        "buildings": 0.4051,
-        "transport": 0.076
+        "power": 0.1742,
+        "industrial": 0.3455,
+        "buildings": 0.4023,
+        "transport": 0.078
       },
       "proxyIndex": {
         "power": 1.125,
@@ -1227,16 +1267,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 27.167,
       "sectors": {
-        "power": 5.514,
-        "industrial": 8.208,
-        "buildings": 11.718,
-        "transport": 1.726
+        "power": 5.491,
+        "industrial": 8.258,
+        "buildings": 11.647,
+        "transport": 1.772
       },
       "shares": {
-        "power": 0.203,
-        "industrial": 0.3021,
-        "buildings": 0.4313,
-        "transport": 0.0635
+        "power": 0.2021,
+        "industrial": 0.304,
+        "buildings": 0.4287,
+        "transport": 0.0652
       },
       "proxyIndex": {
         "power": 1.404,
@@ -1257,16 +1297,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 23.907,
       "sectors": {
-        "power": 4.488,
-        "industrial": 6.918,
-        "buildings": 10.653,
-        "transport": 1.848
+        "power": 4.468,
+        "industrial": 6.958,
+        "buildings": 10.585,
+        "transport": 1.896
       },
       "shares": {
-        "power": 0.1877,
-        "industrial": 0.2894,
-        "buildings": 0.4456,
-        "transport": 0.0773
+        "power": 0.1869,
+        "industrial": 0.2911,
+        "buildings": 0.4427,
+        "transport": 0.0793
       },
       "proxyIndex": {
         "power": 1.053,
@@ -1287,16 +1327,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 30.583,
       "sectors": {
-        "power": 6.893,
-        "industrial": 13.616,
-        "buildings": 7.442,
-        "transport": 2.632
+        "power": 6.846,
+        "industrial": 13.664,
+        "buildings": 7.378,
+        "transport": 2.695
       },
       "shares": {
-        "power": 0.2254,
-        "industrial": 0.4452,
-        "buildings": 0.2433,
-        "transport": 0.0861
+        "power": 0.2239,
+        "industrial": 0.4468,
+        "buildings": 0.2412,
+        "transport": 0.0881
       },
       "proxyIndex": {
         "power": 1.132,
@@ -1317,16 +1357,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 28.697,
       "sectors": {
-        "power": 6.694,
-        "industrial": 15.574,
-        "buildings": 3.844,
-        "transport": 2.586
+        "power": 6.639,
+        "industrial": 15.608,
+        "buildings": 3.805,
+        "transport": 2.645
       },
       "shares": {
-        "power": 0.2333,
-        "industrial": 0.5427,
-        "buildings": 0.1339,
-        "transport": 0.0901
+        "power": 0.2314,
+        "industrial": 0.5439,
+        "buildings": 0.1326,
+        "transport": 0.0922
       },
       "proxyIndex": {
         "power": 0.96,
@@ -1347,16 +1387,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 29.979,
       "sectors": {
-        "power": 7.446,
-        "industrial": 17.916,
-        "buildings": 1.625,
-        "transport": 2.992
+        "power": 7.378,
+        "industrial": 17.937,
+        "buildings": 1.608,
+        "transport": 3.057
       },
       "shares": {
-        "power": 0.2484,
-        "industrial": 0.5976,
-        "buildings": 0.0542,
-        "transport": 0.0998
+        "power": 0.2461,
+        "industrial": 0.5983,
+        "buildings": 0.0536,
+        "transport": 0.102
       },
       "proxyIndex": {
         "power": 0.971,
@@ -1377,16 +1417,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 29.044,
       "sectors": {
-        "power": 8.271,
-        "industrial": 17.634,
-        "buildings": 0.218,
-        "transport": 2.922
+        "power": 8.194,
+        "industrial": 17.651,
+        "buildings": 0.215,
+        "transport": 2.985
       },
       "shares": {
-        "power": 0.2848,
-        "industrial": 0.6071,
-        "buildings": 0.0075,
-        "transport": 0.1006
+        "power": 0.2821,
+        "industrial": 0.6077,
+        "buildings": 0.0074,
+        "transport": 0.1028
       },
       "proxyIndex": {
         "power": 1.082,
@@ -1407,16 +1447,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 28.659,
       "sectors": {
-        "power": 9.419,
-        "industrial": 16.357,
-        "buildings": 0.098,
-        "transport": 2.785
+        "power": 9.336,
+        "industrial": 16.38,
+        "buildings": 0.097,
+        "transport": 2.847
       },
       "shares": {
-        "power": 0.3287,
-        "industrial": 0.5707,
+        "power": 0.3257,
+        "industrial": 0.5716,
         "buildings": 0.0034,
-        "transport": 0.0972
+        "transport": 0.0993
       },
       "proxyIndex": {
         "power": 1.266,
@@ -1437,16 +1477,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 28.754,
       "sectors": {
-        "power": 9.644,
-        "industrial": 16.175,
-        "buildings": 0.214,
-        "transport": 2.721
+        "power": 9.56,
+        "industrial": 16.201,
+        "buildings": 0.212,
+        "transport": 2.781
       },
       "shares": {
-        "power": 0.3354,
-        "industrial": 0.5625,
-        "buildings": 0.0075,
-        "transport": 0.0946
+        "power": 0.3325,
+        "industrial": 0.5634,
+        "buildings": 0.0074,
+        "transport": 0.0967
       },
       "proxyIndex": {
         "power": 1.316,
@@ -1467,16 +1507,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 29.871,
       "sectors": {
-        "power": 8.084,
-        "industrial": 17.893,
-        "buildings": 0.73,
-        "transport": 3.165
+        "power": 8.008,
+        "industrial": 17.909,
+        "buildings": 0.721,
+        "transport": 3.233
       },
       "shares": {
-        "power": 0.2706,
-        "industrial": 0.599,
-        "buildings": 0.0244,
-        "transport": 0.106
+        "power": 0.2681,
+        "industrial": 0.5996,
+        "buildings": 0.0242,
+        "transport": 0.1082
       },
       "proxyIndex": {
         "power": 1.041,
@@ -1497,16 +1537,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 28.469,
       "sectors": {
-        "power": 6.263,
-        "industrial": 14.845,
-        "buildings": 4.468,
-        "transport": 2.894
+        "power": 6.211,
+        "industrial": 14.876,
+        "buildings": 4.423,
+        "transport": 2.959
       },
       "shares": {
-        "power": 0.22,
-        "industrial": 0.5214,
-        "buildings": 0.1569,
-        "transport": 0.1016
+        "power": 0.2182,
+        "industrial": 0.5225,
+        "buildings": 0.1554,
+        "transport": 0.1039
       },
       "proxyIndex": {
         "power": 0.952,
@@ -1527,16 +1567,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 32.804,
       "sectors": {
-        "power": 6.706,
-        "industrial": 14.738,
-        "buildings": 8.586,
-        "transport": 2.774
+        "power": 6.661,
+        "industrial": 14.791,
+        "buildings": 8.512,
+        "transport": 2.841
       },
       "shares": {
-        "power": 0.2044,
-        "industrial": 0.4493,
-        "buildings": 0.2617,
-        "transport": 0.0846
+        "power": 0.203,
+        "industrial": 0.4509,
+        "buildings": 0.2595,
+        "transport": 0.0866
       },
       "proxyIndex": {
         "power": 0.997,
@@ -1557,16 +1597,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 34.362,
       "sectors": {
-        "power": 5.924,
-        "industrial": 11.357,
-        "buildings": 15,
-        "transport": 2.081
+        "power": 5.898,
+        "industrial": 11.423,
+        "buildings": 14.905,
+        "transport": 2.136
       },
       "shares": {
-        "power": 0.1724,
-        "industrial": 0.3305,
-        "buildings": 0.4365,
-        "transport": 0.0606
+        "power": 0.1716,
+        "industrial": 0.3324,
+        "buildings": 0.4338,
+        "transport": 0.0622
       },
       "proxyIndex": {
         "power": 1.142,
@@ -1587,16 +1627,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 26.056,
       "sectors": {
-        "power": 4.079,
-        "industrial": 8.437,
-        "buildings": 11.857,
-        "transport": 1.682
+        "power": 4.061,
+        "industrial": 8.487,
+        "buildings": 11.782,
+        "transport": 1.727
       },
       "shares": {
-        "power": 0.1566,
-        "industrial": 0.3238,
-        "buildings": 0.4551,
-        "transport": 0.0646
+        "power": 0.1558,
+        "industrial": 0.3257,
+        "buildings": 0.4522,
+        "transport": 0.0663
       },
       "proxyIndex": {
         "power": 0.966,
@@ -1617,16 +1657,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 26.056,
       "sectors": {
-        "power": 5.019,
-        "industrial": 9.132,
-        "buildings": 10.01,
-        "transport": 1.895
+        "power": 4.993,
+        "industrial": 9.18,
+        "buildings": 9.94,
+        "transport": 1.944
       },
       "shares": {
-        "power": 0.1926,
-        "industrial": 0.3505,
-        "buildings": 0.3842,
-        "transport": 0.0727
+        "power": 0.1916,
+        "industrial": 0.3523,
+        "buildings": 0.3815,
+        "transport": 0.0746
       },
       "proxyIndex": {
         "power": 1.058,
@@ -1647,16 +1687,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 32.224,
       "sectors": {
-        "power": 6.583,
-        "industrial": 15.114,
-        "buildings": 7.644,
-        "transport": 2.883
+        "power": 6.536,
+        "industrial": 15.162,
+        "buildings": 7.575,
+        "transport": 2.951
       },
       "shares": {
-        "power": 0.2043,
-        "industrial": 0.469,
-        "buildings": 0.2372,
-        "transport": 0.0895
+        "power": 0.2028,
+        "industrial": 0.4705,
+        "buildings": 0.2351,
+        "transport": 0.0916
       },
       "proxyIndex": {
         "power": 1.036,
@@ -1677,16 +1717,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 31.134,
       "sectors": {
-        "power": 6.615,
-        "industrial": 16.767,
-        "buildings": 4.436,
-        "transport": 3.316
+        "power": 6.558,
+        "industrial": 16.796,
+        "buildings": 4.39,
+        "transport": 3.39
       },
       "shares": {
-        "power": 0.2125,
-        "industrial": 0.5385,
-        "buildings": 0.1425,
-        "transport": 0.1065
+        "power": 0.2107,
+        "industrial": 0.5395,
+        "buildings": 0.141,
+        "transport": 0.1089
       },
       "proxyIndex": {
         "power": 0.899,
@@ -1707,16 +1747,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 33.436,
       "sectors": {
-        "power": 8.158,
-        "industrial": 20.029,
-        "buildings": 1.371,
-        "transport": 3.878
+        "power": 8.079,
+        "industrial": 20.042,
+        "buildings": 1.355,
+        "transport": 3.96
       },
       "shares": {
-        "power": 0.244,
-        "industrial": 0.599,
-        "buildings": 0.041,
-        "transport": 0.116
+        "power": 0.2416,
+        "industrial": 0.5994,
+        "buildings": 0.0405,
+        "transport": 0.1184
       },
       "proxyIndex": {
         "power": 0.932,
@@ -1737,16 +1777,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 32.304,
       "sectors": {
-        "power": 8.822,
-        "industrial": 19.42,
-        "buildings": 0.29,
-        "transport": 3.771
+        "power": 8.736,
+        "industrial": 19.431,
+        "buildings": 0.287,
+        "transport": 3.85
       },
       "shares": {
-        "power": 0.2731,
-        "industrial": 0.6012,
-        "buildings": 0.009,
-        "transport": 0.1167
+        "power": 0.2704,
+        "industrial": 0.6015,
+        "buildings": 0.0089,
+        "transport": 0.1192
       },
       "proxyIndex": {
         "power": 1.027,
@@ -1767,16 +1807,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 32.221,
       "sectors": {
-        "power": 9.786,
-        "industrial": 18.712,
-        "buildings": 0.121,
-        "transport": 3.602
+        "power": 9.694,
+        "industrial": 18.729,
+        "buildings": 0.119,
+        "transport": 3.679
       },
       "shares": {
-        "power": 0.3037,
-        "industrial": 0.5808,
+        "power": 0.3008,
+        "industrial": 0.5813,
         "buildings": 0.0037,
-        "transport": 0.1118
+        "transport": 0.1142
       },
       "proxyIndex": {
         "power": 1.169,
@@ -1797,16 +1837,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 32.709,
       "sectors": {
-        "power": 9.859,
-        "industrial": 19.03,
-        "buildings": 0.179,
-        "transport": 3.641
+        "power": 9.766,
+        "industrial": 19.047,
+        "buildings": 0.177,
+        "transport": 3.719
       },
       "shares": {
-        "power": 0.3014,
-        "industrial": 0.5818,
-        "buildings": 0.0055,
-        "transport": 0.1113
+        "power": 0.2986,
+        "industrial": 0.5823,
+        "buildings": 0.0054,
+        "transport": 0.1137
       },
       "proxyIndex": {
         "power": 1.157,
@@ -1827,16 +1867,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 31.558,
       "sectors": {
-        "power": 8.321,
-        "industrial": 18.891,
-        "buildings": 0.722,
-        "transport": 3.624
+        "power": 8.241,
+        "industrial": 18.903,
+        "buildings": 0.714,
+        "transport": 3.7
       },
       "shares": {
-        "power": 0.2637,
-        "industrial": 0.5986,
-        "buildings": 0.0229,
-        "transport": 0.1148
+        "power": 0.2611,
+        "industrial": 0.599,
+        "buildings": 0.0226,
+        "transport": 0.1173
       },
       "proxyIndex": {
         "power": 0.98,
@@ -1857,16 +1897,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 30.8,
       "sectors": {
-        "power": 7.026,
-        "industrial": 17.078,
-        "buildings": 3.341,
-        "transport": 3.355
+        "power": 6.963,
+        "industrial": 17.103,
+        "buildings": 3.306,
+        "transport": 3.428
       },
       "shares": {
-        "power": 0.2281,
-        "industrial": 0.5545,
-        "buildings": 0.1085,
-        "transport": 0.1089
+        "power": 0.2261,
+        "industrial": 0.5553,
+        "buildings": 0.1073,
+        "transport": 0.1113
       },
       "proxyIndex": {
         "power": 0.914,
@@ -1887,16 +1927,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 34.608,
       "sectors": {
-        "power": 6.664,
-        "industrial": 14.557,
-        "buildings": 10.761,
-        "transport": 2.626
+        "power": 6.623,
+        "industrial": 14.618,
+        "buildings": 10.676,
+        "transport": 2.691
       },
       "shares": {
-        "power": 0.1926,
-        "industrial": 0.4206,
-        "buildings": 0.3109,
-        "transport": 0.0759
+        "power": 0.1914,
+        "industrial": 0.4224,
+        "buildings": 0.3085,
+        "transport": 0.0778
       },
       "proxyIndex": {
         "power": 0.989,
@@ -1917,16 +1957,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 37.795,
       "sectors": {
-        "power": 6.841,
-        "industrial": 12.016,
-        "buildings": 16.581,
-        "transport": 2.356
+        "power": 6.811,
+        "industrial": 12.088,
+        "buildings": 16.478,
+        "transport": 2.419
       },
       "shares": {
-        "power": 0.181,
-        "industrial": 0.3179,
-        "buildings": 0.4387,
-        "transport": 0.0623
+        "power": 0.1802,
+        "industrial": 0.3198,
+        "buildings": 0.436,
+        "transport": 0.064
       },
       "proxyIndex": {
         "power": 1.183,
@@ -1947,16 +1987,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 31.697,
       "sectors": {
-        "power": 5.332,
-        "industrial": 10.361,
-        "buildings": 14.039,
-        "transport": 1.966
+        "power": 5.308,
+        "industrial": 10.421,
+        "buildings": 13.95,
+        "transport": 2.018
       },
       "shares": {
-        "power": 0.1682,
-        "industrial": 0.3269,
-        "buildings": 0.4429,
-        "transport": 0.062
+        "power": 0.1675,
+        "industrial": 0.3288,
+        "buildings": 0.4401,
+        "transport": 0.0637
       },
       "proxyIndex": {
         "power": 1.123,
@@ -1977,16 +2017,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 26.913,
       "sectors": {
-        "power": 4.587,
-        "industrial": 8.228,
-        "buildings": 12.296,
-        "transport": 1.802
+        "power": 4.567,
+        "industrial": 8.277,
+        "buildings": 12.219,
+        "transport": 1.849
       },
       "shares": {
-        "power": 0.1705,
-        "industrial": 0.3057,
-        "buildings": 0.4569,
-        "transport": 0.0669
+        "power": 0.1697,
+        "industrial": 0.3076,
+        "buildings": 0.454,
+        "transport": 0.0687
       },
       "proxyIndex": {
         "power": 0.924,
@@ -2007,16 +2047,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 36.312,
       "sectors": {
-        "power": 7.135,
-        "industrial": 16.159,
-        "buildings": 10.045,
-        "transport": 2.973
+        "power": 7.088,
+        "industrial": 16.219,
+        "buildings": 9.96,
+        "transport": 3.045
       },
       "shares": {
-        "power": 0.1965,
-        "industrial": 0.445,
-        "buildings": 0.2766,
-        "transport": 0.0819
+        "power": 0.1952,
+        "industrial": 0.4467,
+        "buildings": 0.2743,
+        "transport": 0.0839
       },
       "proxyIndex": {
         "power": 0.974,
@@ -2037,16 +2077,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 33.705,
       "sectors": {
-        "power": 7.574,
-        "industrial": 19.25,
-        "buildings": 3.409,
-        "transport": 3.473
+        "power": 7.506,
+        "industrial": 19.278,
+        "buildings": 3.372,
+        "transport": 3.549
       },
       "shares": {
-        "power": 0.2247,
-        "industrial": 0.5711,
-        "buildings": 0.1011,
-        "transport": 0.103
+        "power": 0.2227,
+        "industrial": 0.5719,
+        "buildings": 0.1001,
+        "transport": 0.1053
       },
       "proxyIndex": {
         "power": 0.858,
@@ -2067,16 +2107,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 35.617,
       "sectors": {
-        "power": 8.368,
-        "industrial": 22.189,
-        "buildings": 1.237,
-        "transport": 3.823
+        "power": 8.287,
+        "industrial": 22.204,
+        "buildings": 1.222,
+        "transport": 3.904
       },
       "shares": {
-        "power": 0.2349,
-        "industrial": 0.623,
-        "buildings": 0.0347,
-        "transport": 0.1073
+        "power": 0.2327,
+        "industrial": 0.6234,
+        "buildings": 0.0343,
+        "transport": 0.1096
       },
       "proxyIndex": {
         "power": 0.857,
@@ -2097,16 +2137,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 34.264,
       "sectors": {
-        "power": 8.964,
-        "industrial": 21.3,
-        "buildings": 0.317,
-        "transport": 3.684
+        "power": 8.877,
+        "industrial": 21.312,
+        "buildings": 0.313,
+        "transport": 3.762
       },
       "shares": {
-        "power": 0.2616,
-        "industrial": 0.6216,
-        "buildings": 0.0093,
-        "transport": 0.1075
+        "power": 0.2591,
+        "industrial": 0.622,
+        "buildings": 0.0091,
+        "transport": 0.1098
       },
       "proxyIndex": {
         "power": 0.933,
@@ -2127,16 +2167,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 34.61,
       "sectors": {
-        "power": 10.342,
-        "industrial": 20.478,
-        "buildings": 0.117,
-        "transport": 3.673
+        "power": 10.245,
+        "industrial": 20.497,
+        "buildings": 0.115,
+        "transport": 3.752
       },
       "shares": {
-        "power": 0.2988,
-        "industrial": 0.5917,
-        "buildings": 0.0034,
-        "transport": 0.1061
+        "power": 0.296,
+        "industrial": 0.5922,
+        "buildings": 0.0033,
+        "transport": 0.1084
       },
       "proxyIndex": {
         "power": 1.096,
@@ -2157,16 +2197,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 35.95,
       "sectors": {
-        "power": 11.228,
-        "industrial": 20.875,
-        "buildings": 0.127,
-        "transport": 3.72
+        "power": 11.125,
+        "industrial": 20.899,
+        "buildings": 0.125,
+        "transport": 3.8
       },
       "shares": {
-        "power": 0.3123,
-        "industrial": 0.5807,
+        "power": 0.3095,
+        "industrial": 0.5813,
         "buildings": 0.0035,
-        "transport": 0.1035
+        "transport": 0.1057
       },
       "proxyIndex": {
         "power": 1.165,
@@ -2187,16 +2227,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 35.586,
       "sectors": {
-        "power": 9.774,
-        "industrial": 20.985,
-        "buildings": 0.983,
-        "transport": 3.844
+        "power": 9.683,
+        "industrial": 21.005,
+        "buildings": 0.972,
+        "transport": 3.926
       },
       "shares": {
-        "power": 0.2747,
-        "industrial": 0.5897,
-        "buildings": 0.0276,
-        "transport": 0.108
+        "power": 0.2721,
+        "industrial": 0.5903,
+        "buildings": 0.0273,
+        "transport": 0.1103
       },
       "proxyIndex": {
         "power": 1.018,
@@ -2217,16 +2257,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 35.072,
       "sectors": {
-        "power": 7.713,
-        "industrial": 19.272,
-        "buildings": 4.601,
-        "transport": 3.487
+        "power": 7.648,
+        "industrial": 19.307,
+        "buildings": 4.553,
+        "transport": 3.565
       },
       "shares": {
-        "power": 0.2199,
-        "industrial": 0.5495,
-        "buildings": 0.1312,
-        "transport": 0.0994
+        "power": 0.2181,
+        "industrial": 0.5505,
+        "buildings": 0.1298,
+        "transport": 0.1016
       },
       "proxyIndex": {
         "power": 0.901,
@@ -2247,16 +2287,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 34.954,
       "sectors": {
-        "power": 6.986,
-        "industrial": 15.844,
-        "buildings": 9.391,
-        "transport": 2.733
+        "power": 6.94,
+        "industrial": 15.903,
+        "buildings": 9.312,
+        "transport": 2.8
       },
       "shares": {
-        "power": 0.1999,
-        "industrial": 0.4533,
-        "buildings": 0.2687,
-        "transport": 0.0782
+        "power": 0.1985,
+        "industrial": 0.455,
+        "buildings": 0.2664,
+        "transport": 0.0801
       },
       "proxyIndex": {
         "power": 0.979,
@@ -2277,16 +2317,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 37.549,
       "sectors": {
-        "power": 6.514,
-        "industrial": 12.814,
-        "buildings": 15.9,
-        "transport": 2.321
+        "power": 6.484,
+        "industrial": 12.887,
+        "buildings": 15.797,
+        "transport": 2.382
       },
       "shares": {
-        "power": 0.1735,
-        "industrial": 0.3413,
-        "buildings": 0.4234,
-        "transport": 0.0618
+        "power": 0.1727,
+        "industrial": 0.3432,
+        "buildings": 0.4207,
+        "transport": 0.0634
       },
       "proxyIndex": {
         "power": 1.133,
@@ -2307,16 +2347,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 28.835,
       "sectors": {
-        "power": 4.402,
-        "industrial": 9.802,
-        "buildings": 12.825,
-        "transport": 1.806
+        "power": 4.381,
+        "industrial": 9.858,
+        "buildings": 12.742,
+        "transport": 1.854
       },
       "shares": {
-        "power": 0.1527,
-        "industrial": 0.3399,
-        "buildings": 0.4448,
-        "transport": 0.0626
+        "power": 0.1519,
+        "industrial": 0.3419,
+        "buildings": 0.4419,
+        "transport": 0.0643
       },
       "proxyIndex": {
         "power": 0.978,
@@ -2337,16 +2377,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 27.069,
       "sectors": {
-        "power": 4.664,
-        "industrial": 8.947,
-        "buildings": 11.712,
-        "transport": 1.746
+        "power": 4.642,
+        "industrial": 8.998,
+        "buildings": 11.637,
+        "transport": 1.792
       },
       "shares": {
-        "power": 0.1723,
-        "industrial": 0.3305,
-        "buildings": 0.4327,
-        "transport": 0.0645
+        "power": 0.1715,
+        "industrial": 0.3324,
+        "buildings": 0.4299,
+        "transport": 0.0662
       },
       "proxyIndex": {
         "power": 0.976,
@@ -2367,16 +2407,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 34.666,
       "sectors": {
-        "power": 6.369,
-        "industrial": 15.334,
-        "buildings": 10.346,
-        "transport": 2.618
+        "power": 6.328,
+        "industrial": 15.395,
+        "buildings": 10.261,
+        "transport": 2.682
       },
       "shares": {
-        "power": 0.1837,
-        "industrial": 0.4423,
-        "buildings": 0.2984,
-        "transport": 0.0755
+        "power": 0.1826,
+        "industrial": 0.4441,
+        "buildings": 0.296,
+        "transport": 0.0774
       },
       "proxyIndex": {
         "power": 0.962,
@@ -2397,16 +2437,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 34.371,
       "sectors": {
-        "power": 7.507,
-        "industrial": 19.813,
-        "buildings": 3.745,
-        "transport": 3.306
+        "power": 7.441,
+        "industrial": 19.845,
+        "buildings": 3.705,
+        "transport": 3.379
       },
       "shares": {
-        "power": 0.2184,
-        "industrial": 0.5764,
-        "buildings": 0.109,
-        "transport": 0.0962
+        "power": 0.2165,
+        "industrial": 0.5774,
+        "buildings": 0.1078,
+        "transport": 0.0983
       },
       "proxyIndex": {
         "power": 0.845,
@@ -2427,16 +2467,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 35.915,
       "sectors": {
-        "power": 8.522,
-        "industrial": 22.112,
-        "buildings": 1.528,
-        "transport": 3.753
+        "power": 8.441,
+        "industrial": 22.13,
+        "buildings": 1.511,
+        "transport": 3.833
       },
       "shares": {
-        "power": 0.2373,
-        "industrial": 0.6157,
-        "buildings": 0.0425,
-        "transport": 0.1045
+        "power": 0.235,
+        "industrial": 0.6162,
+        "buildings": 0.0421,
+        "transport": 0.1067
       },
       "proxyIndex": {
         "power": 0.871,
@@ -2457,16 +2497,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 35.313,
       "sectors": {
-        "power": 9.237,
-        "industrial": 21.9,
-        "buildings": 0.32,
-        "transport": 3.856
+        "power": 9.147,
+        "industrial": 21.913,
+        "buildings": 0.316,
+        "transport": 3.938
       },
       "shares": {
-        "power": 0.2616,
-        "industrial": 0.6202,
-        "buildings": 0.0091,
-        "transport": 0.1092
+        "power": 0.259,
+        "industrial": 0.6205,
+        "buildings": 0.009,
+        "transport": 0.1115
       },
       "proxyIndex": {
         "power": 0.942,
@@ -2487,16 +2527,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 35.843,
       "sectors": {
-        "power": 10.901,
-        "industrial": 21.011,
-        "buildings": 0.112,
-        "transport": 3.819
+        "power": 10.8,
+        "industrial": 21.032,
+        "buildings": 0.111,
+        "transport": 3.901
       },
       "shares": {
-        "power": 0.3041,
-        "industrial": 0.5862,
+        "power": 0.3013,
+        "industrial": 0.5868,
         "buildings": 0.0031,
-        "transport": 0.1065
+        "transport": 0.1088
       },
       "proxyIndex": {
         "power": 1.144,
@@ -2517,16 +2557,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 37.255,
       "sectors": {
-        "power": 11.561,
-        "industrial": 21.537,
-        "buildings": 0.197,
-        "transport": 3.96
+        "power": 11.454,
+        "industrial": 21.561,
+        "buildings": 0.195,
+        "transport": 4.045
       },
       "shares": {
-        "power": 0.3103,
-        "industrial": 0.5781,
-        "buildings": 0.0053,
-        "transport": 0.1063
+        "power": 0.3075,
+        "industrial": 0.5787,
+        "buildings": 0.0052,
+        "transport": 0.1086
       },
       "proxyIndex": {
         "power": 1.19,
@@ -2547,16 +2587,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 35.789,
       "sectors": {
-        "power": 9.566,
-        "industrial": 21.215,
-        "buildings": 0.922,
-        "transport": 4.086
+        "power": 9.475,
+        "industrial": 21.23,
+        "buildings": 0.911,
+        "transport": 4.173
       },
       "shares": {
-        "power": 0.2673,
-        "industrial": 0.5928,
-        "buildings": 0.0258,
-        "transport": 0.1142
+        "power": 0.2647,
+        "industrial": 0.5932,
+        "buildings": 0.0255,
+        "transport": 0.1166
       },
       "proxyIndex": {
         "power": 0.98,
@@ -2577,16 +2617,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 35.338,
       "sectors": {
-        "power": 8.064,
-        "industrial": 17.876,
-        "buildings": 5.923,
-        "transport": 3.476
+        "power": 8,
+        "industrial": 17.918,
+        "buildings": 5.865,
+        "transport": 3.556
       },
       "shares": {
-        "power": 0.2282,
-        "industrial": 0.5058,
-        "buildings": 0.1676,
-        "transport": 0.0984
+        "power": 0.2264,
+        "industrial": 0.507,
+        "buildings": 0.166,
+        "transport": 0.1006
       },
       "proxyIndex": {
         "power": 0.976,
@@ -2607,16 +2647,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 38.13,
       "sectors": {
-        "power": 7.31,
-        "industrial": 16.59,
-        "buildings": 11.107,
-        "transport": 3.123
+        "power": 7.262,
+        "industrial": 16.654,
+        "buildings": 11.015,
+        "transport": 3.199
       },
       "shares": {
-        "power": 0.1917,
-        "industrial": 0.4351,
-        "buildings": 0.2913,
-        "transport": 0.0819
+        "power": 0.1905,
+        "industrial": 0.4368,
+        "buildings": 0.2889,
+        "transport": 0.0839
       },
       "proxyIndex": {
         "power": 0.949,
@@ -2637,16 +2677,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 39.944,
       "sectors": {
-        "power": 7.348,
-        "industrial": 14.401,
-        "buildings": 15.442,
-        "transport": 2.753
+        "power": 7.31,
+        "industrial": 14.476,
+        "buildings": 15.335,
+        "transport": 2.824
       },
       "shares": {
-        "power": 0.184,
-        "industrial": 0.3605,
-        "buildings": 0.3866,
-        "transport": 0.0689
+        "power": 0.183,
+        "industrial": 0.3624,
+        "buildings": 0.3839,
+        "transport": 0.0707
       },
       "proxyIndex": {
         "power": 1.115,
@@ -2667,16 +2707,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 30.212,
       "sectors": {
-        "power": 5.031,
-        "industrial": 10.854,
-        "buildings": 12.446,
-        "transport": 1.881
+        "power": 5.006,
+        "industrial": 10.913,
+        "buildings": 12.362,
+        "transport": 1.93
       },
       "shares": {
-        "power": 0.1665,
-        "industrial": 0.3593,
-        "buildings": 0.4119,
-        "transport": 0.0623
+        "power": 0.1657,
+        "industrial": 0.3612,
+        "buildings": 0.4092,
+        "transport": 0.0639
       },
       "proxyIndex": {
         "power": 1.124,
@@ -2697,16 +2737,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 24.88,
       "sectors": {
-        "power": 4.519,
-        "industrial": 8.471,
-        "buildings": 9.906,
-        "transport": 1.985
+        "power": 4.495,
+        "industrial": 8.514,
+        "buildings": 9.836,
+        "transport": 2.036
       },
       "shares": {
-        "power": 0.1816,
-        "industrial": 0.3405,
-        "buildings": 0.3981,
-        "transport": 0.0798
+        "power": 0.1807,
+        "industrial": 0.3422,
+        "buildings": 0.3953,
+        "transport": 0.0818
       },
       "proxyIndex": {
         "power": 0.865,
@@ -2727,16 +2767,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 33.554,
       "sectors": {
-        "power": 6.617,
-        "industrial": 14.822,
-        "buildings": 9.372,
-        "transport": 2.743
+        "power": 6.573,
+        "industrial": 14.878,
+        "buildings": 9.293,
+        "transport": 2.81
       },
       "shares": {
-        "power": 0.1972,
-        "industrial": 0.4417,
-        "buildings": 0.2793,
-        "transport": 0.0818
+        "power": 0.1959,
+        "industrial": 0.4434,
+        "buildings": 0.277,
+        "transport": 0.0838
       },
       "proxyIndex": {
         "power": 0.999,
@@ -4065,7 +4105,7 @@ window.CHINA_GAS_SECTOR_DATA = {
     },
     {
       "title": "Annual sector anchor",
-      "text": "The four-sector annual split is derived from the IEA 2023 China natural-gas balance: power is electricity plus CHP transformation use; industrial includes industry final use and non-energy/chemical use; buildings include residential plus tertiary; transport is transport final gas use. The four buckets are normalized to 100%."
+      "text": "The final-consumption split uses the IEA China natural-gas country page for 2023 TJ gross values by sector. Industrial includes industry plus non-energy/chemical use; buildings include residential plus commercial/public services; transport is transport final gas use. Power uses IEA gas-balance transformation shares for electricity plus CHP. The four dashboard buckets are normalized to 100%."
     },
     {
       "title": "Monthly shape",
@@ -4093,9 +4133,14 @@ window.CHINA_GAS_SECTOR_DATA = {
       "note": "Raw CSV download used locally to aggregate monthly sector proxy indexes. Raw data are not committed."
     },
     {
+      "name": "IEA China natural gas country page",
+      "url": "https://www.iea.org/countries/china/natural-gas",
+      "note": "Public China country page. The model uses its 2023 final-consumption table by sector for industry, non-energy use, residential, commercial/public services, transport, and agriculture/forestry."
+    },
+    {
       "name": "IEA Energy Statistics Data Browser",
       "url": "https://www.iea.org/data-and-statistics/data-tools/energy-statistics-data-browser",
-      "note": "Free browser for annual China gas balance and sector consumption structure; used for the 2023 sector anchor."
+      "note": "Used for the 2023 power/CHP transformation layer that is not part of the final-consumption table."
     },
     {
       "name": "National Bureau of Statistics of China, 2023 Statistical Communique",

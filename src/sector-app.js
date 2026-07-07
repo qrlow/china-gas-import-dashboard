@@ -4,6 +4,7 @@
   let gasYear = data.meta.currentGasYear;
 
   const fmt = new Intl.NumberFormat("en", { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+  const fmt0 = new Intl.NumberFormat("en", { maximumFractionDigits: 0 });
   const pctFmt = new Intl.NumberFormat("en", { maximumFractionDigits: 1, minimumFractionDigits: 1 });
 
   function byId(id) {
@@ -188,7 +189,7 @@
   }
 
   function renderAnchorShares() {
-    byId("anchor-shares").innerHTML = data.annualAnchors.map((item) => {
+    const anchorRows = data.annualAnchors.map((item) => {
       const def = sector(item.sector);
       return `
         <div class="anchor-row">
@@ -196,8 +197,28 @@
           <strong>${pctFmt.format(item.normalizedShare * 100)}%</strong>
         </div>
       `;
-    }).join("") + `
-      <p class="panel-note">Raw IEA gas-balance buckets leave own-use, losses, and statistical differences outside the four requested sectors; the dashboard normalizes the four modeled sectors to 100% before allocating JODI demand.</p>
+    }).join("");
+    const sourceRows = (data.ieaFinalConsumptionRows ?? []).map((item) => `
+      <div class="source-row">
+        <span>${item.sector}</span>
+        <strong>${fmt0.format(item.valueTJ)}</strong>
+        <span>${percent(item.shareOfFinalConsumption)}</span>
+        <span>${item.dashboardBucket}</span>
+      </div>
+    `).join("");
+    byId("anchor-shares").innerHTML = `
+      ${anchorRows}
+      <p class="panel-note">Normalized annual anchor after adding the power/CHP transformation layer and excluding tiny agriculture/forestry final use from the four modeled buckets.</p>
+      <h3 class="subhead">IEA final consumption input, 2023</h3>
+      <div class="source-grid" aria-label="IEA final consumption values">
+        <div class="source-row source-row-head">
+          <span>IEA sector</span>
+          <span>TJ gross</span>
+          <span>Share</span>
+          <span>Dashboard bucket</span>
+        </div>
+        ${sourceRows}
+      </div>
     `;
   }
 

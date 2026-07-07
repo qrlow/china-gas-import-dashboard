@@ -47,19 +47,21 @@ const SECTOR_DEFINITIONS = [
 ];
 
 const IEA_2023_GAS_BALANCE = {
-  totalUseBasis: "IEA 2023 China natural-gas balance percentages, normalized to the four dashboard sectors.",
+  totalUseBasis: "IEA 2023 China natural-gas balance, normalized to the four dashboard sectors.",
+  finalConsumptionSource: "IEA China natural gas country page, Final consumption of gas by sector, China, 2023.",
   energySectorShare: 0.243,
   finalConsumptionShare: 0.751,
   energySectorDetail: {
     electricity: 0.41,
     chp: 0.44,
   },
-  finalConsumptionDetail: {
-    industry: 0.55,
-    nonEnergy: 0.05,
-    residential: 0.22,
-    tertiary: 0.06,
-    transport: 0.11,
+  finalConsumptionValuesTJ: {
+    industry: 6232455,
+    transport: 1276255,
+    residential: 2486965,
+    commercialPublicServices: 657877,
+    agricultureForestry: 9440,
+    nonEnergyUse: 589056,
   },
 };
 
@@ -127,11 +129,13 @@ function round(value, digits = 3) {
 
 function rawAnchorShares() {
   const b = IEA_2023_GAS_BALANCE;
+  const final = b.finalConsumptionValuesTJ;
+  const finalTotal = Object.values(final).reduce((acc, value) => acc + value, 0);
   return {
     power: b.energySectorShare * (b.energySectorDetail.electricity + b.energySectorDetail.chp),
-    industrial: b.finalConsumptionShare * (b.finalConsumptionDetail.industry + b.finalConsumptionDetail.nonEnergy),
-    buildings: b.finalConsumptionShare * (b.finalConsumptionDetail.residential + b.finalConsumptionDetail.tertiary),
-    transport: b.finalConsumptionShare * b.finalConsumptionDetail.transport,
+    industrial: b.finalConsumptionShare * ((final.industry + final.nonEnergyUse) / finalTotal),
+    buildings: b.finalConsumptionShare * ((final.residential + final.commercialPublicServices) / finalTotal),
+    transport: b.finalConsumptionShare * (final.transport / finalTotal),
   };
 }
 
@@ -269,10 +273,23 @@ function buildOutput() {
   const latest = monthly.at(-1);
   const rawShares = rawAnchorShares();
   const normalizedShares = normalizedAnchorShares();
+  const final = IEA_2023_GAS_BALANCE.finalConsumptionValuesTJ;
+  const finalTotal = Object.values(final).reduce((acc, value) => acc + value, 0);
   const annualAnchors = SECTOR_ORDER.map((sector) => ({
     sector,
     rawShare: round(rawShares[sector], 4),
     normalizedShare: round(normalizedShares[sector], 4),
+  }));
+  const ieaFinalConsumptionRows = [
+    { sector: "Industry", valueTJ: final.industry, dashboardBucket: "Industrial / chemical" },
+    { sector: "Non-energy use", valueTJ: final.nonEnergyUse, dashboardBucket: "Industrial / chemical" },
+    { sector: "Residential", valueTJ: final.residential, dashboardBucket: "Buildings / city gas" },
+    { sector: "Commercial and public services", valueTJ: final.commercialPublicServices, dashboardBucket: "Buildings / city gas" },
+    { sector: "Transport", valueTJ: final.transport, dashboardBucket: "Transport" },
+    { sector: "Agriculture and forestry", valueTJ: final.agricultureForestry, dashboardBucket: "Outside modeled buckets" },
+  ].map((row) => ({
+    ...row,
+    shareOfFinalConsumption: round(row.valueTJ / finalTotal, 4),
   }));
 
   return {
@@ -293,6 +310,7 @@ function buildOutput() {
     sectorDefinitions: SECTOR_DEFINITIONS,
     iea2023GasBalance: IEA_2023_GAS_BALANCE,
     annualAnchors,
+    ieaFinalConsumptionRows,
     monthly,
     proxyMonthly,
     methodology: [
@@ -302,7 +320,7 @@ function buildOutput() {
       },
       {
         title: "Annual sector anchor",
-        text: "The four-sector annual split is derived from the IEA 2023 China natural-gas balance: power is electricity plus CHP transformation use; industrial includes industry final use and non-energy/chemical use; buildings include residential plus tertiary; transport is transport final gas use. The four buckets are normalized to 100%.",
+        text: "The final-consumption split uses the IEA China natural-gas country page for 2023 TJ gross values by sector. Industrial includes industry plus non-energy/chemical use; buildings include residential plus commercial/public services; transport is transport final gas use. Power uses IEA gas-balance transformation shares for electricity plus CHP. The four dashboard buckets are normalized to 100%.",
       },
       {
         title: "Monthly shape",
@@ -330,9 +348,14 @@ function buildOutput() {
         note: "Raw CSV download used locally to aggregate monthly sector proxy indexes. Raw data are not committed.",
       },
       {
+        name: "IEA China natural gas country page",
+        url: "https://www.iea.org/countries/china/natural-gas",
+        note: "Public China country page. The model uses its 2023 final-consumption table by sector for industry, non-energy use, residential, commercial/public services, transport, and agriculture/forestry.",
+      },
+      {
         name: "IEA Energy Statistics Data Browser",
         url: "https://www.iea.org/data-and-statistics/data-tools/energy-statistics-data-browser",
-        note: "Free browser for annual China gas balance and sector consumption structure; used for the 2023 sector anchor.",
+        note: "Used for the 2023 power/CHP transformation layer that is not part of the final-consumption table.",
       },
       {
         name: "National Bureau of Statistics of China, 2023 Statistical Communique",

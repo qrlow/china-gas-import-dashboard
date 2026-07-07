@@ -67,19 +67,28 @@ The model covers months where both JODI China calculated demand and Carbon Monit
 
 ### Annual Anchor
 
-The annual sector anchor is derived from the IEA 2023 China natural-gas balance:
+The annual sector anchor is derived from the IEA 2023 China natural-gas balance and the public IEA China natural-gas country page:
 
 - Power = energy-sector gas use × (electricity + CHP)
-- Industrial / chemical = final gas consumption × (industry + non-energy use)
-- Buildings / city gas = final gas consumption × (residential + tertiary)
-- Transport = final gas consumption × transport
+- Industrial / chemical = final gas consumption × (industry + non-energy use), using IEA China country-page 2023 TJ gross values.
+- Buildings / city gas = final gas consumption × (residential + commercial/public services), using IEA China country-page 2023 TJ gross values.
+- Transport = final gas consumption × transport, using IEA China country-page 2023 TJ gross values.
 
-The raw buckets exclude own-use, losses, and statistical differences. The model normalizes the four requested sectors to 100% before allocating JODI demand. The normalized anchor shares in `src/sector-data.js` are:
+The IEA final-consumption input values are:
 
-- Power: 21.7%
-- Industrial / chemical: 47.4%
-- Buildings / city gas: 22.1%
-- Transport: 8.7%
+- Industry: 6,232,455 TJ gross
+- Non-energy use: 589,056 TJ gross
+- Residential: 2,486,965 TJ gross
+- Commercial and public services: 657,877 TJ gross
+- Transport: 1,276,255 TJ gross
+- Agriculture and forestry: 9,440 TJ gross
+
+Agriculture and forestry is only 0.08% of final gas consumption and is outside the four requested dashboard buckets. The raw buckets also exclude own-use, losses, and statistical differences. The model normalizes the four requested sectors to 100% before allocating JODI demand. The normalized anchor shares in `src/sector-data.js` are:
+
+- Power: 21.6%
+- Industrial / chemical: 47.6%
+- Buildings / city gas: 21.9%
+- Transport: 8.9%
 
 ### Monthly Shape
 
