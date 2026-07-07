@@ -50,4 +50,63 @@ For recent China rows, `STOCKCH` is often not reported. In that case the residua
 
 ## What Is Not Included
 
-JODI does not publish monthly China gas demand by sector, route-level pipeline imports, contracted-versus-spot LNG, or price/weather adjustments in this dataset. Those fields are intentionally not shown in this JODI-only dashboard.
+JODI does not publish monthly China gas demand by sector, route-level pipeline imports, contracted-versus-spot LNG, or price/weather adjustments in this dataset. Those fields are intentionally not shown in the JODI-only dashboard.
+
+## Sector Demand Model
+
+The sector dashboard is a historical allocation model for JODI calculated demand. It is not official monthly sector demand data.
+
+The model covers months where both JODI China calculated demand and Carbon Monitor China proxy data are available. In the current generated file, that range is `2019-01` through `2026-03`.
+
+### Sector Buckets
+
+- Power: gas used for electricity generation and CHP transformation.
+- Industrial / chemical: industrial final gas use plus non-energy gas use.
+- Buildings / city gas: residential plus tertiary/commercial gas use.
+- Transport: gas used in transport.
+
+### Annual Anchor
+
+The annual sector anchor is derived from the IEA 2023 China natural-gas balance:
+
+- Power = energy-sector gas use × (electricity + CHP)
+- Industrial / chemical = final gas consumption × (industry + non-energy use)
+- Buildings / city gas = final gas consumption × (residential + tertiary)
+- Transport = final gas consumption × transport
+
+The raw buckets exclude own-use, losses, and statistical differences. The model normalizes the four requested sectors to 100% before allocating JODI demand. The normalized anchor shares in `src/sector-data.js` are:
+
+- Power: 21.7%
+- Industrial / chemical: 47.4%
+- Buildings / city gas: 22.1%
+- Transport: 8.7%
+
+### Monthly Shape
+
+Carbon Monitor China daily provincial rows are summed to national monthly sector totals:
+
+- `Power` -> power
+- `Industry` -> industrial / chemical
+- `Residential` -> buildings / city gas
+- `Ground Transport` -> transport
+
+For each sector and month, the script converts the Carbon Monitor monthly total into an index against a trailing 12-month mean. If there is not enough trailing history, it falls back to recent month-of-year climatology. This makes Carbon Monitor a timing proxy, not an absolute gas-demand estimate.
+
+### Reconciliation Formula
+
+For each month:
+
+```text
+sector weight = annual anchor share × Carbon Monitor monthly proxy index
+sector share = sector weight ÷ sum(all sector weights)
+sector demand = JODI calculated demand × sector share
+```
+
+The four sector demands always sum to JODI calculated demand for the month.
+
+### Caveats
+
+- Carbon Monitor measures CO2 emissions/activity, not gas consumption by fuel.
+- The buildings bucket uses Carbon Monitor residential emissions as the monthly proxy, while the annual anchor includes residential plus tertiary/commercial gas use.
+- The industrial bucket includes non-energy/chemical gas use because the requested dashboard has one broad industrial category.
+- JODI China stock change is reported as zero in this extract, so calculated demand is apparent demand and can include storage injection.

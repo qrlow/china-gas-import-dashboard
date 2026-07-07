@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>China Gas Sector Demand Model</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">China natural gas</p>
+          <h1>Sector Demand Model</h1>
+        </div>
+        <div class="topbar-actions">
+          <nav class="topnav" aria-label="Dashboard navigation">
+            <a href="index.html">JODI actuals</a>
+            <a class="is-active" href="sector.html">Sector model</a>
+          </nav>
+          <div class="meta">
+            <span id="latest-modeled">Latest modeled</span>
+            <span id="sector-gas-year-range">Gas year</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="control-band" aria-label="Sector model controls">
+        <div class="field">
+          <label for="sector-gas-year-select">Gas year</label>
+          <select id="sector-gas-year-select"></select>
+        </div>
+        <p id="sector-dashboard-note" class="dashboard-note"></p>
+      </section>
+
+      <section class="kpi-grid" id="sector-kpis" aria-label="Modeled sector demand metrics"></section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Monthly demand</p>
+              <h2 id="sector-stack-title">Modeled Sector Stack</h2>
+            </div>
+          </div>
+          <div id="sector-stack-chart" class="chart" role="img" aria-label="Monthly modeled gas demand by sector"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Sector share</p>
+              <h2 id="sector-share-title">Monthly Sector Shares</h2>
+            </div>
+          </div>
+          <div id="sector-share-chart" class="chart" role="img" aria-label="Monthly modeled sector demand shares"></div>
+        </article>
+      </section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Proxy signal</p>
+              <h2 id="proxy-title">Carbon Monitor Monthly Index</h2>
+            </div>
+          </div>
+          <div id="proxy-chart" class="chart" role="img" aria-label="Monthly Carbon Monitor sector proxy indexes"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Model construction</p>
+              <h2 class="title-with-info">
+                <span>How the Allocation Works</span>
+                <span class="info-tip" tabindex="0" aria-label="Model scope" title="This is a historical sector allocation model, not official sector demand data. Every month is forced to match JODI calculated demand.">i
+                  <span class="tooltip" role="tooltip">This is a historical sector allocation model, not official sector demand data. Every month is forced to match JODI calculated demand.</span>
+                </span>
+              </h2>
+            </div>
+          </div>
+          <div id="methodology" class="assumption-list"></div>
+        </article>
+      </section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Annual anchor</p>
+              <h2>IEA 2023 Sector Split</h2>
+            </div>
+          </div>
+          <div id="anchor-shares" class="anchor-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Sector mapping</p>
+              <h2>What Each Bucket Means</h2>
+            </div>
+          </div>
+          <div id="sector-definitions" class="assumption-list"></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Monthly table</p>
+            <h2 id="sector-table-title">Modeled Monthly Sector Demand</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="sector-table" class="sector-table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>JODI Demand</th>
+                <th>Power</th>
+                <th>Industrial</th>
+                <th>Buildings</th>
+                <th>Transport</th>
+                <th>Power Share</th>
+                <th>Industrial Share</th>
+                <th>Buildings Share</th>
+                <th>Transport Share</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Sources</p>
+            <h2>Where the Data Comes From</h2>
+          </div>
+        </div>
+        <div id="sector-sources" class="source-list"></div>
+      </section>
+    </main>
+
+    <script src="src/sector-data.js"></script>
+    <script src="src/sector-app.js"></script>
+  </body>
+</html>
