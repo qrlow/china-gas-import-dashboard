@@ -19,7 +19,7 @@ The script downloads the JODI Gas World Database zip into `.cache/`, extracts Ch
 
 - China monthly natural gas actuals from JODI through the latest reported month.
 - Gas-year view, where each gas year starts in October and ends in September.
-- Rolling five-gas-year comparison charts for gross imports, calculated demand, production, and total imports.
+- Rolling five-gas-year comparison charts for gross imports and calculated demand.
 - Selected-gas-year import stack for LNG and pipeline imports, with prior-five-gas-year monthly average overlays for total imports and LNG imports.
 - Total imports, LNG imports, pipeline imports, production, calculated demand, exports, net imports, and residual balance checks.
 - JODI flow-code definitions and source links.
