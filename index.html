@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>China Gas Import Dashboard</title>
+    <title>China Gas JODI Actuals Dashboard</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -11,44 +11,43 @@
       <header class="topbar">
         <div>
           <p class="eyebrow">China natural gas</p>
-          <h1>Import Forecast Dashboard</h1>
+          <h1>JODI Actuals Dashboard</h1>
         </div>
         <div class="meta">
           <span id="latest-actual">Latest actual</span>
-          <span id="forecast-range">Forecast range</span>
+          <span id="gas-year-range">Gas year</span>
         </div>
       </header>
 
       <section class="control-band" aria-label="Dashboard controls">
-        <div class="segmented" role="group" aria-label="Scenario selector">
-          <button class="segment is-active" data-scenario="Base" aria-pressed="true">Base</button>
-          <button class="segment" data-scenario="Bull" aria-pressed="false">Bull</button>
-          <button class="segment" data-scenario="Bear" aria-pressed="false">Bear</button>
+        <div class="field">
+          <label for="gas-year-select">Gas year</label>
+          <select id="gas-year-select"></select>
         </div>
-        <p id="scenario-note" class="scenario-note"></p>
+        <p id="dashboard-note" class="dashboard-note"></p>
       </section>
 
-      <section class="kpi-grid" id="kpi-grid" aria-label="Key forecast metrics"></section>
+      <section class="kpi-grid" id="kpi-grid" aria-label="Key gas-year actual metrics"></section>
 
       <section class="grid two-col">
         <article class="panel">
           <div class="panel-head">
             <div>
               <p class="eyebrow">Gross imports</p>
-              <h2>Base / Bull / Bear Forecast</h2>
+              <h2>Total, LNG, and Pipeline Imports</h2>
             </div>
           </div>
-          <div id="line-chart" class="chart" role="img" aria-label="Monthly import forecast line chart"></div>
+          <div id="line-chart" class="chart" role="img" aria-label="Monthly JODI import line chart"></div>
         </article>
 
         <article class="panel">
           <div class="panel-head">
             <div>
-              <p class="eyebrow">Supply stack</p>
-              <h2 id="supply-title">Base Import Components</h2>
+              <p class="eyebrow">Import stack</p>
+              <h2 id="supply-title">LNG and Pipeline Imports</h2>
             </div>
           </div>
-          <div id="stack-chart" class="chart" role="img" aria-label="Monthly import component chart"></div>
+          <div id="stack-chart" class="chart" role="img" aria-label="Monthly JODI import component chart"></div>
         </article>
       </section>
 
@@ -56,26 +55,26 @@
         <article class="panel">
           <div class="panel-head">
             <div>
-              <p class="eyebrow">Demand detail</p>
-              <h2 id="demand-title">Base Sector Demand</h2>
+              <p class="eyebrow">Balance</p>
+              <h2 id="balance-title">Demand and Domestic Production</h2>
             </div>
           </div>
-          <div id="demand-chart" class="chart" role="img" aria-label="Monthly demand sector chart"></div>
+          <div id="balance-chart" class="chart" role="img" aria-label="Monthly JODI balance chart"></div>
         </article>
 
         <article class="panel">
           <div class="panel-head">
             <div>
-              <p class="eyebrow">Model mechanics</p>
-              <h2>How the Forecast Works</h2>
+              <p class="eyebrow">Data mechanics</p>
+              <h2>How the JODI View Works</h2>
             </div>
           </div>
           <ol class="model-flow">
-            <li>Start from JODI monthly China gas balance actuals.</li>
-            <li>Split total demand into power, industrial, buildings/city gas, and transport using editable shares and seasonal profiles.</li>
-            <li>Apply driver adjustments for weather, fuel switching, power output mix, industrial activity, policy, and prices.</li>
-            <li>Forecast domestic production, storage change, exports, and pipeline route flows.</li>
-            <li>Use contracted LNG first, then solve the remaining LNG gap as spot need.</li>
+            <li>Read China `NATGAS` monthly rows from the JODI Gas World Database.</li>
+            <li>Convert JODI `M3` rows from million cubic meters to bcm.</li>
+            <li>Order the selected gas year from October through September.</li>
+            <li>Display only reported JODI actual months.</li>
+            <li>Check the balance residual: production + imports - exports - stock change - calculated demand.</li>
           </ol>
         </article>
       </section>
@@ -84,22 +83,24 @@
         <div class="panel-head">
           <div>
             <p class="eyebrow">Monthly table</p>
-            <h2>Forecast and Explanation</h2>
+            <h2>JODI Monthly Actuals</h2>
           </div>
         </div>
         <div class="table-wrap">
-          <table id="forecast-table">
+          <table id="actuals-table">
             <thead>
               <tr>
                 <th>Month</th>
-                <th>Imports</th>
-                <th>Pipeline</th>
-                <th>Contracted LNG</th>
-                <th>Spot LNG</th>
-                <th>Demand</th>
-                <th>Domestic Prod.</th>
-                <th>Change vs Base</th>
-                <th>Explanation</th>
+                <th>Total Imports</th>
+                <th>LNG Imports</th>
+                <th>LNG Imports (mt)</th>
+                <th>Pipeline Imports</th>
+                <th>Production</th>
+                <th>Calculated Demand</th>
+                <th>Total Exports</th>
+                <th>Net Imports</th>
+                <th>Residual</th>
+                <th>Assessment</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -111,11 +112,11 @@
         <article class="panel">
           <div class="panel-head">
             <div>
-              <p class="eyebrow">Assumptions</p>
-              <h2>Editable Model Inputs</h2>
+              <p class="eyebrow">Definitions</p>
+              <h2>JODI Flow Codes</h2>
             </div>
           </div>
-          <div id="assumptions" class="assumption-list"></div>
+          <div id="definitions" class="assumption-list"></div>
         </article>
 
         <article class="panel">
@@ -134,4 +135,3 @@
     <script src="src/app.js"></script>
   </body>
 </html>
-

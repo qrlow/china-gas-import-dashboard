@@ -1,27 +1,37 @@
-# Model Notes
+# Data Notes
 
-The dashboard starts from the monthly China natural gas balance in JODI and then adds a forecast layer.
+The dashboard displays monthly China natural gas actuals from JODI. It does not forecast.
 
-## Historical Balance
-
-The JODI rows used are:
+## JODI Rows Used
 
 - `REF_AREA = CN`
 - `ENERGY_PRODUCT = NATGAS`
 - `UNIT_MEASURE = M3` for bcm-converted volume fields
 - `UNIT_MEASURE = KTONS` for LNG tonnes
 
-The main flow codes are:
+`M3` values in the JODI CSV are million cubic meters. The dashboard divides them by 1,000 to show bcm. `KTONS` values are thousand tonnes. The dashboard divides them by 1,000 to show million tonnes.
+
+## Gas-Year View
+
+Gas years run from October through September. For example, gas year `2025/26` starts in `2025-10` and ends in `2026-09`.
+
+The dashboard defaults to the gas year containing the latest JODI actual month.
+
+## Flow Codes
 
 - `INDPROD`: domestic production
 - `IMPLNG`: LNG imports
 - `IMPPIP`: pipeline imports
 - `TOTIMPSB`: total imports
+- `EXPLNG`: LNG exports
+- `EXPPIP`: pipeline exports
 - `TOTEXPSB`: total exports
-- `TOTDEMC`: calculated gross inland deliveries
+- `TOTDEMC`: calculated gross inland deliveries / calculated demand
 - `STOCKCH`: stock change, where reported
 
-The balance identity used for checks is:
+## Balance Check
+
+The residual shown in the table is:
 
 ```text
 domestic production
@@ -32,47 +42,9 @@ domestic production
 = residual
 ```
 
-## Forecast Structure
+For recent China rows, `STOCKCH` is often not reported. In that case the residual calculation treats stock change as zero.
 
-The model forecasts monthly import requirement as:
+## What Is Not Included
 
-```text
-demand
-+ storage change
-+ exports
-- domestic production
-= import requirement
-```
-
-Pipeline imports are split into Central Asia, Russia, and Myanmar using editable annual assumptions and the observed JODI pipeline seasonality. Contracted LNG is scheduled next. Any remaining LNG requirement becomes spot LNG need:
-
-```text
-spot LNG need = max(0, LNG requirement - contracted LNG available)
-```
-
-## Demand Detail
-
-JODI does not publish monthly China gas demand by sector. The dashboard allocates total demand into:
-
-- Power
-- Industrial
-- Buildings/city gas
-- Transport
-
-The sector split, seasonal shape, and scenario growth rates are assumptions in `scripts/build-dashboard-data.mjs`.
-
-## Scenario Drivers
-
-The scenario drivers are normalized indexes, not observed datasets:
-
-- Weather
-- Coal/gas switching
-- Hydro/nuclear/renewables output gap
-- Industrial activity
-- Policy
-- Price pressure
-- Terminal outage loss
-- Shipping adjustment
-
-Positive demand-side drivers generally raise gas demand. Positive price pressure suppresses gas demand. Terminal outage loss reduces available contracted LNG.
+JODI does not publish monthly China gas demand by sector, route-level pipeline imports, contracted-versus-spot LNG, or price/weather adjustments in this dataset. Those fields are intentionally not shown in this JODI-only dashboard.
 

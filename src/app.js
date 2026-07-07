@@ -1,18 +1,15 @@
 (function () {
-  const data = window.CHINA_GAS_MODEL;
-  let scenario = "Base";
+  const data = window.CHINA_GAS_DATA;
+  let gasYear = data.meta.currentGasYear;
 
   const colors = {
-    Base: "#1c3f5f",
-    Bull: "#b14b4b",
-    Bear: "#3f7d45",
+    total: "#1c3f5f",
+    lng: "#16837a",
     pipeline: "#3c78b5",
-    contracted: "#16837a",
-    spot: "#c4821e",
-    power: "#3c78b5",
-    industrial: "#7d5fb2",
-    buildings: "#16837a",
-    transport: "#c4821e",
+    other: "#c4821e",
+    demand: "#7d5fb2",
+    production: "#3f7d45",
+    exports: "#b14b4b",
   };
 
   const fmt = new Intl.NumberFormat("en", { maximumFractionDigits: 1, minimumFractionDigits: 1 });
@@ -22,61 +19,65 @@
     return document.getElementById(id);
   }
 
+  function number(value) {
+    return value == null || Number.isNaN(value) ? 0 : value;
+  }
+
+  function display(value) {
+    return value == null || Number.isNaN(value) ? "" : fmt.format(value);
+  }
+
   function formatMonth(period) {
     const [year, month] = period.split("-");
     return `${year}-${month}`;
   }
 
   function sum(rows, getter) {
-    return rows.reduce((acc, row) => acc + getter(row), 0);
+    return rows.reduce((acc, row) => acc + number(getter(row)), 0);
   }
 
   function activeRows() {
-    return data.forecast.map((row) => ({ period: row.period, ...row.scenarios[scenario] }));
+    return data.actuals
+      .filter((row) => row.gasYear === gasYear)
+      .sort((a, b) => a.gasYearMonth - b.gasYearMonth);
   }
 
   function init() {
     byId("latest-actual").textContent = `Latest actual: ${data.meta.latestActualPeriod}`;
-    byId("forecast-range").textContent = `Forecast: ${data.meta.forecastStart} to ${data.meta.forecastEnd}`;
-    document.querySelectorAll(".segment").forEach((button) => {
-      button.addEventListener("click", () => {
-        scenario = button.dataset.scenario;
-        document.querySelectorAll(".segment").forEach((b) => {
-          b.classList.toggle("is-active", b === button);
-          b.setAttribute("aria-pressed", b === button ? "true" : "false");
-        });
-        render();
-      });
+
+    const select = byId("gas-year-select");
+    select.innerHTML = data.gasYears.map((year) => `
+      <option value="${year}" ${year === gasYear ? "selected" : ""}>${year}</option>
+    `).join("");
+    select.addEventListener("change", () => {
+      gasYear = select.value;
+      render();
     });
+
     renderSources();
-    renderAssumptions();
+    renderDefinitions();
     render();
   }
 
   function render() {
-    byId("scenario-note").textContent = data.assumptions.scenarioNotes[scenario];
-    byId("supply-title").textContent = `${scenario} Import Components`;
-    byId("demand-title").textContent = `${scenario} Sector Demand`;
-    renderKpis();
-    renderLineChart();
-    renderStackedImports();
-    renderDemandChart();
-    renderTable();
+    const rows = activeRows();
+    const first = rows[0]?.period ?? "";
+    const last = rows.at(-1)?.period ?? "";
+    byId("gas-year-range").textContent = `${gasYear}: ${first} to ${last}`;
+    byId("dashboard-note").textContent = `JODI actuals only. Gas year ${gasYear} is ordered October to September and currently has ${rows.length} reported month${rows.length === 1 ? "" : "s"}.`;
+    renderKpis(rows);
+    renderLineChart(rows);
+    renderStackedImports(rows);
+    renderBalanceChart(rows);
+    renderTable(rows);
   }
 
-  function renderKpis() {
-    const rows = activeRows();
-    const imports = sum(rows, (r) => r.totalImports);
-    const spot = sum(rows, (r) => r.spotLNG);
-    const demand = sum(rows, (r) => r.totalDemand);
-    const production = sum(rows, (r) => r.domesticProduction);
-    const baseImports = sum(data.forecast, (r) => r.scenarios.Base.totalImports);
-    const delta = imports - baseImports;
+  function renderKpis(rows) {
     const items = [
-      ["12M Gross Imports", `${fmt.format(imports)} bcm`, `${delta >= 0 ? "+" : ""}${fmt.format(delta)} bcm vs base`],
-      ["12M Spot LNG Need", `${fmt.format(spot)} bcm`, "Residual after pipeline and contracted LNG"],
-      ["12M Demand", `${fmt.format(demand)} bcm`, "Power, industrial, buildings/city gas, transport"],
-      ["Domestic Production", `${fmt.format(production)} bcm`, "Scenario-adjusted supply"],
+      ["Gas-Year Gross Imports", `${fmt.format(sum(rows, (row) => row.totalImports))} bcm`, `${rows.length} reported month${rows.length === 1 ? "" : "s"}`],
+      ["LNG Imports", `${fmt.format(sum(rows, (row) => row.lngImports))} bcm`, `${fmt.format(sum(rows, (row) => row.lngImportsMt))} mt`],
+      ["Pipeline Imports", `${fmt.format(sum(rows, (row) => row.pipelineImports))} bcm`, "JODI total pipeline imports"],
+      ["Calculated Demand", `${fmt.format(sum(rows, (row) => row.calculatedDemand))} bcm`, "JODI gross inland deliveries"],
     ];
     byId("kpi-grid").innerHTML = items.map(([label, value, sub]) => `
       <article class="kpi">
@@ -87,82 +88,65 @@
     `).join("");
   }
 
-  function renderLineChart() {
-    const series = ["Base", "Bull", "Bear"].map((name) => ({
-      name,
-      color: colors[name],
-      values: data.forecast.map((row) => ({ period: row.period, value: row.scenarios[name].totalImports })),
-    }));
+  function renderLineChart(rows) {
+    const series = [
+      { name: "Total Imports", color: colors.total, values: rows.map((row) => ({ period: row.period, value: row.totalImports })) },
+      { name: "LNG Imports", color: colors.lng, values: rows.map((row) => ({ period: row.period, value: row.lngImports })) },
+      { name: "Pipeline Imports", color: colors.pipeline, values: rows.map((row) => ({ period: row.period, value: row.pipelineImports })) },
+    ];
     byId("line-chart").innerHTML = lineChart(series, "bcm");
   }
 
-  function renderStackedImports() {
-    const rows = activeRows().map((row) => ({
-      period: row.period,
-      values: [
-        { key: "Pipeline", value: row.totalPipeline, color: colors.pipeline },
-        { key: "Contracted LNG", value: row.contractedLNG, color: colors.contracted },
-        { key: "Spot LNG", value: row.spotLNG, color: colors.spot },
-      ],
-    }));
-    byId("stack-chart").innerHTML = stackedBar(rows, ["Pipeline", "Contracted LNG", "Spot LNG"], "bcm");
+  function renderStackedImports(rows) {
+    const chartRows = rows.map((row) => {
+      const lng = number(row.lngImports);
+      const pipeline = number(row.pipelineImports);
+      const other = Math.max(0, number(row.totalImports) - lng - pipeline);
+      return {
+        period: row.period,
+        values: [
+          { key: "LNG", value: lng, color: colors.lng },
+          { key: "Pipeline", value: pipeline, color: colors.pipeline },
+          { key: "Other / rounding", value: other, color: colors.other },
+        ],
+      };
+    });
+    byId("stack-chart").innerHTML = stackedBar(chartRows, ["LNG", "Pipeline", "Other / rounding"], "bcm");
   }
 
-  function renderDemandChart() {
-    const rows = activeRows().map((row) => ({
-      period: row.period,
-      values: [
-        { key: "Power", value: row.powerDemand, color: colors.power },
-        { key: "Industrial", value: row.industrialDemand, color: colors.industrial },
-        { key: "Buildings/City Gas", value: row.buildingsDemand, color: colors.buildings },
-        { key: "Transport", value: row.transportDemand, color: colors.transport },
-      ],
-    }));
-    byId("demand-chart").innerHTML = stackedBar(rows, ["Power", "Industrial", "Buildings/City Gas", "Transport"], "bcm");
+  function renderBalanceChart(rows) {
+    const series = [
+      { name: "Calculated Demand", color: colors.demand, values: rows.map((row) => ({ period: row.period, value: row.calculatedDemand })) },
+      { name: "Production", color: colors.production, values: rows.map((row) => ({ period: row.period, value: row.production })) },
+      { name: "Total Imports", color: colors.total, values: rows.map((row) => ({ period: row.period, value: row.totalImports })) },
+    ];
+    byId("balance-chart").innerHTML = lineChart(series, "bcm");
   }
 
-  function renderTable() {
-    const rows = activeRows();
-    const tbody = byId("forecast-table").querySelector("tbody");
-    tbody.innerHTML = rows.map((row) => {
-      const change = scenario === "Base" ? 0 : data.forecast.find((r) => r.period === row.period).changes[scenario].totalImportChange;
-      const note = scenario === "Base"
-        ? "Base case uses normal weather, steady activity, scheduled pipeline supply, contracted LNG first, and spot LNG as residual."
-        : data.forecast.find((r) => r.period === row.period).changes[scenario].explanation;
-      return `
-        <tr>
-          <td>${formatMonth(row.period)}</td>
-          <td class="num">${fmt.format(row.totalImports)}</td>
-          <td class="num">${fmt.format(row.totalPipeline)}</td>
-          <td class="num">${fmt.format(row.contractedLNG)}</td>
-          <td class="num">${fmt.format(row.spotLNG)}</td>
-          <td class="num">${fmt.format(row.totalDemand)}</td>
-          <td class="num">${fmt.format(row.domesticProduction)}</td>
-          <td class="num">${change >= 0 ? "+" : ""}${fmt.format(change)}</td>
-          <td class="explain">${note}</td>
-        </tr>
-      `;
-    }).join("");
+  function renderTable(rows) {
+    const tbody = byId("actuals-table").querySelector("tbody");
+    tbody.innerHTML = rows.map((row) => `
+      <tr>
+        <td>${formatMonth(row.period)}</td>
+        <td class="num">${display(row.totalImports)}</td>
+        <td class="num">${display(row.lngImports)}</td>
+        <td class="num">${display(row.lngImportsMt)}</td>
+        <td class="num">${display(row.pipelineImports)}</td>
+        <td class="num">${display(row.production)}</td>
+        <td class="num">${display(row.calculatedDemand)}</td>
+        <td class="num">${display(row.totalExports)}</td>
+        <td class="num">${display(row.netImports)}</td>
+        <td class="num">${display(row.residual)}</td>
+        <td>${row.assessmentCodes.join(", ")}</td>
+      </tr>
+    `).join("");
   }
 
-  function renderAssumptions() {
-    const s = data.assumptions;
-    const sectorLines = Object.entries(s.sectorShares)
-      .map(([key, value]) => `${key}: ${fmt0.format(value * 100)}%`)
-      .join(" · ");
-    const routes = Object.entries(s.routeAnnual.Base)
-      .map(([key, value]) => `${key}: ${fmt.format(value)} bcm/y`)
-      .join(" · ");
-    byId("assumptions").innerHTML = [
-      ["Sector demand split", sectorLines],
-      ["Route-level pipeline split", routes],
-      ["Contracted LNG", `Base scheduled contracted LNG is ${fmt.format(s.scenarioInputs.Base.contractedLNGAnnual)} bcm/y; spot LNG is the residual requirement.`],
-      ["Scenario drivers", "Bull raises weather-sensitive demand, power gas burn, industrial activity, and storage refill. Bear does the reverse and adds mild terminal/shipping constraints."],
-      ["Forecast identity", "Demand + storage change + exports - domestic production = import requirement; pipeline and contracted LNG are used before spot LNG."],
-    ].map(([title, body]) => `
+  function renderDefinitions() {
+    byId("definitions").innerHTML = data.flowDefinitions.map((item) => `
       <div class="assumption">
-        <h3>${title}</h3>
-        <p>${body}</p>
+        <h3>${item.code}: ${item.label}</h3>
+        <p>${item.note}</p>
       </div>
     `).join("");
   }
@@ -178,10 +162,11 @@
   }
 
   function chartScales(values, width, height, pad) {
-    const max = Math.max(...values, 1);
-    const min = Math.min(0, ...values);
+    const numeric = values.map(number);
+    const max = Math.max(...numeric, 1);
+    const min = Math.min(0, ...numeric);
     const x = (i, count) => pad.left + (count === 1 ? 0 : (i / (count - 1)) * (width - pad.left - pad.right));
-    const y = (value) => pad.top + (max - value) / (max - min) * (height - pad.top - pad.bottom);
+    const y = (value) => pad.top + (max - number(value)) / (max - min) * (height - pad.top - pad.bottom);
     return { max, min, x, y };
   }
 
@@ -189,16 +174,22 @@
     const width = 760;
     const height = 300;
     const pad = { top: 18, right: 18, bottom: 44, left: 50 };
-    const allValues = series.flatMap((s) => s.values.map((v) => v.value));
+    const allValues = series.flatMap((item) => item.values.map((point) => point.value));
     const scale = chartScales(allValues, width, height, pad);
-    const count = series[0].values.length;
+    const count = series[0]?.values.length ?? 0;
     const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) => scale.min + (scale.max - scale.min) * t);
-    const lines = series.map((s) => {
-      const points = s.values.map((v, i) => `${scale.x(i, count)},${scale.y(v.value)}`).join(" ");
-      return `<polyline fill="none" stroke="${s.color}" stroke-width="3" points="${points}"></polyline>`;
+    const lines = series.map((item) => {
+      const points = item.values.map((point, i) => `${scale.x(i, count)},${scale.y(point.value)}`).join(" ");
+      return `<polyline fill="none" stroke="${item.color}" stroke-width="3" points="${points}"></polyline>`;
     }).join("");
-    const dots = series.map((s) => s.values.map((v, i) => `<circle cx="${scale.x(i, count)}" cy="${scale.y(v.value)}" r="3" fill="${s.color}"><title>${s.name} ${v.period}: ${fmt.format(v.value)} ${unit}</title></circle>`).join("")).join("");
-    const monthLabels = series[0].values.map((v, i) => i % 2 === 0 ? `<text x="${scale.x(i, count)}" y="${height - 12}" text-anchor="middle" class="chart-label">${v.period.slice(5)}</text>` : "").join("");
+    const dots = series.map((item) => item.values.map((point, i) => `
+      <circle cx="${scale.x(i, count)}" cy="${scale.y(point.value)}" r="3" fill="${item.color}">
+        <title>${item.name} ${point.period}: ${fmt.format(number(point.value))} ${unit}</title>
+      </circle>
+    `).join("")).join("");
+    const monthLabels = (series[0]?.values ?? []).map((point, i) => `
+      <text x="${scale.x(i, count)}" y="${height - 12}" text-anchor="middle" class="chart-label">${point.period.slice(5)}</text>
+    `).join("");
     return `
       <svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
         ${ticks.map((tick) => `<line class="grid-line" x1="${pad.left}" y1="${scale.y(tick)}" x2="${width - pad.right}" y2="${scale.y(tick)}"></line><text x="8" y="${scale.y(tick) + 4}" class="chart-label">${fmt.format(tick)}</text>`).join("")}
@@ -206,7 +197,7 @@
         ${dots}
         ${monthLabels}
       </svg>
-      ${legend(series.map((s) => ({ label: s.name, color: s.color })))}
+      ${legend(series.map((item) => ({ label: item.name, color: item.color })))}
     `;
   }
 
@@ -214,24 +205,26 @@
     const width = 760;
     const height = 300;
     const pad = { top: 18, right: 18, bottom: 44, left: 50 };
-    const totals = rows.map((r) => r.values.reduce((a, v) => a + v.value, 0));
+    const totals = rows.map((row) => row.values.reduce((acc, item) => acc + number(item.value), 0));
     const scale = chartScales(totals, width, height, pad);
-    const band = (width - pad.left - pad.right) / rows.length;
+    const band = (width - pad.left - pad.right) / Math.max(rows.length, 1);
     const barWidth = Math.max(16, band * 0.58);
     const bars = rows.map((row, i) => {
       const x = pad.left + i * band + (band - barWidth) / 2;
       let yTop = height - pad.bottom;
       return row.values.map((part) => {
-        const h = (part.value / (scale.max - scale.min)) * (height - pad.top - pad.bottom);
+        const h = (number(part.value) / (scale.max - scale.min)) * (height - pad.top - pad.bottom);
         yTop -= h;
-        return `<rect x="${x}" y="${yTop}" width="${barWidth}" height="${Math.max(0, h)}" fill="${part.color}"><title>${part.key} ${row.period}: ${fmt.format(part.value)} ${unit}</title></rect>`;
+        return `<rect x="${x}" y="${yTop}" width="${barWidth}" height="${Math.max(0, h)}" fill="${part.color}"><title>${part.key} ${row.period}: ${fmt.format(number(part.value))} ${unit}</title></rect>`;
       }).join("");
     }).join("");
-    const monthLabels = rows.map((r, i) => i % 2 === 0 ? `<text x="${pad.left + i * band + band / 2}" y="${height - 12}" text-anchor="middle" class="chart-label">${r.period.slice(5)}</text>` : "").join("");
+    const monthLabels = rows.map((row, i) => `
+      <text x="${pad.left + i * band + band / 2}" y="${height - 12}" text-anchor="middle" class="chart-label">${row.period.slice(5)}</text>
+    `).join("");
     const tickVals = [0, scale.max * 0.25, scale.max * 0.5, scale.max * 0.75, scale.max];
     const legendItems = keys.map((key) => {
-      const found = rows[0].values.find((v) => v.key === key);
-      return { label: key, color: found.color };
+      const found = rows[0]?.values.find((item) => item.key === key);
+      return { label: key, color: found?.color ?? colors.other };
     });
     return `
       <svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
@@ -249,4 +242,3 @@
 
   init();
 })();
-

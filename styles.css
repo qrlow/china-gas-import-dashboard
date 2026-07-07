@@ -88,6 +88,27 @@ textarea {
   border-radius: 8px;
 }
 
+.field {
+  display: grid;
+  gap: 5px;
+}
+
+.field label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.field select {
+  min-width: 130px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  padding: 8px 10px;
+}
+
 .segmented {
   display: inline-grid;
   grid-template-columns: repeat(3, minmax(76px, 1fr));
@@ -111,7 +132,7 @@ textarea {
   background: var(--navy);
 }
 
-.scenario-note {
+.dashboard-note {
   margin: 0;
   color: var(--muted);
   font-size: 14px;
