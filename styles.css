@@ -226,6 +226,11 @@ svg {
   stroke-width: 1;
 }
 
+.chart-facet-label {
+  fill: #334150;
+  font-weight: 700;
+}
+
 .model-flow {
   margin: 0;
   padding-left: 20px;

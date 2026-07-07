@@ -75,12 +75,14 @@
     const first = rows[0]?.period ?? "";
     const last = rows.at(-1)?.period ?? "";
     byId("gas-year-range").textContent = `${gasYear}: ${first} to ${last}`;
-    byId("dashboard-note").textContent = `JODI actuals only. The main chart shows ${years.join(", ")} by gas-year month; ${gasYear} currently has ${rows.length} reported month${rows.length === 1 ? "" : "s"}.`;
+    byId("dashboard-note").textContent = `JODI actuals only. Charts compare ${years.join(", ")} by gas-year month; ${gasYear} currently has ${rows.length} reported month${rows.length === 1 ? "" : "s"}.`;
     byId("line-chart-title").textContent = `Total Imports, ${years[0]} to ${years.at(-1)}`;
+    byId("supply-title").textContent = `LNG and Pipeline Imports, ${years[0]} to ${years.at(-1)}`;
+    byId("balance-title").textContent = `Demand, Production, Imports, ${years[0]} to ${years.at(-1)}`;
     renderKpis(rows);
     renderLineChart(years);
-    renderStackedImports(rows);
-    renderBalanceChart(rows);
+    renderStackedImports(years);
+    renderBalanceChart(years);
     renderTable(rows);
   }
 
@@ -120,41 +122,51 @@
     byId("line-chart").innerHTML = lineChart(series, "bcm", data.gasYearMonths.map((month) => month.label));
   }
 
-  function renderStackedImports(rows) {
-    const chartRows = data.gasYearMonths.map((month) => {
-      const row = rowForGasYearMonth(rows, month.index);
-      const lng = number(row?.lngImports);
-      const pipeline = number(row?.pipelineImports);
-      const other = Math.max(0, number(row?.totalImports) - lng - pipeline);
+  function renderStackedImports(years) {
+    const rowsByYear = rowsByGasYear(years);
+    const groups = data.gasYearMonths.map((month) => {
       return {
-        period: row?.period ?? `${gasYear} ${month.label}`,
         label: month.label,
-        values: [
-          { key: "LNG", value: lng, color: colors.lng },
-          { key: "Pipeline", value: pipeline, color: colors.pipeline },
-          { key: "Other / rounding", value: other, color: colors.other },
-        ],
+        bars: years.map((year, yearIndex) => {
+          const row = rowForGasYearMonth(rowsByYear.get(year), month.index);
+          const hasData = row && [row.totalImports, row.lngImports, row.pipelineImports].some((value) => value != null);
+          const lng = number(row?.lngImports);
+          const pipeline = number(row?.pipelineImports);
+          const total = row?.totalImports != null ? number(row.totalImports) : lng + pipeline;
+          const other = hasData ? Math.max(0, total - lng - pipeline) : null;
+          return {
+            year,
+            yearIndex,
+            yearColor: gasYearColors[yearIndex % gasYearColors.length],
+            period: row?.period ?? `${year} ${month.label}`,
+            total: hasData ? total : null,
+            values: hasData ? [
+              { key: "LNG", value: lng, color: colors.lng },
+              { key: "Pipeline", value: pipeline, color: colors.pipeline },
+              { key: "Other / rounding", value: other, color: colors.other },
+            ] : [],
+          };
+        }),
       };
     });
-    byId("stack-chart").innerHTML = stackedBar(chartRows, ["LNG", "Pipeline", "Other / rounding"], "bcm", data.gasYearMonths.map((month) => month.label));
+    byId("stack-chart").innerHTML = groupedStackedBar(groups, ["LNG", "Pipeline", "Other / rounding"], years, "bcm", data.gasYearMonths.map((month) => month.label));
   }
 
-  function renderBalanceChart(rows) {
-    const valuesFor = (key) => data.gasYearMonths.map((month, xIndex) => {
-      const row = rowForGasYearMonth(rows, month.index);
-      return {
-        xIndex,
-        label: month.label,
-        period: row?.period ?? `${gasYear} ${month.label}`,
-        value: row?.[key] ?? null,
-      };
-    });
-    const series = [
-      { name: "Calculated Demand", color: colors.demand, values: valuesFor("calculatedDemand") },
-      { name: "Production", color: colors.production, values: valuesFor("production") },
-      { name: "Total Imports", color: colors.total, values: valuesFor("totalImports") },
+  function renderBalanceChart(years) {
+    const rowsByYear = rowsByGasYear(years);
+    const metrics = [
+      { name: "Calculated Demand", key: "calculatedDemand" },
+      { name: "Production", key: "production" },
+      { name: "Total Imports", key: "totalImports" },
     ];
-    byId("balance-chart").innerHTML = lineChart(series, "bcm", data.gasYearMonths.map((month) => month.label));
+    byId("balance-chart").innerHTML = balanceFacetChart(metrics, years, rowsByYear, "bcm", data.gasYearMonths.map((month) => month.label));
+  }
+
+  function rowsByGasYear(years) {
+    return new Map(years.map((year) => [
+      year,
+      data.actuals.filter((row) => row.gasYear === year),
+    ]));
   }
 
   function renderTable(rows) {
@@ -240,43 +252,132 @@
     `;
   }
 
-  function stackedBar(rows, keys, unit, xLabels) {
+  function groupedStackedBar(groups, keys, years, unit, xLabels) {
     const width = 760;
-    const height = 300;
-    const pad = { top: 18, right: 18, bottom: 44, left: 50 };
-    const totals = rows.map((row) => row.values.reduce((acc, item) => acc + number(item.value), 0));
+    const height = 320;
+    const pad = { top: 18, right: 18, bottom: 48, left: 50 };
+    const totals = groups.flatMap((group) => group.bars.map((bar) => bar.total));
     const scale = chartScales(totals, width, height, pad);
-    const band = (width - pad.left - pad.right) / Math.max(rows.length, 1);
-    const barWidth = Math.max(16, band * 0.58);
-    const bars = rows.map((row, i) => {
-      const x = pad.left + i * band + (band - barWidth) / 2;
-      let yTop = height - pad.bottom;
-      return row.values.map((part) => {
-        const h = (number(part.value) / (scale.max - scale.min)) * (height - pad.top - pad.bottom);
-        yTop -= h;
-        return `<rect x="${x}" y="${yTop}" width="${barWidth}" height="${Math.max(0, h)}" fill="${part.color}"><title>${part.key} ${row.period}: ${fmt.format(number(part.value))} ${unit}</title></rect>`;
+    const groupBand = (width - pad.left - pad.right) / Math.max(groups.length, 1);
+    const barGap = 2;
+    const maxBars = Math.max(...groups.map((group) => group.bars.length), 1);
+    const barWidth = Math.max(4, (groupBand - 12 - barGap * (maxBars - 1)) / maxBars);
+    const bars = groups.map((group, groupIndex) => {
+      const barSetWidth = maxBars * barWidth + (maxBars - 1) * barGap;
+      const groupX = pad.left + groupIndex * groupBand + (groupBand - barSetWidth) / 2;
+      return group.bars.map((bar, barIndex) => {
+        if (bar.total == null) return "";
+        const x = groupX + barIndex * (barWidth + barGap);
+        const baseline = height - pad.bottom;
+        let yTop = baseline;
+        const segments = bar.values.map((part) => {
+          const h = (number(part.value) / (scale.max - scale.min)) * (height - pad.top - pad.bottom);
+          yTop -= h;
+          return `<rect x="${x}" y="${yTop}" width="${barWidth}" height="${Math.max(0, h)}" fill="${part.color}"><title>${part.key} ${bar.year} ${bar.period}: ${fmt.format(number(part.value))} ${unit}</title></rect>`;
+        }).join("");
+        const outlineHeight = Math.max(0, baseline - yTop);
+        const outline = `<rect x="${x}" y="${yTop}" width="${barWidth}" height="${outlineHeight}" fill="none" stroke="${bar.yearColor}" stroke-width="1.3"><title>${bar.year} ${bar.period}: ${fmt.format(number(bar.total))} ${unit}</title></rect>`;
+        return `${segments}${outline}`;
       }).join("");
     }).join("");
-    const monthLabels = (xLabels ?? rows.map((row) => row.label ?? row.period.slice(5))).map((label, i) => `
-      <text x="${pad.left + i * band + band / 2}" y="${height - 12}" text-anchor="middle" class="chart-label">${label}</text>
+    const monthLabels = (xLabels ?? groups.map((group) => group.label)).map((label, i) => `
+      <text x="${pad.left + i * groupBand + groupBand / 2}" y="${height - 12}" text-anchor="middle" class="chart-label">${label}</text>
     `).join("");
     const tickVals = [0, scale.max * 0.25, scale.max * 0.5, scale.max * 0.75, scale.max];
-    const legendItems = keys.map((key) => {
-      const found = rows[0]?.values.find((item) => item.key === key);
-      return { label: key, color: found?.color ?? colors.other };
+    const componentLegend = keys.map((key) => {
+      const componentColors = {
+        LNG: colors.lng,
+        Pipeline: colors.pipeline,
+        "Other / rounding": colors.other,
+      };
+      return { label: key, color: componentColors[key] ?? colors.other };
     });
+    const yearLegend = years.map((year, index) => ({
+      label: year,
+      color: gasYearColors[index % gasYearColors.length],
+      outline: true,
+    }));
     return `
       <svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
         ${tickVals.map((tick) => `<line class="grid-line" x1="${pad.left}" y1="${scale.y(tick)}" x2="${width - pad.right}" y2="${scale.y(tick)}"></line><text x="8" y="${scale.y(tick) + 4}" class="chart-label">${fmt.format(tick)}</text>`).join("")}
         ${bars}
         ${monthLabels}
       </svg>
-      ${legend(legendItems)}
+      ${legend(componentLegend)}
+      ${legend(yearLegend)}
+    `;
+  }
+
+  function balanceFacetChart(metrics, years, rowsByYear, unit, xLabels) {
+    const width = 760;
+    const height = 370;
+    const pad = { top: 16, right: 18, bottom: 44, left: 50 };
+    const facetGap = 24;
+    const facetHeight = (height - pad.top - pad.bottom - facetGap * (metrics.length - 1)) / metrics.length;
+    const plotWidth = width - pad.left - pad.right;
+    const allValues = metrics.flatMap((metric) => years.flatMap((year) => {
+      const rows = rowsByYear.get(year) ?? [];
+      return data.gasYearMonths.map((month) => rowForGasYearMonth(rows, month.index)?.[metric.key] ?? null);
+    }));
+    const numeric = allValues.filter((value) => value != null && !Number.isNaN(value)).map(number);
+    const max = Math.max(...numeric, 1);
+    const min = 0;
+    const count = xLabels?.length ?? data.gasYearMonths.length;
+    const x = (i) => pad.left + (count === 1 ? 0 : (i / (count - 1)) * plotWidth);
+    const y = (value, top) => top + (max - number(value)) / (max - min) * facetHeight;
+    const tickVals = [0, max * 0.5, max];
+    const facets = metrics.map((metric, metricIndex) => {
+      const top = pad.top + metricIndex * (facetHeight + facetGap);
+      const labelWidth = metric.name.length * 7.2 + 12;
+      const grid = tickVals.map((tick) => `
+        <line class="grid-line" x1="${pad.left}" y1="${y(tick, top)}" x2="${width - pad.right}" y2="${y(tick, top)}"></line>
+        <text x="8" y="${y(tick, top) + 4}" class="chart-label">${fmt.format(tick)}</text>
+      `).join("");
+      const lines = years.map((year, yearIndex) => {
+        const rows = rowsByYear.get(year) ?? [];
+        const points = data.gasYearMonths.map((month, xIndex) => {
+          const row = rowForGasYearMonth(rows, month.index);
+          return {
+            xIndex,
+            period: row?.period ?? `${year} ${month.label}`,
+            value: row?.[metric.key] ?? null,
+          };
+        }).filter((point) => point.value != null && !Number.isNaN(point.value));
+        const polyline = points.map((point) => `${x(point.xIndex)},${y(point.value, top)}`).join(" ");
+        const dots = points.map((point) => `
+          <circle cx="${x(point.xIndex)}" cy="${y(point.value, top)}" r="2.4" fill="${gasYearColors[yearIndex % gasYearColors.length]}">
+            <title>${metric.name} ${year} ${point.period}: ${fmt.format(number(point.value))} ${unit}</title>
+          </circle>
+        `).join("");
+        return `
+          <polyline fill="none" stroke="${gasYearColors[yearIndex % gasYearColors.length]}" stroke-width="2.3" points="${polyline}"></polyline>
+          ${dots}
+        `;
+      }).join("");
+      return `
+        ${grid}
+        ${lines}
+        <rect x="${pad.left + 3}" y="${top + 2}" width="${labelWidth}" height="16" fill="#fff"></rect>
+        <text x="${pad.left + 6}" y="${top + 13}" class="chart-label chart-facet-label">${metric.name}</text>
+      `;
+    }).join("");
+    const monthLabels = (xLabels ?? data.gasYearMonths.map((month) => month.label)).map((label, i) => `
+      <text x="${x(i)}" y="${height - 12}" text-anchor="middle" class="chart-label">${label}</text>
+    `).join("");
+    return `
+      <svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
+        ${facets}
+        ${monthLabels}
+      </svg>
+      ${legend(years.map((year, index) => ({ label: year, color: gasYearColors[index % gasYearColors.length] })))}
     `;
   }
 
   function legend(items) {
-    return `<div class="legend">${items.map((item) => `<span><i class="swatch" style="background:${item.color}"></i>${item.label}</span>`).join("")}</div>`;
+    return `<div class="legend">${items.map((item) => {
+      const style = item.outline ? `background:transparent;border:2px solid ${item.color}` : `background:${item.color}`;
+      return `<span><i class="swatch" style="${style}"></i>${item.label}</span>`;
+    }).join("")}</div>`;
   }
 
   init();

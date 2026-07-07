@@ -17,6 +17,8 @@ Gas years run from October through September. For example, gas year `2025/26` st
 
 The dashboard defaults to the gas year containing the latest JODI actual month.
 
+The KPI cards and monthly table show the selected gas year. The chart panels compare the selected gas year against the prior four gas years where available.
+
 ## Flow Codes
 
 - `INDPROD`: domestic production
@@ -47,4 +49,3 @@ For recent China rows, `STOCKCH` is often not reported. In that case the residua
 ## What Is Not Included
 
 JODI does not publish monthly China gas demand by sector, route-level pipeline imports, contracted-versus-spot LNG, or price/weather adjustments in this dataset. Those fields are intentionally not shown in this JODI-only dashboard.
-
