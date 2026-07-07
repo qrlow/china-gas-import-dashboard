@@ -68,19 +68,19 @@ not a storage-adjusted end-use demand number. If China is injecting gas into sto
 
 ### Sector Buckets
 
-- Power: gas used for electricity generation and CHP transformation.
+- Power / residual: the part of JODI apparent demand left after source-visible IEA final-use sectors are deducted. It includes power generation, but can also include energy-system own use, tiny agriculture/forestry use, statistical differences, and unobserved storage effects.
 - Industrial / chemical: industrial final gas use plus non-energy gas use.
-- Buildings / city gas: residential plus tertiary/commercial gas use.
+- Buildings / city gas: residential plus commercial/public services gas use.
 - Transport: gas used in transport.
 
 ### Annual Anchor
 
-The annual sector anchor is derived from the IEA 2023 China natural-gas balance and the public IEA China natural-gas country page:
+The annual sector anchor uses only source-visible data:
 
-- Power = energy-sector gas use × (electricity + CHP)
-- Industrial / chemical = final gas consumption × (industry + non-energy use), using IEA China country-page 2023 TJ gross values.
-- Buildings / city gas = final gas consumption × (residential + commercial/public services), using IEA China country-page 2023 TJ gross values.
-- Transport = final gas consumption × transport, using IEA China country-page 2023 TJ gross values.
+- Industrial / chemical = IEA industry plus non-energy use.
+- Buildings / city gas = IEA residential plus commercial/public services.
+- Transport = IEA transport.
+- Power / residual = JODI 2023 apparent demand minus those three visible final-use buckets.
 
 The IEA final-consumption input values are:
 
@@ -91,18 +91,22 @@ The IEA final-consumption input values are:
 - Transport: 1,276,255 TJ gross
 - Agriculture and forestry: 9,440 TJ gross
 
-Agriculture and forestry is only 0.08% of final gas consumption and is outside the four requested dashboard buckets. The raw buckets also exclude own-use, losses, and statistical differences. The model normalizes the four requested sectors to 100% before allocating JODI demand. The normalized anchor shares in `src/sector-data.js` are:
+The model converts IEA `TJ gross` values to bcm using 38,930 TJ per bcm, based on the IEA-reported China higher heating value of 38.93 MJ per standard cubic metre. JODI 2023 apparent demand is 380.9 bcm.
 
-- Power: 21.6%
-- Industrial / chemical: 47.6%
-- Buildings / city gas: 21.9%
-- Transport: 8.9%
+The resulting 2023 anchor is:
+
+- Power / residual: 24.2%
+- Industrial / chemical: 46.0%
+- Buildings / city gas: 21.2%
+- Transport: 8.6%
+
+The power / residual bucket is not pure power gas demand. It is a balancing bucket created because the public IEA page does not show a clean gas-to-power value.
 
 ### Monthly Shape
 
 Carbon Monitor China daily provincial rows are summed to national monthly sector totals:
 
-- `Power` -> power
+- `Power` -> power / residual
 - `Industry` -> industrial / chemical
 - `Residential` -> buildings / city gas
 - `Ground Transport` -> transport
@@ -124,6 +128,7 @@ The four modeled sector buckets sum to JODI `TOTDEMC` apparent demand for the mo
 ### Caveats
 
 - Carbon Monitor measures CO2 emissions/activity, not gas consumption by fuel.
-- The buildings bucket uses Carbon Monitor residential emissions as the monthly proxy, while the annual anchor includes residential plus tertiary/commercial gas use.
+- The buildings bucket uses Carbon Monitor residential emissions as the monthly proxy, while the annual anchor includes residential plus commercial/public services gas use.
 - The industrial bucket includes non-energy/chemical gas use because the requested dashboard has one broad industrial category.
+- The power / residual bucket is not a clean power-sector estimate; it is the leftover after source-visible final-use sectors are deducted from JODI 2023 apparent demand.
 - JODI China stock change is reported as zero in this extract, so calculated demand is apparent demand. Storage injection would make actual end-use demand lower than `TOTDEMC`; storage withdrawal would make actual end-use demand higher.

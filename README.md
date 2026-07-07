@@ -34,8 +34,8 @@ node scripts/build-sector-data.mjs
 - Selected-gas-year import stack for LNG and pipeline imports, with prior-five-gas-year monthly average overlays for total imports and LNG imports.
 - Total imports, LNG imports, pipeline imports, production, calculated demand, exports, net imports, and residual balance checks.
 - JODI flow-code definitions and source links.
-- Historical monthly allocation of JODI apparent demand, split into power, industrial/chemical, buildings/city gas, and transport.
-- Carbon Monitor China monthly proxy indexes and IEA annual sector anchor shares used by the sector model.
+- Historical monthly allocation of JODI apparent demand, split into power/residual, industrial/chemical, buildings/city gas, and transport.
+- Carbon Monitor China monthly proxy indexes and source-visible IEA/JODI annual anchors used by the sector model.
 
 ## Data Sources
 
@@ -53,14 +53,14 @@ The sector page adds free public sources:
 - Carbon Monitor China: https://cn.carbonmonitor.org/
 - Carbon Monitor China CSV endpoint: https://datas.carbonmonitor.org/API/downloadFullDataset.php?source=carbon_china
 - IEA China natural gas country page: https://www.iea.org/countries/china/natural-gas
-- IEA Energy Statistics Data Browser: https://www.iea.org/data-and-statistics/data-tools/energy-statistics-data-browser
+- IEA-reported China gas heat value reference: https://en.wikipedia.org/wiki/Heat_of_combustion#Higher_heating_values_of_natural_gases_from_various_sources
 - National Bureau of Statistics of China 2023 statistical communique: https://www.stats.gov.cn/sj/zxfb/202402/t20240228_1947915.html
 
 ## Boundaries
 
 These dashboards do not forecast. The JODI page is actuals only.
 
-The sector page is a model, not official monthly China gas demand by sector. It allocates JODI `TOTDEMC` apparent demand, derives final-consumption sector weights from the public IEA China natural gas country page, adds a power/CHP transformation layer from the IEA balance, and uses Carbon Monitor China sector emissions as monthly activity-shape proxies. Because JODI China stock change is reported as zero in this extract, storage is not separated. During storage builds, actual end-use demand from power, industrial, buildings, and transport would be lower than `TOTDEMC`; during storage withdrawals, actual end-use demand would be higher.
+The sector page is a model, not official monthly China gas demand by sector. It allocates JODI `TOTDEMC` apparent demand, derives final-consumption sector weights from the public IEA China natural gas country page, and treats the remaining 2023 apparent demand as a power/residual bucket. That residual bucket includes power, but can also include system own-use, statistical differences, and unobserved storage effects. Because JODI China stock change is reported as zero in this extract, storage is not separated. During storage builds, actual end-use demand from power, industrial, buildings, and transport would be lower than `TOTDEMC`; during storage withdrawals, actual end-use demand would be higher.
 
 ## License
 

@@ -1,6 +1,6 @@
 window.CHINA_GAS_SECTOR_DATA = {
   "meta": {
-    "generatedAt": "2026-07-07T07:47:59.519Z",
+    "generatedAt": "2026-07-07T08:35:23.847Z",
     "earliestModeledPeriod": "2019-01",
     "latestModeledPeriod": "2026-03",
     "currentGasYear": "2025/26",
@@ -74,10 +74,10 @@ window.CHINA_GAS_SECTOR_DATA = {
   "sectorDefinitions": [
     {
       "key": "power",
-      "label": "Power",
-      "shortLabel": "Power",
+      "label": "Power / residual",
+      "shortLabel": "Power/resid.",
       "color": "#3268a8",
-      "method": "IEA gas-balance transformation use for electricity plus CHP; monthly shape from Carbon Monitor China power-sector emissions."
+      "method": "Residual after source-visible IEA final-use sectors are converted to bcm and compared with JODI 2023 apparent demand; monthly shape from Carbon Monitor China power emissions."
     },
     {
       "key": "industrial",
@@ -91,7 +91,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "label": "Buildings / city gas",
       "shortLabel": "Buildings",
       "color": "#16837a",
-      "method": "IEA residential plus tertiary gas final consumption; monthly shape from Carbon Monitor China residential emissions as a heating/cooking proxy."
+      "method": "IEA residential plus commercial/public services gas final consumption; monthly shape from Carbon Monitor China residential emissions as a heating/cooking proxy."
     },
     {
       "key": "transport",
@@ -102,14 +102,11 @@ window.CHINA_GAS_SECTOR_DATA = {
     }
   ],
   "iea2023GasBalance": {
-    "totalUseBasis": "IEA 2023 China natural-gas balance, normalized to the four dashboard sectors.",
+    "totalUseBasis": "Source-visible 2023 China gas anchor. Final-use sectors come from the public IEA China page; the residual is calculated against JODI 2023 apparent demand.",
     "finalConsumptionSource": "IEA China natural gas country page, Final consumption of gas by sector, China, 2023.",
-    "energySectorShare": 0.243,
-    "finalConsumptionShare": 0.751,
-    "energySectorDetail": {
-      "electricity": 0.41,
-      "chp": 0.44
-    },
+    "grossHeatValueTJPerBcm": 38930,
+    "grossHeatValueSource": "IEA-reported China higher heating value of 38.93 MJ per standard cubic metre.",
+    "residualSource": "JODI 2023 apparent demand minus source-visible IEA final-use sectors converted to bcm.",
     "finalConsumptionValuesTJ": {
       "industry": 6232455,
       "transport": 1276255,
@@ -122,23 +119,23 @@ window.CHINA_GAS_SECTOR_DATA = {
   "annualAnchors": [
     {
       "sector": "power",
-      "rawShare": 0.2066,
-      "normalizedShare": 0.2158
+      "rawShare": 0.2418,
+      "normalizedShare": 0.2418
     },
     {
       "sector": "industrial",
-      "rawShare": 0.4553,
-      "normalizedShare": 0.4758
+      "rawShare": 0.46,
+      "normalizedShare": 0.46
     },
     {
       "sector": "buildings",
-      "rawShare": 0.2099,
-      "normalizedShare": 0.2193
+      "rawShare": 0.2121,
+      "normalizedShare": 0.2121
     },
     {
       "sector": "transport",
-      "rawShare": 0.0852,
-      "normalizedShare": 0.089
+      "rawShare": 0.0861,
+      "normalizedShare": 0.0861
     }
   ],
   "ieaFinalConsumptionRows": [
@@ -179,6 +176,37 @@ window.CHINA_GAS_SECTOR_DATA = {
       "shareOfFinalConsumption": 0.0008
     }
   ],
+  "anchorCalculation": {
+    "jodiApparentDemandBcm": 380.901,
+    "grossHeatValueTJPerBcm": 38930,
+    "agricultureBcm": 0.242,
+    "rows": [
+      {
+        "bucket": "Power / residual",
+        "valueBcm": 92.111,
+        "share": 0.2418,
+        "note": "Residual: JODI apparent demand minus visible IEA final-use buckets."
+      },
+      {
+        "bucket": "Industrial / chemical",
+        "valueBcm": 175.225,
+        "share": 0.46,
+        "note": "IEA industry plus non-energy use."
+      },
+      {
+        "bucket": "Buildings / city gas",
+        "valueBcm": 80.782,
+        "share": 0.2121,
+        "note": "IEA residential plus commercial/public services."
+      },
+      {
+        "bucket": "Transport",
+        "valueBcm": 32.783,
+        "share": 0.0861,
+        "note": "IEA transport."
+      }
+    ]
+  },
   "monthly": [
     {
       "period": "2019-01",
@@ -187,16 +215,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 28.981,
       "sectors": {
-        "power": 4.636,
-        "industrial": 9.634,
-        "buildings": 12.927,
-        "transport": 1.784
+        "power": 5.239,
+        "industrial": 9.396,
+        "buildings": 12.607,
+        "transport": 1.74
       },
       "shares": {
-        "power": 0.16,
-        "industrial": 0.3324,
-        "buildings": 0.446,
-        "transport": 0.0616
+        "power": 0.1808,
+        "industrial": 0.3242,
+        "buildings": 0.435,
+        "transport": 0.06
       },
       "proxyIndex": {
         "power": 1.049,
@@ -207,7 +235,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -217,16 +245,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 23.512,
       "sectors": {
-        "power": 4.127,
-        "industrial": 7.717,
-        "buildings": 9.995,
-        "transport": 1.674
+        "power": 4.652,
+        "industrial": 7.508,
+        "buildings": 9.724,
+        "transport": 1.628
       },
       "shares": {
-        "power": 0.1755,
-        "industrial": 0.3282,
-        "buildings": 0.4251,
-        "transport": 0.0712
+        "power": 0.1979,
+        "industrial": 0.3193,
+        "buildings": 0.4136,
+        "transport": 0.0692
       },
       "proxyIndex": {
         "power": 0.944,
@@ -237,7 +265,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -247,16 +275,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 24.566,
       "sectors": {
-        "power": 4.777,
-        "industrial": 11.216,
-        "buildings": 6.568,
-        "transport": 2.005
+        "power": 5.369,
+        "industrial": 10.88,
+        "buildings": 6.372,
+        "transport": 1.945
       },
       "shares": {
-        "power": 0.1944,
-        "industrial": 0.4566,
-        "buildings": 0.2674,
-        "transport": 0.0816
+        "power": 0.2186,
+        "industrial": 0.4429,
+        "buildings": 0.2594,
+        "transport": 0.0792
       },
       "proxyIndex": {
         "power": 0.985,
@@ -267,7 +295,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -277,16 +305,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 24.566,
       "sectors": {
-        "power": 5.221,
-        "industrial": 13.784,
-        "buildings": 3.195,
-        "transport": 2.365
+        "power": 5.853,
+        "industrial": 13.334,
+        "buildings": 3.091,
+        "transport": 2.288
       },
       "shares": {
-        "power": 0.2125,
-        "industrial": 0.5611,
-        "buildings": 0.1301,
-        "transport": 0.0963
+        "power": 0.2382,
+        "industrial": 0.5428,
+        "buildings": 0.1258,
+        "transport": 0.0931
       },
       "proxyIndex": {
         "power": 0.865,
@@ -297,7 +325,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -307,16 +335,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 24.766,
       "sectors": {
-        "power": 5.766,
-        "industrial": 15.284,
-        "buildings": 1.072,
-        "transport": 2.644
+        "power": 6.443,
+        "industrial": 14.739,
+        "buildings": 1.034,
+        "transport": 2.55
       },
       "shares": {
-        "power": 0.2328,
-        "industrial": 0.6171,
-        "buildings": 0.0433,
-        "transport": 0.1067
+        "power": 0.2602,
+        "industrial": 0.5951,
+        "buildings": 0.0417,
+        "transport": 0.1029
       },
       "proxyIndex": {
         "power": 0.881,
@@ -327,7 +355,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -337,16 +365,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 24.126,
       "sectors": {
-        "power": 6.308,
-        "industrial": 14.965,
-        "buildings": 0.213,
-        "transport": 2.639
+        "power": 7.018,
+        "industrial": 14.369,
+        "buildings": 0.205,
+        "transport": 2.534
       },
       "shares": {
-        "power": 0.2615,
-        "industrial": 0.6203,
-        "buildings": 0.0088,
-        "transport": 0.1094
+        "power": 0.2909,
+        "industrial": 0.5956,
+        "buildings": 0.0085,
+        "transport": 0.105
       },
       "proxyIndex": {
         "power": 0.966,
@@ -357,7 +385,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -367,16 +395,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 24.568,
       "sectors": {
-        "power": 7.329,
-        "industrial": 14.48,
-        "buildings": 0.085,
-        "transport": 2.675
+        "power": 8.108,
+        "industrial": 13.825,
+        "buildings": 0.081,
+        "transport": 2.554
       },
       "shares": {
-        "power": 0.2983,
-        "industrial": 0.5894,
-        "buildings": 0.0035,
-        "transport": 0.1089
+        "power": 0.33,
+        "industrial": 0.5627,
+        "buildings": 0.0033,
+        "transport": 0.1039
       },
       "proxyIndex": {
         "power": 1.128,
@@ -387,7 +415,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -397,16 +425,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 25.164,
       "sectors": {
-        "power": 7.646,
-        "industrial": 14.656,
-        "buildings": 0.145,
-        "transport": 2.717
+        "power": 8.452,
+        "industrial": 13.982,
+        "buildings": 0.138,
+        "transport": 2.592
       },
       "shares": {
-        "power": 0.3038,
-        "industrial": 0.5824,
-        "buildings": 0.0058,
-        "transport": 0.108
+        "power": 0.3359,
+        "industrial": 0.5556,
+        "buildings": 0.0055,
+        "transport": 0.103
       },
       "proxyIndex": {
         "power": 1.165,
@@ -417,7 +445,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -427,16 +455,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 24.496,
       "sectors": {
-        "power": 6.47,
-        "industrial": 14.625,
-        "buildings": 0.61,
-        "transport": 2.791
+        "power": 7.195,
+        "industrial": 14.037,
+        "buildings": 0.586,
+        "transport": 2.679
       },
       "shares": {
-        "power": 0.2641,
-        "industrial": 0.597,
-        "buildings": 0.0249,
-        "transport": 0.1139
+        "power": 0.2937,
+        "industrial": 0.573,
+        "buildings": 0.0239,
+        "transport": 0.1093
       },
       "proxyIndex": {
         "power": 0.982,
@@ -447,7 +475,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -457,16 +485,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 23.352,
       "sectors": {
-        "power": 5,
-        "industrial": 12.111,
-        "buildings": 3.989,
-        "transport": 2.252
+        "power": 5.603,
+        "industrial": 11.713,
+        "buildings": 3.858,
+        "transport": 2.178
       },
       "shares": {
-        "power": 0.2141,
-        "industrial": 0.5186,
-        "buildings": 0.1708,
-        "transport": 0.0964
+        "power": 0.2399,
+        "industrial": 0.5016,
+        "buildings": 0.1652,
+        "transport": 0.0933
       },
       "proxyIndex": {
         "power": 0.945,
@@ -477,7 +505,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -487,16 +515,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 28.044,
       "sectors": {
-        "power": 5.327,
-        "industrial": 11.845,
-        "buildings": 8.803,
-        "transport": 2.069
+        "power": 5.992,
+        "industrial": 11.498,
+        "buildings": 8.546,
+        "transport": 2.008
       },
       "shares": {
-        "power": 0.19,
-        "industrial": 0.4224,
-        "buildings": 0.3139,
-        "transport": 0.0738
+        "power": 0.2137,
+        "industrial": 0.41,
+        "buildings": 0.3047,
+        "transport": 0.0716
       },
       "proxyIndex": {
         "power": 1.032,
@@ -507,7 +535,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -517,16 +545,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 29.012,
       "sectors": {
-        "power": 5.324,
-        "industrial": 10.311,
-        "buildings": 11.55,
-        "transport": 1.827
+        "power": 5.995,
+        "industrial": 10.019,
+        "buildings": 11.223,
+        "transport": 1.776
       },
       "shares": {
-        "power": 0.1835,
-        "industrial": 0.3554,
-        "buildings": 0.3981,
-        "transport": 0.063
+        "power": 0.2066,
+        "industrial": 0.3453,
+        "buildings": 0.3868,
+        "transport": 0.0612
       },
       "proxyIndex": {
         "power": 1.187,
@@ -537,7 +565,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -547,16 +575,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 28.657,
       "sectors": {
-        "power": 4.024,
-        "industrial": 9.815,
-        "buildings": 13.267,
-        "transport": 1.552
+        "power": 4.56,
+        "industrial": 9.601,
+        "buildings": 12.978,
+        "transport": 1.518
       },
       "shares": {
-        "power": 0.1404,
-        "industrial": 0.3425,
-        "buildings": 0.463,
-        "transport": 0.0541
+        "power": 0.1591,
+        "industrial": 0.335,
+        "buildings": 0.4529,
+        "transport": 0.053
       },
       "proxyIndex": {
         "power": 0.854,
@@ -567,7 +595,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -577,16 +605,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 27.247,
       "sectors": {
-        "power": 5.561,
-        "industrial": 7.947,
-        "buildings": 11.955,
-        "transport": 1.784
+        "power": 6.241,
+        "industrial": 7.697,
+        "buildings": 11.58,
+        "transport": 1.728
       },
       "shares": {
-        "power": 0.2041,
-        "industrial": 0.2917,
-        "buildings": 0.4388,
-        "transport": 0.0655
+        "power": 0.2291,
+        "industrial": 0.2825,
+        "buildings": 0.425,
+        "transport": 0.0634
       },
       "proxyIndex": {
         "power": 0.996,
@@ -597,7 +625,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -607,16 +635,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 26.018,
       "sectors": {
-        "power": 4.995,
-        "industrial": 11.32,
-        "buildings": 7.556,
-        "transport": 2.147
+        "power": 5.617,
+        "industrial": 10.986,
+        "buildings": 7.332,
+        "transport": 2.083
       },
       "shares": {
-        "power": 0.192,
-        "industrial": 0.4351,
-        "buildings": 0.2904,
-        "transport": 0.0825
+        "power": 0.2159,
+        "industrial": 0.4222,
+        "buildings": 0.2818,
+        "transport": 0.0801
       },
       "proxyIndex": {
         "power": 0.916,
@@ -627,7 +655,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -637,16 +665,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 26.572,
       "sectors": {
-        "power": 5.595,
-        "industrial": 14.224,
-        "buildings": 4.456,
-        "transport": 2.297
+        "power": 6.273,
+        "industrial": 13.764,
+        "buildings": 4.312,
+        "transport": 2.223
       },
       "shares": {
-        "power": 0.2105,
-        "industrial": 0.5353,
-        "buildings": 0.1677,
-        "transport": 0.0865
+        "power": 0.2361,
+        "industrial": 0.518,
+        "buildings": 0.1623,
+        "transport": 0.0837
       },
       "proxyIndex": {
         "power": 0.927,
@@ -657,7 +685,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -667,16 +695,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 26.571,
       "sectors": {
-        "power": 6.421,
-        "industrial": 16.454,
-        "buildings": 0.97,
-        "transport": 2.726
+        "power": 7.165,
+        "industrial": 15.846,
+        "buildings": 0.934,
+        "transport": 2.625
       },
       "shares": {
-        "power": 0.2417,
-        "industrial": 0.6193,
-        "buildings": 0.0365,
-        "transport": 0.1026
+        "power": 0.2697,
+        "industrial": 0.5964,
+        "buildings": 0.0352,
+        "transport": 0.0988
       },
       "proxyIndex": {
         "power": 0.973,
@@ -687,7 +715,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -697,16 +725,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 26.34,
       "sectors": {
-        "power": 6.791,
-        "industrial": 16.444,
-        "buildings": 0.22,
-        "transport": 2.885
+        "power": 7.559,
+        "industrial": 15.798,
+        "buildings": 0.211,
+        "transport": 2.771
       },
       "shares": {
-        "power": 0.2578,
-        "industrial": 0.6243,
-        "buildings": 0.0084,
-        "transport": 0.1095
+        "power": 0.287,
+        "industrial": 0.5998,
+        "buildings": 0.008,
+        "transport": 0.1052
       },
       "proxyIndex": {
         "power": 1.003,
@@ -717,7 +745,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -727,16 +755,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 24.007,
       "sectors": {
-        "power": 6.526,
-        "industrial": 14.59,
-        "buildings": 0.102,
-        "transport": 2.789
+        "power": 7.249,
+        "industrial": 13.987,
+        "buildings": 0.098,
+        "transport": 2.674
       },
       "shares": {
-        "power": 0.2718,
-        "industrial": 0.6078,
-        "buildings": 0.0043,
-        "transport": 0.1162
+        "power": 0.3019,
+        "industrial": 0.5826,
+        "buildings": 0.0041,
+        "transport": 0.1114
       },
       "proxyIndex": {
         "power": 1.069,
@@ -747,7 +775,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -757,16 +785,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 26.758,
       "sectors": {
-        "power": 7.711,
-        "industrial": 15.895,
-        "buildings": 0.162,
-        "transport": 2.991
+        "power": 8.544,
+        "industrial": 15.199,
+        "buildings": 0.155,
+        "transport": 2.86
       },
       "shares": {
-        "power": 0.2882,
-        "industrial": 0.594,
-        "buildings": 0.006,
-        "transport": 0.1118
+        "power": 0.3193,
+        "industrial": 0.568,
+        "buildings": 0.0058,
+        "transport": 0.1069
       },
       "proxyIndex": {
         "power": 1.177,
@@ -777,7 +805,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -787,16 +815,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 26.194,
       "sectors": {
-        "power": 6.392,
-        "industrial": 15.679,
-        "buildings": 0.78,
-        "transport": 3.343
+        "power": 7.131,
+        "industrial": 15.094,
+        "buildings": 0.751,
+        "transport": 3.218
       },
       "shares": {
-        "power": 0.244,
-        "industrial": 0.5986,
-        "buildings": 0.0298,
-        "transport": 0.1276
+        "power": 0.2722,
+        "industrial": 0.5762,
+        "buildings": 0.0287,
+        "transport": 0.1229
       },
       "proxyIndex": {
         "power": 0.98,
@@ -807,7 +835,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -817,16 +845,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 26.235,
       "sectors": {
-        "power": 5.466,
-        "industrial": 14.194,
-        "buildings": 4.192,
-        "transport": 2.383
+        "power": 6.131,
+        "industrial": 13.739,
+        "buildings": 4.058,
+        "transport": 2.307
       },
       "shares": {
-        "power": 0.2084,
-        "industrial": 0.541,
-        "buildings": 0.1598,
-        "transport": 0.0908
+        "power": 0.2337,
+        "industrial": 0.5237,
+        "buildings": 0.1547,
+        "transport": 0.0879
       },
       "proxyIndex": {
         "power": 0.933,
@@ -837,7 +865,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -847,16 +875,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 29.215,
       "sectors": {
-        "power": 5.898,
-        "industrial": 12.964,
-        "buildings": 8.1,
-        "transport": 2.254
+        "power": 6.622,
+        "industrial": 12.561,
+        "buildings": 7.848,
+        "transport": 2.184
       },
       "shares": {
-        "power": 0.2019,
-        "industrial": 0.4437,
-        "buildings": 0.2772,
-        "transport": 0.0771
+        "power": 0.2267,
+        "industrial": 0.43,
+        "buildings": 0.2686,
+        "transport": 0.0747
       },
       "proxyIndex": {
         "power": 1.086,
@@ -867,7 +895,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -877,16 +905,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 34.14,
       "sectors": {
-        "power": 6.314,
-        "industrial": 11.55,
-        "buildings": 14.215,
-        "transport": 2.062
+        "power": 7.107,
+        "industrial": 11.22,
+        "buildings": 13.809,
+        "transport": 2.003
       },
       "shares": {
-        "power": 0.1849,
-        "industrial": 0.3383,
-        "buildings": 0.4164,
-        "transport": 0.0604
+        "power": 0.2082,
+        "industrial": 0.3287,
+        "buildings": 0.4045,
+        "transport": 0.0587
       },
       "proxyIndex": {
         "power": 1.286,
@@ -897,7 +925,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -907,16 +935,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 27.289,
       "sectors": {
-        "power": 3.848,
-        "industrial": 9.677,
-        "buildings": 12.092,
-        "transport": 1.673
+        "power": 4.361,
+        "industrial": 9.465,
+        "buildings": 11.827,
+        "transport": 1.636
       },
       "shares": {
-        "power": 0.141,
-        "industrial": 0.3546,
-        "buildings": 0.4431,
-        "transport": 0.0613
+        "power": 0.1598,
+        "industrial": 0.3468,
+        "buildings": 0.4334,
+        "transport": 0.06
       },
       "proxyIndex": {
         "power": 0.906,
@@ -927,7 +955,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -937,16 +965,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 23.008,
       "sectors": {
-        "power": 4.023,
-        "industrial": 8.192,
-        "buildings": 8.855,
-        "transport": 1.939
+        "power": 4.535,
+        "industrial": 7.971,
+        "buildings": 8.616,
+        "transport": 1.887
       },
       "shares": {
-        "power": 0.1748,
-        "industrial": 0.356,
-        "buildings": 0.3849,
-        "transport": 0.0843
+        "power": 0.1971,
+        "industrial": 0.3464,
+        "buildings": 0.3745,
+        "transport": 0.082
       },
       "proxyIndex": {
         "power": 0.783,
@@ -957,7 +985,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -967,16 +995,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 30.4,
       "sectors": {
-        "power": 5.697,
-        "industrial": 13.959,
-        "buildings": 8.262,
-        "transport": 2.482
+        "power": 6.411,
+        "industrial": 13.556,
+        "buildings": 8.024,
+        "transport": 2.41
       },
       "shares": {
-        "power": 0.1874,
-        "industrial": 0.4592,
-        "buildings": 0.2718,
-        "transport": 0.0816
+        "power": 0.2109,
+        "industrial": 0.4459,
+        "buildings": 0.2639,
+        "transport": 0.0793
       },
       "proxyIndex": {
         "power": 0.894,
@@ -987,7 +1015,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -997,16 +1025,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 30.612,
       "sectors": {
-        "power": 6.132,
-        "industrial": 16.889,
-        "buildings": 4.83,
-        "transport": 2.76
+        "power": 6.886,
+        "industrial": 16.369,
+        "buildings": 4.681,
+        "transport": 2.675
       },
       "shares": {
-        "power": 0.2003,
-        "industrial": 0.5517,
-        "buildings": 0.1578,
-        "transport": 0.0902
+        "power": 0.225,
+        "industrial": 0.5347,
+        "buildings": 0.1529,
+        "transport": 0.0874
       },
       "proxyIndex": {
         "power": 0.82,
@@ -1017,7 +1045,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1027,16 +1055,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 30.749,
       "sectors": {
-        "power": 6.911,
-        "industrial": 19.136,
-        "buildings": 1.296,
-        "transport": 3.406
+        "power": 7.732,
+        "industrial": 18.477,
+        "buildings": 1.252,
+        "transport": 3.289
       },
       "shares": {
-        "power": 0.2247,
-        "industrial": 0.6223,
-        "buildings": 0.0422,
-        "transport": 0.1108
+        "power": 0.2514,
+        "industrial": 0.6009,
+        "buildings": 0.0407,
+        "transport": 0.107
       },
       "proxyIndex": {
         "power": 0.83,
@@ -1047,7 +1075,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1057,16 +1085,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 31.074,
       "sectors": {
-        "power": 7.816,
-        "industrial": 19.379,
-        "buildings": 0.29,
-        "transport": 3.589
+        "power": 8.709,
+        "industrial": 18.635,
+        "buildings": 0.279,
+        "transport": 3.451
       },
       "shares": {
-        "power": 0.2515,
-        "industrial": 0.6237,
-        "buildings": 0.0093,
-        "transport": 0.1155
+        "power": 0.2803,
+        "industrial": 0.5997,
+        "buildings": 0.009,
+        "transport": 0.111
       },
       "proxyIndex": {
         "power": 0.904,
@@ -1077,7 +1105,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1087,16 +1115,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 28.313,
       "sectors": {
-        "power": 7.813,
-        "industrial": 16.832,
-        "buildings": 0.101,
-        "transport": 3.568
+        "power": 8.673,
+        "industrial": 16.125,
+        "buildings": 0.097,
+        "transport": 3.418
       },
       "shares": {
-        "power": 0.2759,
-        "industrial": 0.5945,
-        "buildings": 0.0036,
-        "transport": 0.126
+        "power": 0.3063,
+        "industrial": 0.5695,
+        "buildings": 0.0034,
+        "transport": 0.1207
       },
       "proxyIndex": {
         "power": 0.995,
@@ -1107,7 +1135,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1117,16 +1145,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 29.924,
       "sectors": {
-        "power": 8.211,
-        "industrial": 17.718,
-        "buildings": 0.204,
-        "transport": 3.791
+        "power": 9.117,
+        "industrial": 16.978,
+        "buildings": 0.196,
+        "transport": 3.633
       },
       "shares": {
-        "power": 0.2744,
-        "industrial": 0.5921,
-        "buildings": 0.0068,
-        "transport": 0.1267
+        "power": 0.3047,
+        "industrial": 0.5674,
+        "buildings": 0.0065,
+        "transport": 0.1214
       },
       "proxyIndex": {
         "power": 1.004,
@@ -1137,7 +1165,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1147,16 +1175,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 29.894,
       "sectors": {
-        "power": 7.626,
-        "industrial": 17.743,
-        "buildings": 0.702,
-        "transport": 3.823
+        "power": 8.493,
+        "industrial": 17.052,
+        "buildings": 0.674,
+        "transport": 3.675
       },
       "shares": {
-        "power": 0.2551,
-        "industrial": 0.5935,
-        "buildings": 0.0235,
-        "transport": 0.1279
+        "power": 0.2841,
+        "industrial": 0.5704,
+        "buildings": 0.0226,
+        "transport": 0.1229
       },
       "proxyIndex": {
         "power": 0.888,
@@ -1167,7 +1195,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1177,16 +1205,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 29.083,
       "sectors": {
-        "power": 6.027,
-        "industrial": 14.594,
-        "buildings": 5.129,
-        "transport": 3.333
+        "power": 6.761,
+        "industrial": 14.129,
+        "buildings": 4.966,
+        "transport": 3.227
       },
       "shares": {
-        "power": 0.2072,
-        "industrial": 0.5018,
-        "buildings": 0.1764,
-        "transport": 0.1146
+        "power": 0.2325,
+        "industrial": 0.4858,
+        "buildings": 0.1707,
+        "transport": 0.111
       },
       "proxyIndex": {
         "power": 0.854,
@@ -1197,7 +1225,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1207,16 +1235,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 32.323,
       "sectors": {
-        "power": 5.966,
-        "industrial": 13.231,
-        "buildings": 9.922,
-        "transport": 3.204
+        "power": 6.716,
+        "industrial": 12.854,
+        "buildings": 9.64,
+        "transport": 3.113
       },
       "shares": {
-        "power": 0.1846,
-        "industrial": 0.4093,
-        "buildings": 0.307,
-        "transport": 0.0991
+        "power": 0.2078,
+        "industrial": 0.3977,
+        "buildings": 0.2982,
+        "transport": 0.0963
       },
       "proxyIndex": {
         "power": 0.943,
@@ -1227,7 +1255,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1237,16 +1265,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 35.117,
       "sectors": {
-        "power": 6.118,
-        "industrial": 12.134,
-        "buildings": 14.126,
-        "transport": 2.738
+        "power": 6.899,
+        "industrial": 11.808,
+        "buildings": 13.746,
+        "transport": 2.665
       },
       "shares": {
-        "power": 0.1742,
-        "industrial": 0.3455,
-        "buildings": 0.4023,
-        "transport": 0.078
+        "power": 0.1964,
+        "industrial": 0.3362,
+        "buildings": 0.3914,
+        "transport": 0.0759
       },
       "proxyIndex": {
         "power": 1.125,
@@ -1257,7 +1285,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1267,16 +1295,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 27.167,
       "sectors": {
-        "power": 5.491,
-        "industrial": 8.258,
-        "buildings": 11.647,
-        "transport": 1.772
+        "power": 6.164,
+        "industrial": 8.001,
+        "buildings": 11.285,
+        "transport": 1.717
       },
       "shares": {
-        "power": 0.2021,
-        "industrial": 0.304,
-        "buildings": 0.4287,
-        "transport": 0.0652
+        "power": 0.2269,
+        "industrial": 0.2945,
+        "buildings": 0.4154,
+        "transport": 0.0632
       },
       "proxyIndex": {
         "power": 1.404,
@@ -1287,7 +1315,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1297,16 +1325,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 23.907,
       "sectors": {
-        "power": 4.468,
-        "industrial": 6.958,
-        "buildings": 10.585,
-        "transport": 1.896
+        "power": 5.028,
+        "industrial": 6.758,
+        "buildings": 10.28,
+        "transport": 1.842
       },
       "shares": {
-        "power": 0.1869,
-        "industrial": 0.2911,
-        "buildings": 0.4427,
-        "transport": 0.0793
+        "power": 0.2103,
+        "industrial": 0.2827,
+        "buildings": 0.43,
+        "transport": 0.077
       },
       "proxyIndex": {
         "power": 1.053,
@@ -1317,7 +1345,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1327,16 +1355,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 30.583,
       "sectors": {
-        "power": 6.846,
-        "industrial": 13.664,
-        "buildings": 7.378,
-        "transport": 2.695
+        "power": 7.661,
+        "industrial": 13.195,
+        "buildings": 7.124,
+        "transport": 2.603
       },
       "shares": {
-        "power": 0.2239,
-        "industrial": 0.4468,
-        "buildings": 0.2412,
-        "transport": 0.0881
+        "power": 0.2505,
+        "industrial": 0.4315,
+        "buildings": 0.233,
+        "transport": 0.0851
       },
       "proxyIndex": {
         "power": 1.132,
@@ -1347,7 +1375,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1357,16 +1385,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 28.697,
       "sectors": {
-        "power": 6.639,
-        "industrial": 15.608,
-        "buildings": 3.805,
-        "transport": 2.645
+        "power": 7.421,
+        "industrial": 15.055,
+        "buildings": 3.671,
+        "transport": 2.551
       },
       "shares": {
-        "power": 0.2314,
-        "industrial": 0.5439,
-        "buildings": 0.1326,
-        "transport": 0.0922
+        "power": 0.2586,
+        "industrial": 0.5246,
+        "buildings": 0.1279,
+        "transport": 0.0889
       },
       "proxyIndex": {
         "power": 0.96,
@@ -1377,7 +1405,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1387,16 +1415,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 29.979,
       "sectors": {
-        "power": 7.378,
-        "industrial": 17.937,
-        "buildings": 1.608,
-        "transport": 3.057
+        "power": 8.228,
+        "industrial": 17.263,
+        "buildings": 1.547,
+        "transport": 2.942
       },
       "shares": {
-        "power": 0.2461,
-        "industrial": 0.5983,
-        "buildings": 0.0536,
-        "transport": 0.102
+        "power": 0.2744,
+        "industrial": 0.5758,
+        "buildings": 0.0516,
+        "transport": 0.0981
       },
       "proxyIndex": {
         "power": 0.971,
@@ -1407,7 +1435,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1417,16 +1445,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 29.044,
       "sectors": {
-        "power": 8.194,
-        "industrial": 17.651,
-        "buildings": 0.215,
-        "transport": 2.985
+        "power": 9.087,
+        "industrial": 16.894,
+        "buildings": 0.206,
+        "transport": 2.857
       },
       "shares": {
-        "power": 0.2821,
-        "industrial": 0.6077,
-        "buildings": 0.0074,
-        "transport": 0.1028
+        "power": 0.3129,
+        "industrial": 0.5817,
+        "buildings": 0.0071,
+        "transport": 0.0984
       },
       "proxyIndex": {
         "power": 1.082,
@@ -1437,7 +1465,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1447,16 +1475,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 28.659,
       "sectors": {
-        "power": 9.336,
-        "industrial": 16.38,
-        "buildings": 0.097,
-        "transport": 2.847
+        "power": 10.286,
+        "industrial": 15.575,
+        "buildings": 0.092,
+        "transport": 2.707
       },
       "shares": {
-        "power": 0.3257,
-        "industrial": 0.5716,
-        "buildings": 0.0034,
-        "transport": 0.0993
+        "power": 0.3589,
+        "industrial": 0.5435,
+        "buildings": 0.0032,
+        "transport": 0.0944
       },
       "proxyIndex": {
         "power": 1.266,
@@ -1467,7 +1495,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1477,16 +1505,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 28.754,
       "sectors": {
-        "power": 9.56,
-        "industrial": 16.201,
-        "buildings": 0.212,
-        "transport": 2.781
+        "power": 10.522,
+        "industrial": 15.389,
+        "buildings": 0.202,
+        "transport": 2.642
       },
       "shares": {
-        "power": 0.3325,
-        "industrial": 0.5634,
-        "buildings": 0.0074,
-        "transport": 0.0967
+        "power": 0.3659,
+        "industrial": 0.5352,
+        "buildings": 0.007,
+        "transport": 0.0919
       },
       "proxyIndex": {
         "power": 1.316,
@@ -1497,7 +1525,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1507,16 +1535,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 29.871,
       "sectors": {
-        "power": 8.008,
-        "industrial": 17.909,
-        "buildings": 0.721,
-        "transport": 3.233
+        "power": 8.9,
+        "industrial": 17.178,
+        "buildings": 0.692,
+        "transport": 3.101
       },
       "shares": {
-        "power": 0.2681,
-        "industrial": 0.5996,
-        "buildings": 0.0242,
-        "transport": 0.1082
+        "power": 0.2979,
+        "industrial": 0.5751,
+        "buildings": 0.0232,
+        "transport": 0.1038
       },
       "proxyIndex": {
         "power": 1.041,
@@ -1527,7 +1555,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1537,16 +1565,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 28.469,
       "sectors": {
-        "power": 6.211,
-        "industrial": 14.876,
-        "buildings": 4.423,
-        "transport": 2.959
+        "power": 6.956,
+        "industrial": 14.378,
+        "buildings": 4.275,
+        "transport": 2.86
       },
       "shares": {
-        "power": 0.2182,
-        "industrial": 0.5225,
-        "buildings": 0.1554,
-        "transport": 0.1039
+        "power": 0.2443,
+        "industrial": 0.505,
+        "buildings": 0.1502,
+        "transport": 0.1005
       },
       "proxyIndex": {
         "power": 0.952,
@@ -1557,7 +1585,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1567,16 +1595,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 32.804,
       "sectors": {
-        "power": 6.661,
-        "industrial": 14.791,
-        "buildings": 8.512,
-        "transport": 2.841
+        "power": 7.477,
+        "industrial": 14.329,
+        "buildings": 8.246,
+        "transport": 2.752
       },
       "shares": {
-        "power": 0.203,
-        "industrial": 0.4509,
-        "buildings": 0.2595,
-        "transport": 0.0866
+        "power": 0.2279,
+        "industrial": 0.4368,
+        "buildings": 0.2514,
+        "transport": 0.0839
       },
       "proxyIndex": {
         "power": 0.997,
@@ -1587,7 +1615,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1597,16 +1625,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 34.362,
       "sectors": {
-        "power": 5.898,
-        "industrial": 11.423,
-        "buildings": 14.905,
-        "transport": 2.136
+        "power": 6.652,
+        "industrial": 11.12,
+        "buildings": 14.51,
+        "transport": 2.08
       },
       "shares": {
-        "power": 0.1716,
-        "industrial": 0.3324,
-        "buildings": 0.4338,
-        "transport": 0.0622
+        "power": 0.1936,
+        "industrial": 0.3236,
+        "buildings": 0.4223,
+        "transport": 0.0605
       },
       "proxyIndex": {
         "power": 1.142,
@@ -1617,7 +1645,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1627,16 +1655,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 26.056,
       "sectors": {
-        "power": 4.061,
-        "industrial": 8.487,
-        "buildings": 11.782,
-        "transport": 1.727
+        "power": 4.592,
+        "industrial": 8.282,
+        "buildings": 11.498,
+        "transport": 1.685
       },
       "shares": {
-        "power": 0.1558,
-        "industrial": 0.3257,
-        "buildings": 0.4522,
-        "transport": 0.0663
+        "power": 0.1762,
+        "industrial": 0.3178,
+        "buildings": 0.4413,
+        "transport": 0.0647
       },
       "proxyIndex": {
         "power": 0.966,
@@ -1647,7 +1675,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1657,16 +1685,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 26.056,
       "sectors": {
-        "power": 4.993,
-        "industrial": 9.18,
-        "buildings": 9.94,
-        "transport": 1.944
+        "power": 5.615,
+        "industrial": 8.909,
+        "buildings": 9.646,
+        "transport": 1.886
       },
       "shares": {
-        "power": 0.1916,
-        "industrial": 0.3523,
-        "buildings": 0.3815,
-        "transport": 0.0746
+        "power": 0.2155,
+        "industrial": 0.3419,
+        "buildings": 0.3702,
+        "transport": 0.0724
       },
       "proxyIndex": {
         "power": 1.058,
@@ -1677,7 +1705,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1687,16 +1715,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 32.224,
       "sectors": {
-        "power": 6.536,
-        "industrial": 15.162,
-        "buildings": 7.575,
-        "transport": 2.951
+        "power": 7.337,
+        "industrial": 14.689,
+        "buildings": 7.339,
+        "transport": 2.859
       },
       "shares": {
-        "power": 0.2028,
-        "industrial": 0.4705,
-        "buildings": 0.2351,
-        "transport": 0.0916
+        "power": 0.2277,
+        "industrial": 0.4558,
+        "buildings": 0.2278,
+        "transport": 0.0887
       },
       "proxyIndex": {
         "power": 1.036,
@@ -1707,7 +1735,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1717,16 +1745,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 31.134,
       "sectors": {
-        "power": 6.558,
-        "industrial": 16.796,
-        "buildings": 4.39,
-        "transport": 3.39
+        "power": 7.354,
+        "industrial": 16.252,
+        "buildings": 4.248,
+        "transport": 3.28
       },
       "shares": {
-        "power": 0.2107,
-        "industrial": 0.5395,
-        "buildings": 0.141,
-        "transport": 0.1089
+        "power": 0.2362,
+        "industrial": 0.522,
+        "buildings": 0.1364,
+        "transport": 0.1054
       },
       "proxyIndex": {
         "power": 0.899,
@@ -1737,7 +1765,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1747,16 +1775,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 33.436,
       "sectors": {
-        "power": 8.079,
-        "industrial": 20.042,
-        "buildings": 1.355,
-        "transport": 3.96
+        "power": 9.015,
+        "industrial": 19.302,
+        "buildings": 1.305,
+        "transport": 3.814
       },
       "shares": {
-        "power": 0.2416,
-        "industrial": 0.5994,
-        "buildings": 0.0405,
-        "transport": 0.1184
+        "power": 0.2696,
+        "industrial": 0.5773,
+        "buildings": 0.039,
+        "transport": 0.1141
       },
       "proxyIndex": {
         "power": 0.932,
@@ -1767,7 +1795,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1777,16 +1805,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 32.304,
       "sectors": {
-        "power": 8.736,
-        "industrial": 19.431,
-        "buildings": 0.287,
-        "transport": 3.85
+        "power": 9.706,
+        "industrial": 18.631,
+        "buildings": 0.275,
+        "transport": 3.692
       },
       "shares": {
-        "power": 0.2704,
-        "industrial": 0.6015,
-        "buildings": 0.0089,
-        "transport": 0.1192
+        "power": 0.3005,
+        "industrial": 0.5767,
+        "buildings": 0.0085,
+        "transport": 0.1143
       },
       "proxyIndex": {
         "power": 1.027,
@@ -1797,7 +1825,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1807,16 +1835,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 32.221,
       "sectors": {
-        "power": 9.694,
-        "industrial": 18.729,
-        "buildings": 0.119,
-        "transport": 3.679
+        "power": 10.72,
+        "industrial": 17.875,
+        "buildings": 0.114,
+        "transport": 3.512
       },
       "shares": {
-        "power": 0.3008,
-        "industrial": 0.5813,
-        "buildings": 0.0037,
-        "transport": 0.1142
+        "power": 0.3327,
+        "industrial": 0.5548,
+        "buildings": 0.0035,
+        "transport": 0.109
       },
       "proxyIndex": {
         "power": 1.169,
@@ -1827,7 +1855,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1837,16 +1865,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 32.709,
       "sectors": {
-        "power": 9.766,
-        "industrial": 19.047,
-        "buildings": 0.177,
-        "transport": 3.719
+        "power": 10.804,
+        "industrial": 18.186,
+        "buildings": 0.169,
+        "transport": 3.55
       },
       "shares": {
-        "power": 0.2986,
-        "industrial": 0.5823,
-        "buildings": 0.0054,
-        "transport": 0.1137
+        "power": 0.3303,
+        "industrial": 0.556,
+        "buildings": 0.0052,
+        "transport": 0.1085
       },
       "proxyIndex": {
         "power": 1.157,
@@ -1857,7 +1885,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1867,16 +1895,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 31.558,
       "sectors": {
-        "power": 8.241,
-        "industrial": 18.903,
-        "buildings": 0.714,
-        "transport": 3.7
+        "power": 9.169,
+        "industrial": 18.151,
+        "buildings": 0.685,
+        "transport": 3.553
       },
       "shares": {
-        "power": 0.2611,
-        "industrial": 0.599,
-        "buildings": 0.0226,
-        "transport": 0.1173
+        "power": 0.2905,
+        "industrial": 0.5751,
+        "buildings": 0.0217,
+        "transport": 0.1126
       },
       "proxyIndex": {
         "power": 0.98,
@@ -1887,7 +1915,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1897,16 +1925,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 30.8,
       "sectors": {
-        "power": 6.963,
-        "industrial": 17.103,
-        "buildings": 3.306,
-        "transport": 3.428
+        "power": 7.789,
+        "industrial": 16.51,
+        "buildings": 3.191,
+        "transport": 3.309
       },
       "shares": {
-        "power": 0.2261,
-        "industrial": 0.5553,
-        "buildings": 0.1073,
-        "transport": 0.1113
+        "power": 0.2529,
+        "industrial": 0.536,
+        "buildings": 0.1036,
+        "transport": 0.1074
       },
       "proxyIndex": {
         "power": 0.914,
@@ -1917,7 +1945,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1927,16 +1955,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 34.608,
       "sectors": {
-        "power": 6.623,
-        "industrial": 14.618,
-        "buildings": 10.676,
-        "transport": 2.691
+        "power": 7.448,
+        "industrial": 14.187,
+        "buildings": 10.361,
+        "transport": 2.612
       },
       "shares": {
-        "power": 0.1914,
-        "industrial": 0.4224,
-        "buildings": 0.3085,
-        "transport": 0.0778
+        "power": 0.2152,
+        "industrial": 0.4099,
+        "buildings": 0.2994,
+        "transport": 0.0755
       },
       "proxyIndex": {
         "power": 0.989,
@@ -1947,7 +1975,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1957,16 +1985,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 37.795,
       "sectors": {
-        "power": 6.811,
-        "industrial": 12.088,
-        "buildings": 16.478,
-        "transport": 2.419
+        "power": 7.673,
+        "industrial": 11.752,
+        "buildings": 16.019,
+        "transport": 2.351
       },
       "shares": {
-        "power": 0.1802,
-        "industrial": 0.3198,
-        "buildings": 0.436,
-        "transport": 0.064
+        "power": 0.203,
+        "industrial": 0.3109,
+        "buildings": 0.4239,
+        "transport": 0.0622
       },
       "proxyIndex": {
         "power": 1.183,
@@ -1977,7 +2005,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -1987,16 +2015,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 31.697,
       "sectors": {
-        "power": 5.308,
-        "industrial": 10.421,
-        "buildings": 13.95,
-        "transport": 2.018
+        "power": 5.991,
+        "industrial": 10.151,
+        "buildings": 13.589,
+        "transport": 1.966
       },
       "shares": {
-        "power": 0.1675,
-        "industrial": 0.3288,
-        "buildings": 0.4401,
-        "transport": 0.0637
+        "power": 0.189,
+        "industrial": 0.3203,
+        "buildings": 0.4287,
+        "transport": 0.062
       },
       "proxyIndex": {
         "power": 1.123,
@@ -2007,7 +2035,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2017,16 +2045,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 26.913,
       "sectors": {
-        "power": 4.567,
-        "industrial": 8.277,
-        "buildings": 12.219,
-        "transport": 1.849
+        "power": 5.153,
+        "industrial": 8.06,
+        "buildings": 11.899,
+        "transport": 1.801
       },
       "shares": {
-        "power": 0.1697,
-        "industrial": 0.3076,
-        "buildings": 0.454,
-        "transport": 0.0687
+        "power": 0.1915,
+        "industrial": 0.2995,
+        "buildings": 0.4421,
+        "transport": 0.0669
       },
       "proxyIndex": {
         "power": 0.924,
@@ -2037,7 +2065,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2047,16 +2075,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 36.312,
       "sectors": {
-        "power": 7.088,
-        "industrial": 16.219,
-        "buildings": 9.96,
-        "transport": 3.045
+        "power": 7.966,
+        "industrial": 15.732,
+        "buildings": 9.661,
+        "transport": 2.953
       },
       "shares": {
-        "power": 0.1952,
-        "industrial": 0.4467,
-        "buildings": 0.2743,
-        "transport": 0.0839
+        "power": 0.2194,
+        "industrial": 0.4332,
+        "buildings": 0.266,
+        "transport": 0.0813
       },
       "proxyIndex": {
         "power": 0.974,
@@ -2067,7 +2095,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2077,16 +2105,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 33.705,
       "sectors": {
-        "power": 7.506,
-        "industrial": 19.278,
-        "buildings": 3.372,
-        "transport": 3.549
+        "power": 8.401,
+        "industrial": 18.619,
+        "buildings": 3.257,
+        "transport": 3.428
       },
       "shares": {
-        "power": 0.2227,
-        "industrial": 0.5719,
-        "buildings": 0.1001,
-        "transport": 0.1053
+        "power": 0.2492,
+        "industrial": 0.5524,
+        "buildings": 0.0966,
+        "transport": 0.1017
       },
       "proxyIndex": {
         "power": 0.858,
@@ -2097,7 +2125,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2107,16 +2135,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 35.617,
       "sectors": {
-        "power": 8.287,
-        "industrial": 22.204,
-        "buildings": 1.222,
-        "transport": 3.904
+        "power": 9.26,
+        "industrial": 21.413,
+        "buildings": 1.179,
+        "transport": 3.765
       },
       "shares": {
-        "power": 0.2327,
-        "industrial": 0.6234,
-        "buildings": 0.0343,
-        "transport": 0.1096
+        "power": 0.26,
+        "industrial": 0.6012,
+        "buildings": 0.0331,
+        "transport": 0.1057
       },
       "proxyIndex": {
         "power": 0.857,
@@ -2127,7 +2155,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2137,16 +2165,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 34.264,
       "sectors": {
-        "power": 8.877,
-        "industrial": 21.312,
-        "buildings": 0.313,
-        "transport": 3.762
+        "power": 9.879,
+        "industrial": 20.471,
+        "buildings": 0.301,
+        "transport": 3.613
       },
       "shares": {
-        "power": 0.2591,
-        "industrial": 0.622,
-        "buildings": 0.0091,
-        "transport": 0.1098
+        "power": 0.2883,
+        "industrial": 0.5974,
+        "buildings": 0.0088,
+        "transport": 0.1054
       },
       "proxyIndex": {
         "power": 0.933,
@@ -2157,7 +2185,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2167,16 +2195,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 34.61,
       "sectors": {
-        "power": 10.245,
-        "industrial": 20.497,
-        "buildings": 0.115,
-        "transport": 3.752
+        "power": 11.339,
+        "industrial": 19.577,
+        "buildings": 0.11,
+        "transport": 3.584
       },
       "shares": {
-        "power": 0.296,
-        "industrial": 0.5922,
-        "buildings": 0.0033,
-        "transport": 0.1084
+        "power": 0.3276,
+        "industrial": 0.5657,
+        "buildings": 0.0032,
+        "transport": 0.1036
       },
       "proxyIndex": {
         "power": 1.096,
@@ -2187,7 +2215,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2197,16 +2225,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 35.95,
       "sectors": {
-        "power": 11.125,
-        "industrial": 20.899,
-        "buildings": 0.125,
-        "transport": 3.8
+        "power": 12.287,
+        "industrial": 19.921,
+        "buildings": 0.12,
+        "transport": 3.622
       },
       "shares": {
-        "power": 0.3095,
-        "industrial": 0.5813,
-        "buildings": 0.0035,
-        "transport": 0.1057
+        "power": 0.3418,
+        "industrial": 0.5541,
+        "buildings": 0.0033,
+        "transport": 0.1008
       },
       "proxyIndex": {
         "power": 1.165,
@@ -2217,7 +2245,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2227,16 +2255,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 35.586,
       "sectors": {
-        "power": 9.683,
-        "industrial": 21.005,
-        "buildings": 0.972,
-        "transport": 3.926
+        "power": 10.755,
+        "industrial": 20.135,
+        "buildings": 0.932,
+        "transport": 3.764
       },
       "shares": {
-        "power": 0.2721,
-        "industrial": 0.5903,
-        "buildings": 0.0273,
-        "transport": 0.1103
+        "power": 0.3022,
+        "industrial": 0.5658,
+        "buildings": 0.0262,
+        "transport": 0.1058
       },
       "proxyIndex": {
         "power": 1.018,
@@ -2247,7 +2275,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2257,16 +2285,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 35.072,
       "sectors": {
-        "power": 7.648,
-        "industrial": 19.307,
-        "buildings": 4.553,
-        "transport": 3.565
+        "power": 8.565,
+        "industrial": 18.661,
+        "buildings": 4.401,
+        "transport": 3.445
       },
       "shares": {
-        "power": 0.2181,
-        "industrial": 0.5505,
-        "buildings": 0.1298,
-        "transport": 0.1016
+        "power": 0.2442,
+        "industrial": 0.5321,
+        "buildings": 0.1255,
+        "transport": 0.0982
       },
       "proxyIndex": {
         "power": 0.901,
@@ -2277,7 +2305,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2287,16 +2315,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 34.954,
       "sectors": {
-        "power": 6.94,
-        "industrial": 15.903,
-        "buildings": 9.312,
-        "transport": 2.8
+        "power": 7.796,
+        "industrial": 15.417,
+        "buildings": 9.027,
+        "transport": 2.714
       },
       "shares": {
-        "power": 0.1985,
-        "industrial": 0.455,
-        "buildings": 0.2664,
-        "transport": 0.0801
+        "power": 0.223,
+        "industrial": 0.4411,
+        "buildings": 0.2583,
+        "transport": 0.0776
       },
       "proxyIndex": {
         "power": 0.979,
@@ -2307,7 +2335,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2317,16 +2345,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 37.549,
       "sectors": {
-        "power": 6.484,
-        "industrial": 12.887,
-        "buildings": 15.797,
-        "transport": 2.382
+        "power": 7.313,
+        "industrial": 12.543,
+        "buildings": 15.375,
+        "transport": 2.318
       },
       "shares": {
-        "power": 0.1727,
-        "industrial": 0.3432,
-        "buildings": 0.4207,
-        "transport": 0.0634
+        "power": 0.1947,
+        "industrial": 0.334,
+        "buildings": 0.4095,
+        "transport": 0.0617
       },
       "proxyIndex": {
         "power": 1.133,
@@ -2337,7 +2365,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2347,16 +2375,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 28.835,
       "sectors": {
-        "power": 4.381,
-        "industrial": 9.858,
-        "buildings": 12.742,
-        "transport": 1.854
+        "power": 4.957,
+        "industrial": 9.626,
+        "buildings": 12.442,
+        "transport": 1.81
       },
       "shares": {
-        "power": 0.1519,
-        "industrial": 0.3419,
-        "buildings": 0.4419,
-        "transport": 0.0643
+        "power": 0.1719,
+        "industrial": 0.3338,
+        "buildings": 0.4315,
+        "transport": 0.0628
       },
       "proxyIndex": {
         "power": 0.978,
@@ -2367,7 +2395,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2377,16 +2405,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 27.069,
       "sectors": {
-        "power": 4.642,
-        "industrial": 8.998,
-        "buildings": 11.637,
-        "transport": 1.792
+        "power": 5.237,
+        "industrial": 8.76,
+        "buildings": 11.328,
+        "transport": 1.744
       },
       "shares": {
-        "power": 0.1715,
-        "industrial": 0.3324,
-        "buildings": 0.4299,
-        "transport": 0.0662
+        "power": 0.1935,
+        "industrial": 0.3236,
+        "buildings": 0.4185,
+        "transport": 0.0644
       },
       "proxyIndex": {
         "power": 0.976,
@@ -2397,7 +2425,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2407,16 +2435,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 34.666,
       "sectors": {
-        "power": 6.328,
-        "industrial": 15.395,
-        "buildings": 10.261,
-        "transport": 2.682
+        "power": 7.126,
+        "industrial": 14.961,
+        "buildings": 9.972,
+        "transport": 2.607
       },
       "shares": {
-        "power": 0.1826,
-        "industrial": 0.4441,
-        "buildings": 0.296,
-        "transport": 0.0774
+        "power": 0.2056,
+        "industrial": 0.4316,
+        "buildings": 0.2877,
+        "transport": 0.0752
       },
       "proxyIndex": {
         "power": 0.962,
@@ -2427,7 +2455,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2437,16 +2465,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Apr",
       "totalDemand": 34.371,
       "sectors": {
-        "power": 7.441,
-        "industrial": 19.845,
-        "buildings": 3.705,
-        "transport": 3.379
+        "power": 8.336,
+        "industrial": 19.186,
+        "buildings": 3.582,
+        "transport": 3.267
       },
       "shares": {
-        "power": 0.2165,
-        "industrial": 0.5774,
-        "buildings": 0.1078,
-        "transport": 0.0983
+        "power": 0.2425,
+        "industrial": 0.5582,
+        "buildings": 0.1042,
+        "transport": 0.0951
       },
       "proxyIndex": {
         "power": 0.845,
@@ -2457,7 +2485,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2467,16 +2495,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "May",
       "totalDemand": 35.915,
       "sectors": {
-        "power": 8.441,
-        "industrial": 22.13,
-        "buildings": 1.511,
-        "transport": 3.833
+        "power": 9.429,
+        "industrial": 21.334,
+        "buildings": 1.456,
+        "transport": 3.696
       },
       "shares": {
-        "power": 0.235,
-        "industrial": 0.6162,
-        "buildings": 0.0421,
-        "transport": 0.1067
+        "power": 0.2625,
+        "industrial": 0.594,
+        "buildings": 0.0405,
+        "transport": 0.1029
       },
       "proxyIndex": {
         "power": 0.871,
@@ -2487,7 +2515,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2497,16 +2525,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jun",
       "totalDemand": 35.313,
       "sectors": {
-        "power": 9.147,
-        "industrial": 21.913,
-        "buildings": 0.316,
-        "transport": 3.938
+        "power": 10.18,
+        "industrial": 21.047,
+        "buildings": 0.304,
+        "transport": 3.782
       },
       "shares": {
-        "power": 0.259,
-        "industrial": 0.6205,
-        "buildings": 0.009,
-        "transport": 0.1115
+        "power": 0.2883,
+        "industrial": 0.596,
+        "buildings": 0.0086,
+        "transport": 0.1071
       },
       "proxyIndex": {
         "power": 0.942,
@@ -2517,7 +2545,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2527,16 +2555,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jul",
       "totalDemand": 35.843,
       "sectors": {
-        "power": 10.8,
-        "industrial": 21.032,
-        "buildings": 0.111,
-        "transport": 3.901
+        "power": 11.943,
+        "industrial": 20.072,
+        "buildings": 0.106,
+        "transport": 3.723
       },
       "shares": {
-        "power": 0.3013,
-        "industrial": 0.5868,
-        "buildings": 0.0031,
-        "transport": 0.1088
+        "power": 0.3332,
+        "industrial": 0.56,
+        "buildings": 0.003,
+        "transport": 0.1039
       },
       "proxyIndex": {
         "power": 1.144,
@@ -2547,7 +2575,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2557,16 +2585,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Aug",
       "totalDemand": 37.255,
       "sectors": {
-        "power": 11.454,
-        "industrial": 21.561,
-        "buildings": 0.195,
-        "transport": 4.045
+        "power": 12.655,
+        "industrial": 20.558,
+        "buildings": 0.186,
+        "transport": 3.857
       },
       "shares": {
-        "power": 0.3075,
-        "industrial": 0.5787,
-        "buildings": 0.0052,
-        "transport": 0.1086
+        "power": 0.3397,
+        "industrial": 0.5518,
+        "buildings": 0.005,
+        "transport": 0.1035
       },
       "proxyIndex": {
         "power": 1.19,
@@ -2577,7 +2605,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2587,16 +2615,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Sep",
       "totalDemand": 35.789,
       "sectors": {
-        "power": 9.475,
-        "industrial": 21.23,
-        "buildings": 0.911,
-        "transport": 4.173
+        "power": 10.536,
+        "industrial": 20.374,
+        "buildings": 0.875,
+        "transport": 4.005
       },
       "shares": {
-        "power": 0.2647,
-        "industrial": 0.5932,
-        "buildings": 0.0255,
-        "transport": 0.1166
+        "power": 0.2944,
+        "industrial": 0.5693,
+        "buildings": 0.0244,
+        "transport": 0.1119
       },
       "proxyIndex": {
         "power": 0.98,
@@ -2607,7 +2635,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2617,16 +2645,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Oct",
       "totalDemand": 35.338,
       "sectors": {
-        "power": 8,
-        "industrial": 17.918,
-        "buildings": 5.865,
-        "transport": 3.556
+        "power": 8.948,
+        "industrial": 17.297,
+        "buildings": 5.661,
+        "transport": 3.432
       },
       "shares": {
-        "power": 0.2264,
-        "industrial": 0.507,
-        "buildings": 0.166,
-        "transport": 0.1006
+        "power": 0.2532,
+        "industrial": 0.4895,
+        "buildings": 0.1602,
+        "transport": 0.0971
       },
       "proxyIndex": {
         "power": 0.976,
@@ -2637,7 +2665,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2647,16 +2675,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Nov",
       "totalDemand": 38.13,
       "sectors": {
-        "power": 7.262,
-        "industrial": 16.654,
-        "buildings": 11.015,
-        "transport": 3.199
+        "power": 8.168,
+        "industrial": 16.165,
+        "buildings": 10.692,
+        "transport": 3.105
       },
       "shares": {
-        "power": 0.1905,
-        "industrial": 0.4368,
-        "buildings": 0.2889,
-        "transport": 0.0839
+        "power": 0.2142,
+        "industrial": 0.4239,
+        "buildings": 0.2804,
+        "transport": 0.0814
       },
       "proxyIndex": {
         "power": 0.949,
@@ -2667,7 +2695,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2677,16 +2705,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Dec",
       "totalDemand": 39.944,
       "sectors": {
-        "power": 7.31,
-        "industrial": 14.476,
-        "buildings": 15.335,
-        "transport": 2.824
+        "power": 8.231,
+        "industrial": 14.067,
+        "buildings": 14.902,
+        "transport": 2.744
       },
       "shares": {
-        "power": 0.183,
-        "industrial": 0.3624,
-        "buildings": 0.3839,
-        "transport": 0.0707
+        "power": 0.2061,
+        "industrial": 0.3522,
+        "buildings": 0.3731,
+        "transport": 0.0687
       },
       "proxyIndex": {
         "power": 1.115,
@@ -2697,7 +2725,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2707,16 +2735,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Jan",
       "totalDemand": 30.212,
       "sectors": {
-        "power": 5.006,
-        "industrial": 10.913,
-        "buildings": 12.362,
-        "transport": 1.93
+        "power": 5.652,
+        "industrial": 10.634,
+        "buildings": 12.045,
+        "transport": 1.881
       },
       "shares": {
-        "power": 0.1657,
-        "industrial": 0.3612,
-        "buildings": 0.4092,
-        "transport": 0.0639
+        "power": 0.1871,
+        "industrial": 0.352,
+        "buildings": 0.3987,
+        "transport": 0.0622
       },
       "proxyIndex": {
         "power": 1.124,
@@ -2727,7 +2755,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2737,16 +2765,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Feb",
       "totalDemand": 24.88,
       "sectors": {
-        "power": 4.495,
-        "industrial": 8.514,
-        "buildings": 9.836,
-        "transport": 2.036
+        "power": 5.063,
+        "industrial": 8.276,
+        "buildings": 9.561,
+        "transport": 1.979
       },
       "shares": {
-        "power": 0.1807,
-        "industrial": 0.3422,
-        "buildings": 0.3953,
-        "transport": 0.0818
+        "power": 0.2035,
+        "industrial": 0.3326,
+        "buildings": 0.3843,
+        "transport": 0.0795
       },
       "proxyIndex": {
         "power": 0.865,
@@ -2757,7 +2785,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     },
     {
@@ -2767,16 +2795,16 @@ window.CHINA_GAS_SECTOR_DATA = {
       "monthLabel": "Mar",
       "totalDemand": 33.554,
       "sectors": {
-        "power": 6.573,
-        "industrial": 14.878,
-        "buildings": 9.293,
-        "transport": 2.81
+        "power": 7.387,
+        "industrial": 14.429,
+        "buildings": 9.013,
+        "transport": 2.725
       },
       "shares": {
-        "power": 0.1959,
-        "industrial": 0.4434,
-        "buildings": 0.277,
-        "transport": 0.0838
+        "power": 0.2201,
+        "industrial": 0.43,
+        "buildings": 0.2686,
+        "transport": 0.0812
       },
       "proxyIndex": {
         "power": 0.999,
@@ -2787,7 +2815,7 @@ window.CHINA_GAS_SECTOR_DATA = {
       "source": {
         "controlTotal": "JODI TOTDEMC apparent demand; China stock change is not separated",
         "monthlyShape": "Carbon Monitor China sector proxy indexes",
-        "annualAnchor": "IEA 2023 China gas-balance sector shares"
+        "annualAnchor": "Source-visible IEA final-use rows plus JODI 2023 residual"
       }
     }
   ],
@@ -4105,7 +4133,7 @@ window.CHINA_GAS_SECTOR_DATA = {
     },
     {
       "title": "Annual sector anchor",
-      "text": "The final-consumption split uses the IEA China natural-gas country page for 2023 TJ gross values by sector. Industrial includes industry plus non-energy/chemical use; buildings include residential plus commercial/public services; transport is transport final gas use. Power uses IEA gas-balance transformation shares for electricity plus CHP. The four dashboard buckets are normalized to 100%."
+      "text": "The annual anchor now uses only visible data. Industrial, buildings, and transport come from the public IEA China final-consumption table. Those TJ values are converted to bcm using 38.93 MJ per standard cubic metre. The power bucket is the residual against JODI 2023 apparent demand, so it should be read as power plus unallocated system and storage effects, not pure power generation."
     },
     {
       "title": "Monthly shape",
@@ -4138,9 +4166,9 @@ window.CHINA_GAS_SECTOR_DATA = {
       "note": "Public China country page. The model uses its 2023 final-consumption table by sector for industry, non-energy use, residential, commercial/public services, transport, and agriculture/forestry."
     },
     {
-      "name": "IEA Energy Statistics Data Browser",
-      "url": "https://www.iea.org/data-and-statistics/data-tools/energy-statistics-data-browser",
-      "note": "Used for the 2023 power/CHP transformation layer that is not part of the final-consumption table."
+      "name": "IEA natural gas heat value for China",
+      "url": "https://en.wikipedia.org/wiki/Heat_of_combustion#Higher_heating_values_of_natural_gases_from_various_sources",
+      "note": "Visible reference for IEA-reported China higher heating value of 38.93 MJ per standard cubic metre, used to convert IEA TJ gross values to bcm."
     },
     {
       "name": "National Bureau of Statistics of China, 2023 Statistical Communique",

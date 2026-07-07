@@ -18,10 +18,10 @@ const SECTOR_ORDER = ["power", "industrial", "buildings", "transport"];
 const SECTOR_DEFINITIONS = [
   {
     key: "power",
-    label: "Power",
-    shortLabel: "Power",
+    label: "Power / residual",
+    shortLabel: "Power/resid.",
     color: "#3268a8",
-    method: "IEA gas-balance transformation use for electricity plus CHP; monthly shape from Carbon Monitor China power-sector emissions.",
+    method: "Residual after source-visible IEA final-use sectors are converted to bcm and compared with JODI 2023 apparent demand; monthly shape from Carbon Monitor China power emissions.",
   },
   {
     key: "industrial",
@@ -35,7 +35,7 @@ const SECTOR_DEFINITIONS = [
     label: "Buildings / city gas",
     shortLabel: "Buildings",
     color: "#16837a",
-    method: "IEA residential plus tertiary gas final consumption; monthly shape from Carbon Monitor China residential emissions as a heating/cooking proxy.",
+    method: "IEA residential plus commercial/public services gas final consumption; monthly shape from Carbon Monitor China residential emissions as a heating/cooking proxy.",
   },
   {
     key: "transport",
@@ -47,14 +47,11 @@ const SECTOR_DEFINITIONS = [
 ];
 
 const IEA_2023_GAS_BALANCE = {
-  totalUseBasis: "IEA 2023 China natural-gas balance, normalized to the four dashboard sectors.",
+  totalUseBasis: "Source-visible 2023 China gas anchor. Final-use sectors come from the public IEA China page; the residual is calculated against JODI 2023 apparent demand.",
   finalConsumptionSource: "IEA China natural gas country page, Final consumption of gas by sector, China, 2023.",
-  energySectorShare: 0.243,
-  finalConsumptionShare: 0.751,
-  energySectorDetail: {
-    electricity: 0.41,
-    chp: 0.44,
-  },
+  grossHeatValueTJPerBcm: 38930,
+  grossHeatValueSource: "IEA-reported China higher heating value of 38.93 MJ per standard cubic metre.",
+  residualSource: "JODI 2023 apparent demand minus source-visible IEA final-use sectors converted to bcm.",
   finalConsumptionValuesTJ: {
     industry: 6232455,
     transport: 1276255,
@@ -127,20 +124,45 @@ function round(value, digits = 3) {
   return Math.round(value * scale) / scale;
 }
 
-function rawAnchorShares() {
+function calendarYearDemand(jodi, year) {
+  return jodi.actuals
+    .filter((row) => row.period.startsWith(`${year}-`))
+    .reduce((acc, row) => acc + (row.calculatedDemand ?? 0), 0);
+}
+
+function anchorInputs(jodi) {
   const b = IEA_2023_GAS_BALANCE;
   const final = b.finalConsumptionValuesTJ;
-  const finalTotal = Object.values(final).reduce((acc, value) => acc + value, 0);
+  const jodiApparentDemandBcm = calendarYearDemand(jodi, 2023);
+  const toBcm = (valueTJ) => valueTJ / b.grossHeatValueTJPerBcm;
+  const industrialBcm = toBcm(final.industry + final.nonEnergyUse);
+  const buildingsBcm = toBcm(final.residential + final.commercialPublicServices);
+  const transportBcm = toBcm(final.transport);
+  const agricultureBcm = toBcm(final.agricultureForestry);
+  const residualBcm = Math.max(0, jodiApparentDemandBcm - industrialBcm - buildingsBcm - transportBcm);
+  const rawShares = {
+    power: residualBcm / jodiApparentDemandBcm,
+    industrial: industrialBcm / jodiApparentDemandBcm,
+    buildings: buildingsBcm / jodiApparentDemandBcm,
+    transport: transportBcm / jodiApparentDemandBcm,
+  };
   return {
-    power: b.energySectorShare * (b.energySectorDetail.electricity + b.energySectorDetail.chp),
-    industrial: b.finalConsumptionShare * ((final.industry + final.nonEnergyUse) / finalTotal),
-    buildings: b.finalConsumptionShare * ((final.residential + final.commercialPublicServices) / finalTotal),
-    transport: b.finalConsumptionShare * (final.transport / finalTotal),
+    rawShares,
+    jodiApparentDemandBcm,
+    industrialBcm,
+    buildingsBcm,
+    transportBcm,
+    agricultureBcm,
+    residualBcm,
   };
 }
 
-function normalizedAnchorShares() {
-  const raw = rawAnchorShares();
+function rawAnchorShares(jodi) {
+  return anchorInputs(jodi).rawShares;
+}
+
+function normalizedAnchorShares(jodi) {
+  const raw = rawAnchorShares(jodi);
   const total = SECTOR_ORDER.reduce((acc, key) => acc + raw[key], 0);
   return Object.fromEntries(SECTOR_ORDER.map((key) => [key, raw[key] / total]));
 }
@@ -237,7 +259,7 @@ function gasYearMonth(period) {
 }
 
 function buildMonthlyModel(jodi, proxyIndexes) {
-  const anchors = normalizedAnchorShares();
+  const anchors = normalizedAnchorShares(jodi);
   return jodi.actuals
     .filter((row) => row.period >= "2019-01" && row.calculatedDemand != null && proxyIndexes.has(row.period))
     .map((row) => {
@@ -258,7 +280,7 @@ function buildMonthlyModel(jodi, proxyIndexes) {
         source: {
           controlTotal: "JODI TOTDEMC apparent demand; China stock change is not separated",
           monthlyShape: "Carbon Monitor China sector proxy indexes",
-          annualAnchor: "IEA 2023 China gas-balance sector shares",
+          annualAnchor: "Source-visible IEA final-use rows plus JODI 2023 residual",
         },
       };
     });
@@ -271,8 +293,9 @@ function buildOutput() {
   const monthly = buildMonthlyModel(jodi, proxyIndexes);
   const gasYears = [...new Set(monthly.map((row) => row.gasYear))].sort();
   const latest = monthly.at(-1);
-  const rawShares = rawAnchorShares();
-  const normalizedShares = normalizedAnchorShares();
+  const anchor = anchorInputs(jodi);
+  const rawShares = rawAnchorShares(jodi);
+  const normalizedShares = normalizedAnchorShares(jodi);
   const final = IEA_2023_GAS_BALANCE.finalConsumptionValuesTJ;
   const finalTotal = Object.values(final).reduce((acc, value) => acc + value, 0);
   const annualAnchors = SECTOR_ORDER.map((sector) => ({
@@ -290,6 +313,16 @@ function buildOutput() {
   ].map((row) => ({
     ...row,
     shareOfFinalConsumption: round(row.valueTJ / finalTotal, 4),
+  }));
+  const anchorCalculationRows = [
+    { bucket: "Power / residual", valueBcm: anchor.residualBcm, share: rawShares.power, note: "Residual: JODI apparent demand minus visible IEA final-use buckets." },
+    { bucket: "Industrial / chemical", valueBcm: anchor.industrialBcm, share: rawShares.industrial, note: "IEA industry plus non-energy use." },
+    { bucket: "Buildings / city gas", valueBcm: anchor.buildingsBcm, share: rawShares.buildings, note: "IEA residential plus commercial/public services." },
+    { bucket: "Transport", valueBcm: anchor.transportBcm, share: rawShares.transport, note: "IEA transport." },
+  ].map((row) => ({
+    ...row,
+    valueBcm: round(row.valueBcm, 3),
+    share: round(row.share, 4),
   }));
 
   return {
@@ -311,6 +344,12 @@ function buildOutput() {
     iea2023GasBalance: IEA_2023_GAS_BALANCE,
     annualAnchors,
     ieaFinalConsumptionRows,
+    anchorCalculation: {
+      jodiApparentDemandBcm: round(anchor.jodiApparentDemandBcm, 3),
+      grossHeatValueTJPerBcm: IEA_2023_GAS_BALANCE.grossHeatValueTJPerBcm,
+      agricultureBcm: round(anchor.agricultureBcm, 3),
+      rows: anchorCalculationRows,
+    },
     monthly,
     proxyMonthly,
     methodology: [
@@ -320,7 +359,7 @@ function buildOutput() {
       },
       {
         title: "Annual sector anchor",
-        text: "The final-consumption split uses the IEA China natural-gas country page for 2023 TJ gross values by sector. Industrial includes industry plus non-energy/chemical use; buildings include residential plus commercial/public services; transport is transport final gas use. Power uses IEA gas-balance transformation shares for electricity plus CHP. The four dashboard buckets are normalized to 100%.",
+        text: "The annual anchor now uses only visible data. Industrial, buildings, and transport come from the public IEA China final-consumption table. Those TJ values are converted to bcm using 38.93 MJ per standard cubic metre. The power bucket is the residual against JODI 2023 apparent demand, so it should be read as power plus unallocated system and storage effects, not pure power generation.",
       },
       {
         title: "Monthly shape",
@@ -353,9 +392,9 @@ function buildOutput() {
         note: "Public China country page. The model uses its 2023 final-consumption table by sector for industry, non-energy use, residential, commercial/public services, transport, and agriculture/forestry.",
       },
       {
-        name: "IEA Energy Statistics Data Browser",
-        url: "https://www.iea.org/data-and-statistics/data-tools/energy-statistics-data-browser",
-        note: "Used for the 2023 power/CHP transformation layer that is not part of the final-consumption table.",
+        name: "IEA natural gas heat value for China",
+        url: "https://en.wikipedia.org/wiki/Heat_of_combustion#Higher_heating_values_of_natural_gases_from_various_sources",
+        note: "Visible reference for IEA-reported China higher heating value of 38.93 MJ per standard cubic metre, used to convert IEA TJ gross values to bcm.",
       },
       {
         name: "National Bureau of Statistics of China, 2023 Statistical Communique",
