@@ -27,6 +27,12 @@
     return sectors.find((item) => item.key === key);
   }
 
+  function sourceLink(name, label = name) {
+    const item = data.sources.find((source) => source.name === name);
+    if (!item) return label;
+    return `<a href="${item.url}" target="_blank" rel="noopener">${label}</a>`;
+  }
+
   function activeRows() {
     return data.monthly
       .filter((row) => row.gasYear === gasYear)
@@ -217,9 +223,8 @@
     `).join("");
     byId("anchor-shares").innerHTML = `
       ${anchorRows}
-      <p class="panel-note">Source-visible annual anchor. Power is now a residual bucket, not a separately reported IEA power value.</p>
       <h3 class="subhead">Anchor calculation, 2023</h3>
-      <p class="panel-note">JODI apparent demand: ${fmt.format(anchorCalc?.jodiApparentDemandBcm)} bcm. IEA conversion: ${fmt0.format(anchorCalc?.grossHeatValueTJPerBcm)} TJ per bcm.</p>
+      <p class="panel-note">JODI apparent demand: ${fmt.format(anchorCalc?.jodiApparentDemandBcm)} bcm (${sourceLink("JODI Gas World Database", "JODI")}). IEA sector rows: ${sourceLink("IEA China natural gas country page", "IEA China natural gas")}. IEA conversion: ${fmt0.format(anchorCalc?.grossHeatValueTJPerBcm)} TJ per bcm (${sourceLink("IEA natural gas heat value for China", "heat value")}).</p>
       <div class="source-grid" aria-label="Annual anchor calculation">
         <div class="source-row source-row-head">
           <span>Bucket</span>

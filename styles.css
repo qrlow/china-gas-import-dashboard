@@ -395,7 +395,8 @@ th.num {
   line-height: 1.45;
 }
 
-.source a {
+.source a,
+.panel-note a {
   color: var(--blue);
   overflow-wrap: anywhere;
 }
