@@ -73,6 +73,17 @@ not a storage-adjusted end-use demand number. If China is injecting gas into sto
 - Buildings / city gas: residential plus commercial/public services gas use.
 - Transport: gas used in transport.
 
+### Dashboard to IEA Mapping
+
+The dashboard buckets do not exactly match Carbon Monitor categories. IEA is used for the 2023 annual anchor. Carbon Monitor is used only for monthly shape.
+
+| Dashboard bucket | IEA annual anchor input | Carbon Monitor monthly proxy | Important caveat |
+| --- | --- | --- | --- |
+| Power / residual | Residual: JODI 2023 apparent demand minus Industrial / chemical, Buildings / city gas, and Transport | Power | Not an exact IEA category. It includes power plus anything left in apparent demand after visible IEA final-use buckets are deducted. |
+| Industrial / chemical | Industry + Non-energy use | Industry | Non-energy use is included here because the dashboard has one broad industrial/chemical bucket. |
+| Buildings / city gas | Residential + Commercial and public services | Residential | Carbon Monitor has no separate commercial/public-services gas proxy, so residential shapes the whole buildings bucket. |
+| Transport | Transport | Ground Transport | Carbon Monitor Aviation is not used in the gas dashboard. |
+
 ### Annual Anchor
 
 The annual sector anchor uses only source-visible data:

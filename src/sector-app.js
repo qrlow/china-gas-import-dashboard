@@ -248,12 +248,34 @@
   }
 
   function renderSectorDefinitions() {
-    byId("sector-definitions").innerHTML = sectors.map((item) => `
+    const mappingRows = (data.sectorMappings ?? []).map((item) => `
+      <div class="source-row sector-map-row">
+        <span>${item.dashboardBucket}</span>
+        <span>${item.ieaAnchorInput}</span>
+        <span>${item.carbonMonitorProxy}</span>
+        <span>${item.note}</span>
+      </div>
+    `).join("");
+    const definitionRows = sectors.map((item) => `
       <div class="assumption">
         <h3><i class="swatch" style="background:${item.color}"></i>${item.label}</h3>
         <p>${item.method}</p>
       </div>
     `).join("");
+    byId("sector-definitions").innerHTML = `
+      <div class="source-grid sector-map-grid" aria-label="Dashboard sector mapping to IEA and Carbon Monitor">
+        <div class="source-row source-row-head sector-map-row">
+          <span>Dashboard bucket</span>
+          <span>IEA annual anchor input</span>
+          <span>Carbon Monitor monthly proxy</span>
+          <span>Important caveat</span>
+        </div>
+        ${mappingRows}
+      </div>
+      <div class="assumption-list sector-definition-list">
+        ${definitionRows}
+      </div>
+    `;
   }
 
   function renderSources() {

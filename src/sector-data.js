@@ -1,6 +1,6 @@
 window.CHINA_GAS_SECTOR_DATA = {
   "meta": {
-    "generatedAt": "2026-07-07T08:35:23.847Z",
+    "generatedAt": "2026-07-07T09:28:58.548Z",
     "earliestModeledPeriod": "2019-01",
     "latestModeledPeriod": "2026-03",
     "currentGasYear": "2025/26",
@@ -75,7 +75,7 @@ window.CHINA_GAS_SECTOR_DATA = {
     {
       "key": "power",
       "label": "Power / residual",
-      "shortLabel": "Power/resid.",
+      "shortLabel": "Power / residual",
       "color": "#3268a8",
       "method": "Residual after source-visible IEA final-use sectors are converted to bcm and compared with JODI 2023 apparent demand; monthly shape from Carbon Monitor China power emissions."
     },
@@ -116,6 +116,32 @@ window.CHINA_GAS_SECTOR_DATA = {
       "nonEnergyUse": 589056
     }
   },
+  "sectorMappings": [
+    {
+      "dashboardBucket": "Power / residual",
+      "ieaAnchorInput": "Residual: JODI 2023 apparent demand minus Industrial / chemical, Buildings / city gas, and Transport.",
+      "carbonMonitorProxy": "Power",
+      "note": "Not an exact IEA category. It includes power plus anything left in apparent demand after visible IEA final-use buckets are deducted."
+    },
+    {
+      "dashboardBucket": "Industrial / chemical",
+      "ieaAnchorInput": "Industry + Non-energy use",
+      "carbonMonitorProxy": "Industry",
+      "note": "Non-energy use is included here because the dashboard has one broad industrial/chemical bucket."
+    },
+    {
+      "dashboardBucket": "Buildings / city gas",
+      "ieaAnchorInput": "Residential + Commercial and public services",
+      "carbonMonitorProxy": "Residential",
+      "note": "Carbon Monitor has no separate commercial/public-services gas proxy, so residential shapes the whole buildings bucket."
+    },
+    {
+      "dashboardBucket": "Transport",
+      "ieaAnchorInput": "Transport",
+      "carbonMonitorProxy": "Ground Transport",
+      "note": "Carbon Monitor Aviation is not used in the gas dashboard."
+    }
+  ],
   "annualAnchors": [
     {
       "sector": "power",
