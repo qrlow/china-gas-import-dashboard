@@ -4,6 +4,7 @@ import path from "node:path";
 const ROOT = process.cwd();
 const JODI_DATA_PATH = path.join(ROOT, "src", "data.js");
 const SECTOR_DATA_PATH = path.join(ROOT, "src", "sector-data.js");
+const CARBON_POWER_PATH = path.join(ROOT, ".cache", "carbon_power.csv");
 const OUTPUT_PATH = path.join(ROOT, "src", "switching-data.js");
 
 const GAS_TWH_TH_PER_BCM = 10.55;
@@ -123,12 +124,36 @@ const REGIONAL_CLUSTERS = [
   },
 ];
 
+const CARBON_POWER_FUEL_MAP = {
+  Coal: "coalGenerationTwh",
+  Gas: "gasGenerationTwh",
+};
+
 function readWindowData(filePath, assignmentName) {
   const text = fs.readFileSync(filePath, "utf8").trim();
   const json = text
     .replace(new RegExp(`^window\\.${assignmentName}\\s*=\\s*`), "")
     .replace(/;\s*$/, "");
   return JSON.parse(json);
+}
+
+function parseCsvLine(line) {
+  const values = [];
+  let value = "";
+  let quoted = false;
+  for (let i = 0; i < line.length; i += 1) {
+    const char = line[i];
+    if (char === '"') {
+      quoted = !quoted;
+    } else if (char === "," && !quoted) {
+      values.push(value);
+      value = "";
+    } else {
+      value += char;
+    }
+  }
+  values.push(value);
+  return values;
 }
 
 function round(value, digits = 3) {
@@ -156,7 +181,139 @@ function fullGasYears(monthly) {
     .sort();
 }
 
-function buildMonthlyShape(sector) {
+function periodMonth(period) {
+  return Number(period.slice(5, 7));
+}
+
+function periodYear(period) {
+  return Number(period.slice(0, 4));
+}
+
+function gasYearLabel(period) {
+  const year = periodYear(period);
+  const month = periodMonth(period);
+  const start = month >= 10 ? year : year - 1;
+  return `${start}/${String(start + 1).slice(2)}`;
+}
+
+function gasYearMonth(period) {
+  const month = periodMonth(period);
+  return month >= 10 ? month - 9 : month + 3;
+}
+
+function monthLabel(period) {
+  return new Date(`${period}-01T00:00:00Z`).toLocaleString("en", {
+    month: "short",
+    timeZone: "UTC",
+  });
+}
+
+function latestTwelveMonthSummary(monthly) {
+  const rows = monthly.slice(-12);
+  const coalGenerationTwh = sum(rows, (row) => row.coalGenerationTwh);
+  const gasGenerationTwh = sum(rows, (row) => row.gasGenerationTwh);
+  const coalGasTotalTwh = coalGenerationTwh + gasGenerationTwh;
+  return {
+    startPeriod: rows[0]?.period ?? null,
+    endPeriod: rows.at(-1)?.period ?? null,
+    coalGenerationTwh: round(coalGenerationTwh, 1),
+    gasGenerationTwh: round(gasGenerationTwh, 1),
+    coalGasTotalTwh: round(coalGasTotalTwh, 1),
+    gasShareCoalGas: coalGasTotalTwh > 0 ? round(gasGenerationTwh / coalGasTotalTwh, 4) : null,
+    gasToCoalRatio: coalGenerationTwh > 0 ? round(gasGenerationTwh / coalGenerationTwh, 4) : null,
+  };
+}
+
+function buildAnnualCarbonPower(monthly) {
+  const byYear = new Map();
+  for (const row of monthly) {
+    const year = row.period.slice(0, 4);
+    if (!byYear.has(year)) byYear.set(year, []);
+    byYear.get(year).push(row);
+  }
+
+  return [...byYear.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([year, rows]) => {
+      const coalGenerationTwh = sum(rows, (row) => row.coalGenerationTwh);
+      const gasGenerationTwh = sum(rows, (row) => row.gasGenerationTwh);
+      const coalGasTotalTwh = coalGenerationTwh + gasGenerationTwh;
+      return {
+        year,
+        complete: rows.length === 12,
+        months: rows.length,
+        coalGenerationTwh: round(coalGenerationTwh, 1),
+        gasGenerationTwh: round(gasGenerationTwh, 1),
+        gasShareCoalGas: coalGasTotalTwh > 0 ? round(gasGenerationTwh / coalGasTotalTwh, 4) : null,
+      };
+    });
+}
+
+function readCarbonMonitorPower() {
+  if (!fs.existsSync(CARBON_POWER_PATH)) {
+    throw new Error(`Missing ${CARBON_POWER_PATH}. Download Carbon Monitor-Power CSV from https://datas.carbonmonitor.org/API/downloadFullDataset.php?source=energy_global first.`);
+  }
+
+  const text = fs.readFileSync(CARBON_POWER_PATH, "utf8").trim();
+  const lines = text.split(/\r?\n/);
+  const headers = parseCsvLine(lines[0]).map((header) => header.trim());
+  const column = Object.fromEntries(headers.map((header, index) => [header, index]));
+  const monthly = new Map();
+  let rowCount = 0;
+
+  for (const line of lines.slice(1)) {
+    if (!line) continue;
+    const row = parseCsvLine(line);
+    if (row[column.country] !== "China") continue;
+    const key = CARBON_POWER_FUEL_MAP[row[column.sector]];
+    if (!key) continue;
+    const [day, month, year] = row[column.date].split("/");
+    if (!day || !month || !year) continue;
+    const period = `${year}-${month.padStart(2, "0")}`;
+    const valueGwh = Number(row[column.value]);
+    if (!Number.isFinite(valueGwh)) continue;
+    if (!monthly.has(period)) {
+      monthly.set(period, {
+        period,
+        label: monthLabel(period),
+        gasYear: gasYearLabel(period),
+        gasYearMonth: gasYearMonth(period),
+        month: Number(month),
+        coalGenerationTwh: 0,
+        gasGenerationTwh: 0,
+      });
+    }
+    monthly.get(period)[key] += valueGwh / 1000;
+    rowCount += 1;
+  }
+
+  const rows = [...monthly.values()]
+    .sort((a, b) => a.period.localeCompare(b.period))
+    .map((row) => {
+      const coalGasTotalTwh = row.coalGenerationTwh + row.gasGenerationTwh;
+      return {
+        ...row,
+        coalGenerationTwh: round(row.coalGenerationTwh, 1),
+        gasGenerationTwh: round(row.gasGenerationTwh, 2),
+        coalGasTotalTwh: round(coalGasTotalTwh, 1),
+        gasShareCoalGas: coalGasTotalTwh > 0 ? round(row.gasGenerationTwh / coalGasTotalTwh, 4) : null,
+      };
+    });
+
+  return {
+    source: "Carbon Monitor-Power",
+    sourceUrl: "https://datas.carbonmonitor.org/API/downloadFullDataset.php?source=energy_global",
+    unit: "TWh electric per month",
+    rowCount,
+    earliestPeriod: rows[0]?.period ?? null,
+    latestPeriod: rows.at(-1)?.period ?? null,
+    latestTwelveMonths: latestTwelveMonthSummary(rows),
+    annual: buildAnnualCarbonPower(rows),
+    monthly: rows,
+  };
+}
+
+function buildSectorResidualMonthlyShape(sector) {
   const years = fullGasYears(sector.monthly).slice(-5);
   const raw = GAS_YEAR_MONTHS.map((month) => {
     const values = sector.monthly
@@ -168,6 +325,8 @@ function buildMonthlyShape(sector) {
     return {
       ...month,
       averagePowerResidualBcm,
+      averageGasGenerationTwh: null,
+      averageCoalGenerationTwh: null,
       feasibility,
       rawWeight: averagePowerResidualBcm * feasibility,
     };
@@ -178,8 +337,11 @@ function buildMonthlyShape(sector) {
     label: row.label,
     month: row.month,
     averagePowerResidualBcm: round(row.averagePowerResidualBcm, 3),
+    averageGasGenerationTwh: null,
+    averageCoalGenerationTwh: null,
     feasibility: round(row.feasibility, 3),
     normalizedWeight: round(row.rawWeight / totalRawWeight, 5),
+    source: "Sector model Power / residual fallback",
     note: row.feasibility < 0.8
       ? "Peak-demand season: gas plants are preserved for system balancing."
       : row.feasibility >= 0.96
@@ -188,11 +350,61 @@ function buildMonthlyShape(sector) {
   }));
 }
 
-function contextMetrics(jodi) {
+function buildCarbonPowerMonthlyShape(carbonPower) {
+  const years = fullGasYears(carbonPower.monthly).slice(-5);
+  const raw = GAS_YEAR_MONTHS.map((month) => {
+    const rows = carbonPower.monthly
+      .filter((row) => years.includes(row.gasYear) && row.gasYearMonth === month.index);
+    const gasValues = rows
+      .map((row) => row.gasGenerationTwh)
+      .filter((value) => Number.isFinite(value));
+    const coalValues = rows
+      .map((row) => row.coalGenerationTwh)
+      .filter((value) => Number.isFinite(value));
+    const averageGasGenerationTwh = gasValues.reduce((acc, value) => acc + value, 0) / Math.max(gasValues.length, 1);
+    const averageCoalGenerationTwh = coalValues.reduce((acc, value) => acc + value, 0) / Math.max(coalValues.length, 1);
+    const feasibility = MONTHLY_FEASIBILITY.get(month.index) ?? 1;
+    return {
+      ...month,
+      averageGasGenerationTwh,
+      averageCoalGenerationTwh,
+      averagePowerResidualBcm: null,
+      feasibility,
+      rawWeight: averageGasGenerationTwh * feasibility,
+    };
+  });
+  const totalRawWeight = sum(raw, (row) => row.rawWeight);
+  return raw.map((row) => ({
+    index: row.index,
+    label: row.label,
+    month: row.month,
+    averagePowerResidualBcm: null,
+    averageGasGenerationTwh: round(row.averageGasGenerationTwh, 2),
+    averageCoalGenerationTwh: round(row.averageCoalGenerationTwh, 1),
+    feasibility: round(row.feasibility, 3),
+    normalizedWeight: round(row.rawWeight / totalRawWeight, 5),
+    source: "Carbon Monitor-Power gas generation",
+    note: row.feasibility < 0.8
+      ? "Peak-demand season: gas plants are preserved for system balancing."
+      : row.feasibility >= 0.96
+        ? "Shoulder season: more thermal substitution is feasible if coal capacity is available."
+        : "Intermediate switching month.",
+  }));
+}
+
+function buildMonthlyShape(sector, carbonPower) {
+  if (carbonPower?.monthly?.length) return buildCarbonPowerMonthlyShape(carbonPower);
+  return buildSectorResidualMonthlyShape(sector);
+}
+
+function contextMetrics(jodi, carbonPower) {
   const latest = jodi.actuals.at(-1);
   const y2025 = calendarYearRows(jodi, 2025);
   const y2023 = calendarYearRows(jodi, 2023);
   const latestGasYearRows = jodi.actuals.filter((row) => row.gasYear === latest.gasYear);
+  const latestCompleteCarbonPowerYear = carbonPower.annual
+    .filter((row) => row.complete)
+    .at(-1);
   return {
     latestActualPeriod: latest.period,
     latestGasYear: latest.gasYear,
@@ -202,14 +414,18 @@ function contextMetrics(jodi) {
     calendar2025ApparentDemandBcm: round(sum(y2025, (row) => row.calculatedDemand), 3),
     calendar2025LNGImportsBcm: round(sum(y2025, (row) => row.lngImports), 3),
     calendar2023ApparentDemandBcm: round(sum(y2023, (row) => row.calculatedDemand), 3),
+    carbonPowerLatestPeriod: carbonPower.latestPeriod,
+    carbonPowerLatestTwelveMonths: carbonPower.latestTwelveMonths,
+    carbonPowerLatestCompleteYear: latestCompleteCarbonPowerYear ?? null,
   };
 }
 
 function buildOutput() {
   const jodi = readWindowData(JODI_DATA_PATH, "CHINA_GAS_DATA");
   const sector = readWindowData(SECTOR_DATA_PATH, "CHINA_GAS_SECTOR_DATA");
-  const monthlyShape = buildMonthlyShape(sector);
-  const context = contextMetrics(jodi);
+  const carbonPower = readCarbonMonitorPower();
+  const monthlyShape = buildMonthlyShape(sector, carbonPower);
+  const context = contextMetrics(jodi, carbonPower);
   const envelopeMidpoint = 30;
 
   return {
@@ -218,6 +434,7 @@ function buildOutput() {
       title: "China gas-to-coal switching model",
       report: "IEA Gas Market Report, Q3-2026, pages 47-53",
       latestActualPeriod: context.latestActualPeriod,
+      latestCarbonPowerPeriod: context.carbonPowerLatestPeriod,
       units: "bcm, TWh, Mt, USD unless otherwise stated",
       note: "Fuel-switching dashboard calibrated to the report's China discussion. It estimates gas-to-coal saving potential, not an official dispatch forecast.",
     },
@@ -241,6 +458,7 @@ function buildOutput() {
       chinaHighBcm: 32.5,
     },
     context,
+    carbonPower,
     scenarios: SCENARIOS,
     defaultScenarioKey: "stress",
     regionalClusters: REGIONAL_CLUSTERS.map((cluster) => ({
@@ -262,6 +480,10 @@ function buildOutput() {
       {
         title: "Fuel costs are necessary but not sufficient",
         text: "The report notes Guangdong wholesale gas prices were about 12% higher year on year by end-March 2026 and up about 60% from early March to early June, while coal prices moved more modestly. It also cautions that summer peak demand, coal utilisation, wind/nuclear underperformance, and operational factors cap feasible switching.",
+      },
+      {
+        title: "Historical power data show the scale constraint",
+        text: `Carbon Monitor-Power shows China gas-fired generation was only ${round(context.carbonPowerLatestTwelveMonths.gasShareCoalGas * 100, 1)}% of coal-plus-gas generation in the latest twelve months (${context.carbonPowerLatestTwelveMonths.startPeriod} to ${context.carbonPowerLatestTwelveMonths.endPeriod}). This is why the dashboard treats switching as a constrained gas-sector effect, not a large China power-mix displacement.`,
       },
       {
         title: "Administrative measures matter",
@@ -304,7 +526,17 @@ function buildOutput() {
       {
         name: "Carbon Monitor China",
         url: "https://cn.carbonmonitor.org/",
-        note: "Existing sector dashboard source used here only to shape the monthly Power / residual switching profile. The switch model treats that bucket as a gas-fired power proxy, with a caveat that it can include small residual items.",
+        note: "Existing sector dashboard source retained as a fallback for the older Power / residual monthly proxy. The main switch model now uses Carbon Monitor-Power fuel generation for monthly gas-power shape.",
+      },
+      {
+        name: "Carbon Monitor-Power",
+        url: "https://power.carbonmonitor.org/",
+        note: "Public daily power-generation dataset used to plot China's historical coal and gas generation and to shape monthly switching around observed gas-fired generation.",
+      },
+      {
+        name: "Carbon Monitor-Power paper",
+        url: "https://arxiv.org/abs/2209.06086",
+        note: "Describes the near-real-time global power generation dataset, including coal and gas source groups at national resolution.",
       },
     ],
   };

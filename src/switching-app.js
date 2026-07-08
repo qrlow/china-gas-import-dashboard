@@ -12,6 +12,8 @@
   const colors = {
     gas: "#3268a8",
     coal: "#917338",
+    gasPower: "#7b5bc7",
+    coalPower: "#3d4f80",
     fuel: "#3c78b5",
     vom: "#16837a",
     carbon: "#b14b4b",
@@ -99,6 +101,16 @@
     const carbonParity = carbonDenominator > 0
       ? Math.max(0, (gasFuel + gasVom - coalFuel - coalVom) / carbonDenominator)
       : null;
+    const latestCarbonGasGenerationTwh = data.carbonPower?.latestTwelveMonths?.gasGenerationTwh ?? null;
+    const latestCarbonGasBurnBcm = latestCarbonGasGenerationTwh
+      ? latestCarbonGasGenerationTwh / constants.gasTwhThermalPerBcm / rawInputs.gasEfficiency
+      : null;
+    const gasSavingShareOfObservedGasPowerBurn = latestCarbonGasBurnBcm
+      ? gasSavingMidBcm / latestCarbonGasBurnBcm
+      : null;
+    const powerShiftShareOfObservedGasGeneration = latestCarbonGasGenerationTwh
+      ? generationTwh / latestCarbonGasGenerationTwh
+      : null;
 
     const monthly = data.monthlyShape.map((row) => {
       const gasSavingBcm = gasSavingMidBcm * row.normalizedWeight;
@@ -145,6 +157,9 @@
       co2DeltaMt,
       parityGasPrice,
       carbonParity,
+      latestCarbonGasBurnBcm,
+      gasSavingShareOfObservedGasPowerBurn,
+      powerShiftShareOfObservedGasGeneration,
       direction: costGap > 0 ? "Gas-to-coal" : "Coal-to-gas",
       monthly,
       regions,
@@ -198,6 +213,7 @@
     const result = compute(inputs);
     byId("switch-note").textContent = `${scenario.note} Cost direction: ${result.direction}.`;
     renderKpis(result);
+    renderCarbonPowerContext(result);
     byId("switch-cost-chart").innerHTML = costChart(result);
     byId("switch-monthly-chart").innerHTML = monthlyChart(result);
     byId("switch-region-chart").innerHTML = regionChart(result);
@@ -239,6 +255,9 @@
   }
 
   function renderStatic() {
+    byId("switch-carbon-power-chart").innerHTML = carbonPowerChart();
+    byId("switch-carbon-power-note").textContent = `Carbon Monitor-Power daily GWh aggregated to monthly TWh. Coal uses the left axis; gas uses the right axis. Latest month: ${data.carbonPower.latestPeriod}.`;
+
     byId("switch-report-findings").innerHTML = data.reportFindings.map((item) => `
       <div class="assumption">
         <h3>${escapeHtml(item.title)}</h3>
@@ -268,6 +287,37 @@
     }).join("");
   }
 
+  function renderCarbonPowerContext(result) {
+    const latest = data.carbonPower.latestTwelveMonths;
+    const completeYear = data.context.carbonPowerLatestCompleteYear;
+    const items = [
+      {
+        title: "Historical scale",
+        text: `From ${latest.startPeriod} to ${latest.endPeriod}, Carbon Monitor-Power reports ${fmt.format(latest.coalGenerationTwh)} TWh of China coal generation and ${fmt.format(latest.gasGenerationTwh)} TWh of gas generation. Gas is ${pct(latest.gasShareCoalGas)} of coal-plus-gas generation.`,
+      },
+      {
+        title: "Observed gas-power base",
+        text: `At the current gas efficiency setting, the latest twelve months of gas-fired generation imply about ${fmt.format(result.latestCarbonGasBurnBcm)} bcm of gas burn in power. This scenario saves ${fmt.format(result.gasSavingMidBcm)} bcm, or ${pct(result.gasSavingShareOfObservedGasPowerBurn)} of that observed gas-power base.`,
+      },
+      {
+        title: "Monthly shape",
+        text: "The monthly allocation now uses recent Carbon Monitor-Power gas generation by month before the peak-season feasibility adjustment. The older Power / residual bucket remains only as a fallback if the power-generation file is unavailable.",
+      },
+      {
+        title: "Latest complete year",
+        text: completeYear
+          ? `In ${completeYear.year}, gas generation was ${fmt.format(completeYear.gasGenerationTwh)} TWh and coal generation was ${fmt.format(completeYear.coalGenerationTwh)} TWh; gas was ${pct(completeYear.gasShareCoalGas)} of coal-plus-gas generation.`
+          : "No complete calendar year is available in the Carbon Monitor-Power extract.",
+      },
+    ];
+    byId("switch-carbon-power-context").innerHTML = items.map((item) => `
+      <div class="assumption">
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.text)}</p>
+      </div>
+    `).join("");
+  }
+
   function renderMethodology(result) {
     const context = data.context;
     const items = [
@@ -285,7 +335,7 @@
       },
       {
         title: "Monthly shape",
-        text: `The annual result is distributed across gas-year months using the existing sector model's Power / residual bucket as the gas-fired power proxy, then adjusted down in summer and winter peak months. The note is that this bucket is not metered plant-level gas burn; it may include small residual items, but it is the best available monthly shape in this dashboard. Context: JODI 2025 apparent gas demand is ${fmt.format(context.calendar2025ApparentDemandBcm)} bcm and LNG imports are ${fmt.format(context.calendar2025LNGImportsBcm)} bcm.`,
+        text: `The annual result is distributed across gas-year months using recent Carbon Monitor-Power gas-fired generation, then adjusted down in summer and winter peak months. This is a direct power-generation shape rather than the older JODI Power / residual proxy. Context: JODI 2025 apparent gas demand is ${fmt.format(context.calendar2025ApparentDemandBcm)} bcm and LNG imports are ${fmt.format(context.calendar2025LNGImportsBcm)} bcm.`,
       },
       {
         title: "Break-even checks",
@@ -402,6 +452,59 @@
         ${bars}
       </svg>
       ${legend([{ label: "Gas saving, bcm", color: colors.saving }])}
+    `;
+  }
+
+  function carbonPowerChart() {
+    const rows = data.carbonPower.monthly;
+    const width = 760;
+    const height = 340;
+    const pad = { top: 20, right: 76, bottom: 64, left: 72 };
+    const x = (i) => pad.left + (i / Math.max(rows.length - 1, 1)) * (width - pad.left - pad.right);
+    const coalScale = chartScales(rows.map((row) => row.coalGenerationTwh), width, height, pad, { min: 0 });
+    const gasScale = chartScales(rows.map((row) => row.gasGenerationTwh), width, height, pad, { min: 0 });
+    const yAt = (t) => pad.top + (1 - t) * (height - pad.top - pad.bottom);
+    const tickFractions = [0, 0.25, 0.5, 0.75, 1];
+    const ticks = tickFractions.map((t) => ({
+      y: yAt(t),
+      coal: coalScale.min + (coalScale.max - coalScale.min) * t,
+      gas: gasScale.min + (gasScale.max - gasScale.min) * t,
+    }));
+    const yearTicks = rows
+      .map((row, i) => ({ row, i }))
+      .filter(({ row }) => row.period.endsWith("-01"));
+    const linePath = (key, scale) => rows
+      .map((row, i) => `${i === 0 ? "M" : "L"} ${x(i)} ${scale.y(row[key])}`)
+      .join(" ");
+    const latest = rows.at(-1);
+    const latestX = x(rows.length - 1);
+    return `
+      <svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
+        ${ticks.map((tick) => `
+          <line class="grid-line" x1="${pad.left}" y1="${tick.y}" x2="${width - pad.right}" y2="${tick.y}"></line>
+          <text x="${pad.left - 10}" y="${tick.y + 4}" text-anchor="end" class="chart-label">${fmt0.format(tick.coal)}</text>
+          <text x="${width - pad.right + 10}" y="${tick.y + 4}" class="chart-label">${fmt.format(tick.gas)}</text>
+        `).join("")}
+        ${yearTicks.map(({ row, i }) => `
+          <line class="grid-line" x1="${x(i)}" y1="${pad.top}" x2="${x(i)}" y2="${height - pad.bottom}" opacity="0.45"></line>
+          <text x="${x(i)}" y="${height - 36}" text-anchor="middle" class="chart-label">${row.period.slice(0, 4)}</text>
+        `).join("")}
+        <path d="${linePath("coalGenerationTwh", coalScale)}" fill="none" stroke="${colors.coalPower}" stroke-width="3"></path>
+        <path d="${linePath("gasGenerationTwh", gasScale)}" fill="none" stroke="${colors.gasPower}" stroke-width="3"></path>
+        <circle cx="${latestX}" cy="${coalScale.y(latest.coalGenerationTwh)}" r="4" fill="${colors.coalPower}">
+          <title>Latest coal generation: ${fmt.format(latest.coalGenerationTwh)} TWh in ${latest.period}</title>
+        </circle>
+        <circle cx="${latestX}" cy="${gasScale.y(latest.gasGenerationTwh)}" r="4" fill="${colors.gasPower}">
+          <title>Latest gas generation: ${fmt.format(latest.gasGenerationTwh)} TWh in ${latest.period}</title>
+        </circle>
+        <text x="${pad.left + (width - pad.left - pad.right) / 2}" y="${height - 12}" text-anchor="middle" class="chart-label">Month</text>
+        <text x="17" y="${pad.top + (height - pad.top - pad.bottom) / 2}" text-anchor="middle" class="chart-label" transform="rotate(-90 17 ${pad.top + (height - pad.top - pad.bottom) / 2})">Coal generation (TWh/month)</text>
+        <text x="${width - 17}" y="${pad.top + (height - pad.top - pad.bottom) / 2}" text-anchor="middle" class="chart-label" transform="rotate(90 ${width - 17} ${pad.top + (height - pad.top - pad.bottom) / 2})">Gas generation (TWh/month)</text>
+      </svg>
+      ${legend([
+        { label: "Coal generation, left axis", color: colors.coalPower, line: true },
+        { label: "Gas generation, right axis", color: colors.gasPower, line: true },
+      ])}
     `;
   }
 

@@ -13,6 +13,8 @@ For China, the report highlights four constraints that are explicitly represente
 - Guangdong gas prices rose sharply through Q2 2026, while coal prices moved more modestly.
 - Summer peak demand, wind/nuclear underperformance, coal utilisation, and administrative policy determine how much switching is feasible.
 
+The model also adds a historical feasibility check from Carbon Monitor-Power. That dataset reports China daily generation by source. The dashboard aggregates the daily coal and gas rows to monthly TWh and plots them directly. This makes the main China constraint visible: gas generation is small beside coal generation, so switching is important for marginal gas demand but minor for the whole power mix.
+
 ## Fuel Cost Formula
 
 The model computes short-run marginal cost in USD/MWh electric:
@@ -58,13 +60,49 @@ feasible gas saving =
 
 The low/high displayed range applies the same factor to the 27.5-32.5 bcm/year China envelope.
 
+The dashboard also compares the scenario volume with recent observed gas-fired generation:
+
+```text
+observed gas-power burn =
+  latest 12 months Carbon Monitor-Power gas generation
+  / gas efficiency
+  / 10.55 TWh thermal per bcm
+
+scenario share of observed gas-power burn =
+  feasible gas saving / observed gas-power burn
+```
+
+This check does not replace the IEA technical envelope. It tells the user whether the scenario is small or large relative to the historical gas-fired power base.
+
 ## Monthly Shape
 
-The annual result is distributed by gas-year month using the existing sector dashboard's recent modeled `Power / residual` bucket as the gas-fired power proxy, then adjusted for seasonal feasibility.
+The annual result is distributed by gas-year month using recent Carbon Monitor-Power gas-fired generation, then adjusted for seasonal feasibility.
 
-This bucket is not metered plant-level gas burn. It is the leftover after visible industry, buildings, and transport buckets are separated from JODI apparent demand. The model treats the leftover as mostly gas-fired power for monthly timing, with the note that it can include small residual items.
+The generator averages recent complete gas years by gas-year month. For each month, it takes:
+
+```text
+monthly weight =
+  average Carbon Monitor-Power gas generation for that gas-year month
+  x seasonal feasibility factor
+```
+
+The twelve monthly weights are then normalized to sum to 100%. This means the annual bcm result follows the observed gas-generation shape rather than apparent gas demand.
+
+The older sector dashboard `Power / residual` bucket is still retained as a fallback if the Carbon Monitor-Power CSV is not available. That bucket is not metered plant-level gas burn. It is the leftover after visible industry, buildings, and transport buckets are separated from JODI apparent demand, so it can include small residual items.
 
 Summer and winter peak months receive lower feasibility factors because the report says gas plants remain important for peak balancing.
+
+## Carbon Monitor-Power Processing
+
+The raw public export is downloaded from:
+
+```text
+https://datas.carbonmonitor.org/API/downloadFullDataset.php?source=energy_global
+```
+
+The generator keeps only China `Coal` and `Gas` rows, converts daily GWh to monthly TWh, and stores the compact monthly series in `src/switching-data.js`.
+
+The dashboard explicitly plots the monthly coal and gas generation history. Because coal generation is much larger than gas generation, the chart uses two y-axes: coal on the left and gas on the right. The values are still absolute monthly TWh, not indexes.
 
 ## GitHub Scan
 
