@@ -1,6 +1,22 @@
 (function () {
   const data = window.CHINA_GAS_DATA;
-  let gasYear = data.meta.currentGasYear;
+  const YEAR_BASIS_STORAGE_KEY = "chinaGasYearBasis";
+  const calendarMonths = [
+    { index: 1, label: "Jan" },
+    { index: 2, label: "Feb" },
+    { index: 3, label: "Mar" },
+    { index: 4, label: "Apr" },
+    { index: 5, label: "May" },
+    { index: 6, label: "Jun" },
+    { index: 7, label: "Jul" },
+    { index: 8, label: "Aug" },
+    { index: 9, label: "Sep" },
+    { index: 10, label: "Oct" },
+    { index: 11, label: "Nov" },
+    { index: 12, label: "Dec" },
+  ];
+  let yearBasis = localStorage.getItem(YEAR_BASIS_STORAGE_KEY) === "calendar" ? "calendar" : "gas";
+  let selectedYear = defaultYear(yearBasis);
 
   const colors = {
     total: "#1c3f5f",
@@ -33,28 +49,75 @@
     return `${year}-${month}`;
   }
 
+  function calendarYear(period) {
+    return period.slice(0, 4);
+  }
+
+  function calendarMonth(period) {
+    return Number(period.slice(5, 7));
+  }
+
+  function calendarYears() {
+    return [...new Set(data.actuals.map((row) => calendarYear(row.period)))].sort();
+  }
+
+  function yearOptions() {
+    return yearBasis === "gas" ? data.gasYears : calendarYears();
+  }
+
+  function defaultYear(basis) {
+    return basis === "gas" ? data.meta.currentGasYear : calendarYear(data.meta.latestActualPeriod);
+  }
+
+  function periodLabel() {
+    return yearBasis === "gas" ? "Gas year" : "Calendar year";
+  }
+
+  function basisRangeText() {
+    return yearBasis === "gas" ? "Oct-Sep" : "Jan-Dec";
+  }
+
+  function monthAxis() {
+    return yearBasis === "gas" ? data.gasYearMonths : calendarMonths;
+  }
+
+  function rowYear(row) {
+    return yearBasis === "gas" ? row.gasYear : calendarYear(row.period);
+  }
+
+  function rowMonthIndex(row) {
+    return yearBasis === "gas" ? row.gasYearMonth : calendarMonth(row.period);
+  }
+
+  function periodFallback(year, month) {
+    if (yearBasis === "gas") return `${year} ${month.label}`;
+    return `${year}-${String(month.index).padStart(2, "0")}`;
+  }
+
   function sum(rows, getter) {
     return rows.reduce((acc, row) => acc + number(getter(row)), 0);
   }
 
   function activeRows() {
     return data.actuals
-      .filter((row) => row.gasYear === gasYear)
-      .sort((a, b) => a.gasYearMonth - b.gasYearMonth);
+      .filter((row) => rowYear(row) === selectedYear)
+      .sort((a, b) => rowMonthIndex(a) - rowMonthIndex(b));
   }
 
-  function activeGasYears() {
-    const index = data.gasYears.indexOf(gasYear);
-    return data.gasYears.slice(Math.max(0, index - 4), index + 1);
+  function activeYears() {
+    const options = yearOptions();
+    const index = options.indexOf(selectedYear);
+    return options.slice(Math.max(0, index - 4), index + 1);
   }
 
-  function averageGasYears() {
-    const index = data.gasYears.indexOf(gasYear);
-    return data.gasYears.slice(Math.max(0, index - 5), index);
+  function averageYears() {
+    const options = yearOptions();
+    const index = options.indexOf(selectedYear);
+    return options.slice(Math.max(0, index - 5), index);
   }
 
-  function rowForGasYearMonth(rows, monthIndex) {
-    return rows?.find((row) => row.gasYearMonth === monthIndex);
+  function rowForMonth(rows, monthIndex) {
+    return rows?.find((row) => rowMonthIndex(row) === monthIndex);
   }
 
   function yearRangeLabel(years) {
@@ -66,13 +129,19 @@
     byId("latest-actual").textContent = `Latest actual: ${data.meta.latestActualPeriod}`;
 
     const select = byId("gas-year-select");
-    select.innerHTML = data.gasYears.map((year) => `
-      <option value="${year}" ${year === gasYear ? "selected" : ""}>${year}</option>
-    `).join("");
     select.addEventListener("change", () => {
-      gasYear = select.value;
+      selectedYear = select.value;
       render();
     });
+    for (const button of document.querySelectorAll("[data-year-basis]")) {
+      button.addEventListener("click", () => {
+        if (button.dataset.yearBasis === yearBasis) return;
+        yearBasis = button.dataset.yearBasis;
+        localStorage.setItem(YEAR_BASIS_STORAGE_KEY, yearBasis);
+        selectedYear = defaultYear(yearBasis);
+        render();
+      });
+    }
 
     renderSources();
     renderDefinitions();
@@ -80,15 +149,16 @@
   }
 
   function render() {
+    renderControls();
     const rows = activeRows();
-    const years = activeGasYears();
-    const avgYears = averageGasYears();
+    const years = activeYears();
+    const avgYears = averageYears();
     const first = rows[0]?.period ?? "";
     const last = rows.at(-1)?.period ?? "";
-    byId("gas-year-range").textContent = `${gasYear}: ${first} to ${last}`;
-    byId("dashboard-note").textContent = `JODI actuals only. Gross imports and balance compare ${years.join(", ")}; the import stack shows ${gasYear} against the prior-five-year monthly average.`;
+    byId("gas-year-range").textContent = `${periodLabel()} ${selectedYear}: ${first} to ${last}`;
+    byId("dashboard-note").textContent = `JODI actuals only. ${periodLabel()} view (${basisRangeText()}). Gross imports and balance compare ${years.join(", ")}; the import stack shows ${selectedYear} against the prior-five-year monthly average.`;
     byId("line-chart-title").textContent = `Total Imports, ${years[0]} to ${years.at(-1)}`;
-    byId("supply-title").textContent = `LNG and Pipeline Imports, ${gasYear} vs ${yearRangeLabel(avgYears)} Avg`;
+    byId("supply-title").textContent = `LNG and Pipeline Imports, ${selectedYear} vs ${yearRangeLabel(avgYears)} Avg`;
     byId("balance-title").textContent = `Calculated Demand, ${years[0]} to ${years.at(-1)}`;
     renderKpis(rows);
     renderLineChart(years);
@@ -97,9 +167,23 @@
     renderTable(rows);
   }
 
+  function renderControls() {
+    const options = yearOptions();
+    if (!options.includes(selectedYear)) selectedYear = options.at(-1);
+    byId("period-select-label").textContent = periodLabel();
+    byId("gas-year-select").innerHTML = options.map((year) => `
+      <option value="${year}" ${year === selectedYear ? "selected" : ""}>${year}</option>
+    `).join("");
+    for (const button of document.querySelectorAll("[data-year-basis]")) {
+      const active = button.dataset.yearBasis === yearBasis;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    }
+  }
+
   function renderKpis(rows) {
     const items = [
-      ["Gas-Year Gross Imports", `${fmt.format(sum(rows, (row) => row.totalImports))} bcm`, `${rows.length} reported month${rows.length === 1 ? "" : "s"}`],
+      [`${periodLabel()} Gross Imports`, `${fmt.format(sum(rows, (row) => row.totalImports))} bcm`, `${rows.length} reported month${rows.length === 1 ? "" : "s"}`],
       ["LNG Imports", `${fmt.format(sum(rows, (row) => row.lngImports))} bcm`, `${fmt.format(sum(rows, (row) => row.lngImportsMt))} mt`],
       ["Pipeline Imports", `${fmt.format(sum(rows, (row) => row.pipelineImports))} bcm`, "JODI total pipeline imports"],
       ["Calculated Demand", `${fmt.format(sum(rows, (row) => row.calculatedDemand))} bcm`, "JODI gross inland deliveries"],
@@ -114,28 +198,30 @@
   }
 
   function renderLineChart(years) {
+    const months = monthAxis();
     const series = years.map((year, index) => {
-      const rows = data.actuals.filter((row) => row.gasYear === year);
+      const rows = data.actuals.filter((row) => rowYear(row) === year);
       return {
         name: year,
         color: gasYearColors[index % gasYearColors.length],
-        values: data.gasYearMonths.map((month, xIndex) => {
-          const row = rowForGasYearMonth(rows, month.index);
+        values: months.map((month, xIndex) => {
+          const row = rowForMonth(rows, month.index);
           return {
             xIndex,
             label: month.label,
-            period: row?.period ?? `${year} ${month.label}`,
+            period: row?.period ?? periodFallback(year, month),
             value: row?.totalImports ?? null,
           };
         }),
       };
     });
-    byId("line-chart").innerHTML = lineChart(series, "bcm", data.gasYearMonths.map((month) => month.label));
+    byId("line-chart").innerHTML = lineChart(series, "bcm", months.map((month) => month.label));
   }
 
   function renderStackedImports(rows, avgYears) {
-    const chartRows = data.gasYearMonths.map((month, xIndex) => {
-      const row = rowForGasYearMonth(rows, month.index);
+    const months = monthAxis();
+    const chartRows = months.map((month, xIndex) => {
+      const row = rowForMonth(rows, month.index);
       const hasData = row && [row.totalImports, row.lngImports, row.pipelineImports].some((value) => value != null);
       const lng = number(row?.lngImports);
       const pipeline = number(row?.pipelineImports);
@@ -143,7 +229,7 @@
       const other = hasData ? Math.max(0, total - lng - pipeline) : null;
       return {
         xIndex,
-        period: row?.period ?? `${gasYear} ${month.label}`,
+        period: row?.period ?? periodFallback(selectedYear, month),
         label: month.label,
         total: hasData ? total : null,
         values: hasData ? [
@@ -157,41 +243,42 @@
       { label: "Prior 5-year avg total", color: colors.total, dash: "7 5", points: monthlyAverageSeries(avgYears, "totalImports") },
       { label: "Prior 5-year avg LNG", color: colors.lng, dash: "3 4", points: monthlyAverageSeries(avgYears, "lngImports") },
     ];
-    byId("stack-chart").innerHTML = stackedBarWithAverage(chartRows, avgSeries, ["LNG", "Pipeline", "Other / rounding"], "bcm", data.gasYearMonths.map((month) => month.label));
+    byId("stack-chart").innerHTML = stackedBarWithAverage(chartRows, avgSeries, ["LNG", "Pipeline", "Other / rounding"], "bcm", months.map((month) => month.label));
   }
 
   function renderBalanceChart(years) {
+    const months = monthAxis();
     const series = years.map((year, index) => {
-      const rows = data.actuals.filter((row) => row.gasYear === year);
+      const rows = data.actuals.filter((row) => rowYear(row) === year);
       return {
         name: year,
         color: gasYearColors[index % gasYearColors.length],
-        values: data.gasYearMonths.map((month, xIndex) => {
-          const row = rowForGasYearMonth(rows, month.index);
+        values: months.map((month, xIndex) => {
+          const row = rowForMonth(rows, month.index);
           return {
             xIndex,
             label: month.label,
-            period: row?.period ?? `${year} ${month.label}`,
+            period: row?.period ?? periodFallback(year, month),
             value: row?.calculatedDemand ?? null,
           };
         }),
       };
     });
-    byId("balance-chart").innerHTML = lineChart(series, "bcm", data.gasYearMonths.map((month) => month.label));
+    byId("balance-chart").innerHTML = lineChart(series, "bcm", months.map((month) => month.label));
   }
 
-  function rowsByGasYear(years) {
+  function rowsByYear(years) {
     return new Map(years.map((year) => [
       year,
-      data.actuals.filter((row) => row.gasYear === year),
+      data.actuals.filter((row) => rowYear(row) === year),
     ]));
   }
 
   function monthlyAverageSeries(years, key) {
-    const rowsByYear = rowsByGasYear(years);
-    return data.gasYearMonths.map((month, xIndex) => {
+    const groupedRows = rowsByYear(years);
+    return monthAxis().map((month, xIndex) => {
       const values = years
-        .map((year) => rowForGasYearMonth(rowsByYear.get(year), month.index)?.[key])
+        .map((year) => rowForMonth(groupedRows.get(year), month.index)?.[key])
         .filter((value) => value != null && !Number.isNaN(value));
       return {
         xIndex,

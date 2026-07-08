@@ -1,7 +1,23 @@
 (function () {
   const data = window.CHINA_GAS_SECTOR_DATA;
   const sectors = data.sectorDefinitions;
-  let gasYear = data.meta.currentGasYear;
+  const YEAR_BASIS_STORAGE_KEY = "chinaGasYearBasis";
+  const calendarMonths = [
+    { index: 1, label: "Jan" },
+    { index: 2, label: "Feb" },
+    { index: 3, label: "Mar" },
+    { index: 4, label: "Apr" },
+    { index: 5, label: "May" },
+    { index: 6, label: "Jun" },
+    { index: 7, label: "Jul" },
+    { index: 8, label: "Aug" },
+    { index: 9, label: "Sep" },
+    { index: 10, label: "Oct" },
+    { index: 11, label: "Nov" },
+    { index: 12, label: "Dec" },
+  ];
+  let yearBasis = localStorage.getItem(YEAR_BASIS_STORAGE_KEY) === "calendar" ? "calendar" : "gas";
+  let selectedYear = defaultYear(yearBasis);
 
   const fmt = new Intl.NumberFormat("en", { maximumFractionDigits: 1, minimumFractionDigits: 1 });
   const fmt0 = new Intl.NumberFormat("en", { maximumFractionDigits: 0 });
@@ -33,29 +49,66 @@
     return `<a href="${item.url}" target="_blank" rel="noopener">${label}</a>`;
   }
 
+  function calendarYear(period) {
+    return period.slice(0, 4);
+  }
+
+  function calendarMonth(period) {
+    return Number(period.slice(5, 7));
+  }
+
+  function calendarYears() {
+    return [...new Set(data.monthly.map((row) => calendarYear(row.period)))].sort();
+  }
+
+  function yearOptions() {
+    return yearBasis === "gas" ? data.gasYears : calendarYears();
+  }
+
+  function defaultYear(basis) {
+    return basis === "gas" ? data.meta.currentGasYear : calendarYear(data.meta.latestModeledPeriod);
+  }
+
+  function periodLabel() {
+    return yearBasis === "gas" ? "Gas year" : "Calendar year";
+  }
+
+  function basisRangeText() {
+    return yearBasis === "gas" ? "Oct-Sep" : "Jan-Dec";
+  }
+
+  function monthAxis() {
+    return yearBasis === "gas" ? data.gasYearMonths : calendarMonths;
+  }
+
+  function rowYear(row) {
+    return yearBasis === "gas" ? row.gasYear : calendarYear(row.period);
+  }
+
+  function rowMonthIndex(row) {
+    return yearBasis === "gas" ? row.gasYearMonth : calendarMonth(row.period);
+  }
+
   function activeRows() {
     return data.monthly
-      .filter((row) => row.gasYear === gasYear)
-      .sort((a, b) => a.gasYearMonth - b.gasYearMonth);
+      .filter((row) => rowYear(row) === selectedYear)
+      .sort((a, b) => rowMonthIndex(a) - rowMonthIndex(b));
   }
 
   function sum(rows, getter) {
     return rows.reduce((acc, row) => acc + number(getter(row)), 0);
   }
 
-  function rowForGasYearMonth(rows, monthIndex) {
-    return rows.find((row) => row.gasYearMonth === monthIndex);
+  function rowForMonth(rows, monthIndex) {
+    return rows.find((row) => rowMonthIndex(row) === monthIndex);
   }
 
-  function gasYearStart(gasYearLabel) {
-    return Number(gasYearLabel.slice(0, 4));
-  }
-
-  function periodForGasYearMonth(gasYearLabel, index) {
-    const start = gasYearStart(gasYearLabel);
-    const month = index <= 3 ? index + 9 : index - 3;
-    const year = index <= 3 ? start : start + 1;
-    return `${year}-${String(month).padStart(2, "0")}`;
+  function periodForMonth(year, monthIndex) {
+    if (yearBasis === "calendar") return `${year}-${String(monthIndex).padStart(2, "0")}`;
+    const start = Number(year.slice(0, 4));
+    const month = monthIndex <= 3 ? monthIndex + 9 : monthIndex - 3;
+    const periodYear = monthIndex <= 3 ? start : start + 1;
+    return `${periodYear}-${String(month).padStart(2, "0")}`;
   }
 
   function formatPeriodShort(period) {
@@ -68,13 +121,19 @@
   function init() {
     byId("latest-modeled").textContent = `Latest modeled: ${data.meta.latestModeledPeriod}`;
     const select = byId("sector-gas-year-select");
-    select.innerHTML = data.gasYears.map((year) => `
-      <option value="${year}" ${year === gasYear ? "selected" : ""}>${year}</option>
-    `).join("");
     select.addEventListener("change", () => {
-      gasYear = select.value;
+      selectedYear = select.value;
       render();
     });
+    for (const button of document.querySelectorAll("[data-year-basis]")) {
+      button.addEventListener("click", () => {
+        if (button.dataset.yearBasis === yearBasis) return;
+        yearBasis = button.dataset.yearBasis;
+        localStorage.setItem(YEAR_BASIS_STORAGE_KEY, yearBasis);
+        selectedYear = defaultYear(yearBasis);
+        render();
+      });
+    }
 
     renderMethodology();
     renderAnchorShares();
@@ -84,20 +143,35 @@
   }
 
   function render() {
+    renderControls();
     const rows = activeRows();
     const first = rows[0]?.period ?? "";
     const last = rows.at(-1)?.period ?? "";
-    byId("sector-gas-year-range").textContent = `${gasYear}: ${first} to ${last}`;
-    byId("sector-dashboard-note").textContent = "Historical model only. JODI TOTDEMC is treated as apparent demand; storage builds/withdrawals are not separated from the sector allocation.";
-    byId("sector-stack-title").textContent = `Modeled Apparent Sector Stack, ${gasYear}`;
-    byId("sector-share-title").textContent = `Monthly Sector Shares, ${gasYear}`;
-    byId("proxy-title").textContent = `Carbon Monitor Monthly Index, ${gasYear}`;
-    byId("sector-table-title").textContent = `Modeled Monthly Apparent Sector Demand, ${gasYear}`;
+    byId("sector-gas-year-range").textContent = `${periodLabel()} ${selectedYear}: ${first} to ${last}`;
+    byId("sector-dashboard-note").textContent = `Historical model only. ${periodLabel()} view (${basisRangeText()}). JODI TOTDEMC is treated as apparent demand; storage builds/withdrawals are not separated from the sector allocation.`;
+    byId("sector-stack-title").textContent = `Modeled Apparent Sector Stack, ${selectedYear}`;
+    byId("sector-share-title").textContent = `Monthly Sector Shares, ${selectedYear}`;
+    byId("proxy-title").textContent = `Carbon Monitor Monthly Index, ${selectedYear}`;
+    byId("sector-table-title").textContent = `Modeled Monthly Apparent Sector Demand, ${selectedYear}`;
     renderKpis(rows);
     renderSectorStack(rows);
     renderShareChart(rows);
     renderProxyChart(rows);
     renderTable(rows);
+  }
+
+  function renderControls() {
+    const options = yearOptions();
+    if (!options.includes(selectedYear)) selectedYear = options.at(-1);
+    byId("sector-period-select-label").textContent = periodLabel();
+    byId("sector-gas-year-select").innerHTML = options.map((year) => `
+      <option value="${year}" ${year === selectedYear ? "selected" : ""}>${year}</option>
+    `).join("");
+    for (const button of document.querySelectorAll("[data-year-basis]")) {
+      const active = button.dataset.yearBasis === yearBasis;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    }
   }
 
   function renderKpis(rows) {
@@ -114,7 +188,7 @@
       : null;
     const items = [
       ["Modeled Apparent Demand", `${fmt.format(total)} bcm`, `${rows.length} modeled month${rows.length === 1 ? "" : "s"}`],
-      [largest.shortLabel, `${fmt.format(largest.value)} bcm`, `${percent(total ? largest.value / total : null)} of selected gas year`],
+      [largest.shortLabel, `${fmt.format(largest.value)} bcm`, `${percent(total ? largest.value / total : null)} of selected ${periodLabel().toLowerCase()}`],
       ["Latest Month", latest ? `${fmt.format(latest.totalDemand)} bcm` : "", latest ? `${latest.period}, JODI apparent total` : ""],
       ["Latest Lead Sector", latestSector ? latestSector.shortLabel : "", latestSector && latest ? `${fmt.format(latestSector.value)} bcm in ${latest.period}` : ""],
     ];
@@ -128,9 +202,9 @@
   }
 
   function completeRows(rows) {
-    return data.gasYearMonths.map((month, xIndex) => {
-      const row = rowForGasYearMonth(rows, month.index);
-      const period = row?.period ?? periodForGasYearMonth(gasYear, month.index);
+    return monthAxis().map((month, xIndex) => {
+      const row = rowForMonth(rows, month.index);
+      const period = row?.period ?? periodForMonth(selectedYear, month.index);
       return {
         ...row,
         xIndex,

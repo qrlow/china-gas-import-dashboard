@@ -27,14 +27,23 @@
       </header>
 
       <section class="control-band" aria-label="Dashboard controls">
-        <div class="field">
-          <label for="gas-year-select">Gas year</label>
-          <select id="gas-year-select"></select>
+        <div class="control-fields">
+          <div class="field">
+            <label>Year basis</label>
+            <div class="segmented year-basis-toggle" role="group" aria-label="Year basis">
+              <button class="segment" type="button" data-year-basis="gas">Gas year</button>
+              <button class="segment" type="button" data-year-basis="calendar">Calendar year</button>
+            </div>
+          </div>
+          <div class="field">
+            <label id="period-select-label" for="gas-year-select">Gas year</label>
+            <select id="gas-year-select"></select>
+          </div>
         </div>
         <p id="dashboard-note" class="dashboard-note"></p>
       </section>
 
-      <section class="kpi-grid" id="kpi-grid" aria-label="Key gas-year actual metrics"></section>
+      <section class="kpi-grid" id="kpi-grid" aria-label="Key selected-year actual metrics"></section>
 
       <section class="grid two-col">
         <article class="panel">
@@ -84,7 +93,7 @@
           <ol class="model-flow">
             <li>Read China `NATGAS` monthly rows from the JODI Gas World Database.</li>
             <li>Convert JODI `M3` rows from million cubic meters to bcm.</li>
-            <li>Order the selected gas year from October through September.</li>
+            <li>Order the selected view by gas year from October through September or by calendar year from January through December.</li>
             <li>Display only reported JODI actual months.</li>
             <li>Check the balance residual: production + imports - exports - stock change - calculated demand.</li>
           </ol>

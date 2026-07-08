@@ -11,15 +11,17 @@ The dashboard displays monthly China natural gas actuals from JODI. It does not 
 
 `M3` values in the JODI CSV are million cubic meters. The dashboard divides them by 1,000 to show bcm. `KTONS` values are thousand tonnes. The dashboard divides them by 1,000 to show million tonnes.
 
-## Gas-Year View
+## Year View
 
 Gas years run from October through September. For example, gas year `2025/26` starts in `2025-10` and ends in `2026-09`.
 
-The dashboard defaults to the gas year containing the latest JODI actual month.
+Calendar years run from January through December. The dashboard has a `Year basis` toggle that switches the JODI actuals and sector model pages between gas-year and calendar-year views.
 
-The KPI cards, monthly table, and import stack show the selected gas year from the dashboard dropdown. The gross imports and calculated-demand chart panels compare the selected gas year against the prior four gas years where available.
+The dashboard defaults to the selected basis containing the latest JODI actual month.
 
-The import stack overlays monthly average lines for total imports and LNG imports from the five gas years before the selected gas year. For example, gas year `2025/26` is shown against the average of `2020/21` through `2024/25` where data is available.
+The KPI cards, monthly table, and import stack show the selected year from the dashboard dropdown. The gross imports and calculated-demand chart panels compare the selected year against the prior four years where available.
+
+The import stack overlays monthly average lines for total imports and LNG imports from the five years before the selected year. For example, gas year `2025/26` is shown against the average of `2020/21` through `2024/25` where data is available. Calendar year `2025` is shown against the average of `2020` through `2024`.
 
 ## Flow Codes
 

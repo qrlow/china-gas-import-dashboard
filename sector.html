@@ -27,9 +27,18 @@
       </header>
 
       <section class="control-band" aria-label="Sector model controls">
-        <div class="field">
-          <label for="sector-gas-year-select">Gas year</label>
-          <select id="sector-gas-year-select"></select>
+        <div class="control-fields">
+          <div class="field">
+            <label>Year basis</label>
+            <div class="segmented year-basis-toggle" role="group" aria-label="Year basis">
+              <button class="segment" type="button" data-year-basis="gas">Gas year</button>
+              <button class="segment" type="button" data-year-basis="calendar">Calendar year</button>
+            </div>
+          </div>
+          <div class="field">
+            <label id="sector-period-select-label" for="sector-gas-year-select">Gas year</label>
+            <select id="sector-gas-year-select"></select>
+          </div>
         </div>
         <p id="sector-dashboard-note" class="dashboard-note"></p>
       </section>
