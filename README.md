@@ -56,6 +56,8 @@ The sector page adds free public sources:
 - IEA-reported China gas heat value reference: https://en.wikipedia.org/wiki/Heat_of_combustion#Higher_heating_values_of_natural_gases_from_various_sources
 - National Bureau of Statistics of China 2023 statistical communique: https://www.stats.gov.cn/sj/zxfb/202402/t20240228_1947915.html
 
+For unit shortcuts used in China gas analysis, see `docs/gas-conversion-cheatsheet.html`.
+
 ## Boundaries
 
 These dashboards do not forecast. The JODI page is actuals only.

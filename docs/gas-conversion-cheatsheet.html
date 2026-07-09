@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>China Gas Conversion Cheatsheet</title>
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body>
+    <main class="shell cheat-shell">
+      <header class="cheat-hero">
+        <div>
+          <a class="back-link" href="../index.html">Back to dashboard</a>
+          <p class="eyebrow">China natural gas</p>
+          <h1>Gas Conversion Cheatsheet</h1>
+          <p class="cheat-lede">Essential unit bridges for China gas balances, LNG imports, prices, power burn, and emissions. The project-standard conversion uses the IEA China gross heat value.</p>
+        </div>
+        <div class="hero-formula" aria-label="Project standard conversion">
+          <span>1 bcm</span>
+          <strong>38,930 TJ</strong>
+          <span>38.93 PJ gross, HHV</span>
+        </div>
+      </header>
+
+      <section class="cheat-callout" aria-label="Sector model formula">
+        <div>
+          <p class="eyebrow">Model standard</p>
+          <h2>IEA `TJ gross` to bcm</h2>
+        </div>
+        <div class="formula-pair">
+          <code>bcm = TJ gross / 38,930</code>
+          <code>TJ gross = bcm * 38,930</code>
+        </div>
+      </section>
+
+      <section class="cheat-metric-grid" aria-label="Core conversion highlights">
+        <article class="metric-tile">
+          <span>1 scm</span>
+          <strong>10.814 kWh</strong>
+          <p>Thermal heat input, HHV basis.</p>
+        </article>
+        <article class="metric-tile">
+          <span>1 bcm</span>
+          <strong>36.899 TBtu</strong>
+          <p>Bridge to LNG and gas price units.</p>
+        </article>
+        <article class="metric-tile">
+          <span>1 bcm</span>
+          <strong>0.9298 Mtoe</strong>
+          <p>Oil-equivalent comparison.</p>
+        </article>
+        <article class="metric-tile">
+          <span>1 bcm</span>
+          <strong>35.315 Bcf</strong>
+          <p>Imperial volume bridge.</p>
+        </article>
+      </section>
+
+      <section class="cheat-layout">
+        <article class="cheat-panel">
+          <div class="cheat-panel-head">
+            <p class="eyebrow">Core factors</p>
+            <h2>Volume to Energy</h2>
+          </div>
+          <div class="cheat-table-wrap">
+            <table class="cheat-table">
+              <thead>
+                <tr>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Factor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1 bcm</td><td>TJ gross</td><td>38,930</td></tr>
+                <tr><td>1 bcm</td><td>PJ gross</td><td>38.93</td></tr>
+                <tr><td>1 bcm</td><td>TWh thermal</td><td>10.814</td></tr>
+                <tr><td>1 thousand m3</td><td>MMBtu</td><td>36.899</td></tr>
+                <tr><td>1 bcm</td><td>Mtce</td><td>1.328</td></tr>
+                <tr><td>1 Mtce</td><td>bcm</td><td>0.753</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="cheat-panel">
+          <div class="cheat-panel-head">
+            <p class="eyebrow">Dataset conventions</p>
+            <h2>Common China Rows</h2>
+          </div>
+          <div class="rule-list">
+            <div><strong>JODI `M3`</strong><span>bcm = value / 1,000</span></div>
+            <div><strong>JODI `KTONS`</strong><span>Mt = value / 1,000</span></div>
+            <div><strong>100 million m3</strong><span>bcm = value / 10</span></div>
+            <div><strong>IEA `TJ gross`</strong><span>bcm = value / 38,930</span></div>
+            <div><strong>MMscf/d</strong><span>bcm/y = value * 0.01034</span></div>
+            <div><strong>mcm/d</strong><span>bcm/y = value * 0.365</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="cheat-layout">
+        <article class="cheat-panel">
+          <div class="cheat-panel-head">
+            <p class="eyebrow">LNG shortcuts</p>
+            <h2>Tonne to Gas</h2>
+          </div>
+          <div class="rule-list compact">
+            <div><strong>1 Mt LNG</strong><span>about 1.36 bcm</span></div>
+            <div><strong>1 bcm gas</strong><span>about 0.735 Mt LNG</span></div>
+            <div><strong>1 Mt LNG</strong><span>about 50.2 TBtu</span></div>
+            <div><strong>1 t LNG</strong><span>about 50-52 MMBtu</span></div>
+            <div><strong>70 kt cargo</strong><span>about 0.095 bcm</span></div>
+            <div><strong>10 bcm/y</strong><span>about 7.35 mtpa LNG</span></div>
+          </div>
+          <p class="cheat-note">Use cargo specs when available. LNG density and heat content move the answer.</p>
+        </article>
+
+        <article class="cheat-panel price-panel">
+          <div class="cheat-panel-head">
+            <p class="eyebrow">Price bridges</p>
+            <h2>USD/MMBtu to RMB/m3</h2>
+          </div>
+          <div class="formula-stack">
+            <code>USD/m3 = price * 0.0368985</code>
+            <code>RMB/m3 = price * 0.0368985 * FX</code>
+            <code>USD/MWh thermal = price * 3.41214</code>
+          </div>
+          <div class="price-strip" aria-label="Price examples at 7.20 RMB per USD">
+            <div><span>USD 8</span><strong>2.13</strong><small>RMB/m3</small></div>
+            <div><span>USD 10</span><strong>2.66</strong><small>RMB/m3</small></div>
+            <div><span>USD 12</span><strong>3.19</strong><small>RMB/m3</small></div>
+          </div>
+          <p class="cheat-note">Examples use `FX = 7.20`.</p>
+        </article>
+      </section>
+
+      <section class="cheat-layout">
+        <article class="cheat-panel">
+          <div class="cheat-panel-head">
+            <p class="eyebrow">Power sector</p>
+            <h2>Electric Output per bcm</h2>
+          </div>
+          <div class="efficiency-bars">
+            <div style="--bar: 75%">
+              <span>45% HHV</span>
+              <strong>4.87 TWh</strong>
+            </div>
+            <div style="--bar: 83%">
+              <span>50% HHV</span>
+              <strong>5.41 TWh</strong>
+            </div>
+            <div style="--bar: 92%">
+              <span>55% HHV</span>
+              <strong>5.95 TWh</strong>
+            </div>
+            <div style="--bar: 100%">
+              <span>60% HHV</span>
+              <strong>6.49 TWh</strong>
+            </div>
+          </div>
+          <p class="cheat-note">Do not mix LHV plant efficiencies directly with IEA `TJ gross`. Natural gas LHV is roughly 90% of HHV.</p>
+        </article>
+
+        <article class="cheat-panel">
+          <div class="cheat-panel-head">
+            <p class="eyebrow">Combustion CO2</p>
+            <h2>Emissions Rules</h2>
+          </div>
+          <div class="emissions-grid">
+            <div><span>1 bcm gas</span><strong>1.95 MtCO2</strong></div>
+            <div><span>1 Mt LNG</span><strong>2.65 MtCO2</strong></div>
+            <div><span>1 TWh electric</span><strong>0.36 MtCO2</strong><small>at 50% HHV efficiency</small></div>
+          </div>
+          <p class="cheat-note">Combustion only. Upstream methane, liquefaction, shipping, regas, and distribution losses are excluded.</p>
+        </article>
+      </section>
+
+      <section class="cheat-panel full-width">
+        <div class="cheat-panel-head">
+          <p class="eyebrow">Worked examples</p>
+          <h2>Fast Checks</h2>
+        </div>
+        <div class="example-grid">
+          <code>6,232,455 TJ / 38,930 = 160.1 bcm</code>
+          <code>229.7 in 100 million m3 / 10 = 22.97 bcm</code>
+          <code>6.0 Mt LNG * 1.36 = 8.16 bcm</code>
+          <code>USD 10/MMBtu * 0.0368985 * 7.20 = 2.66 RMB/m3</code>
+        </div>
+      </section>
+
+      <section class="cheat-panel full-width">
+        <div class="cheat-panel-head">
+          <p class="eyebrow">Pitfalls</p>
+          <h2>Keep the Basis Visible</h2>
+        </div>
+        <ul class="pitfall-list">
+          <li>IEA `TJ gross` is HHV/GCV. Many plant efficiencies and some balances use LHV/NCV.</li>
+          <li>`bcm` is not a fixed energy unit across countries; gas quality changes energy per cubic metre.</li>
+          <li>Use the project factor for model consistency even when market sources round to `36 TBtu/bcm`, `0.9 Mtoe/bcm`, or `1.38 bcm/Mt LNG`.</li>
+          <li>Prefer cargo heat content over tonne-to-bcm shortcuts when pricing or reconciling customs data.</li>
+          <li>JODI `TOTDEMC` is apparent demand; storage injections and withdrawals can separate it from end-use demand.</li>
+        </ul>
+      </section>
+
+      <section class="cheat-sources">
+        <p>Sources: local model convention in <a href="model.md">docs/model.md</a> and <a href="../scripts/build-sector-data.mjs">scripts/build-sector-data.mjs</a>; <a href="https://www.iea.org/countries/china/natural-gas">IEA China natural gas</a>; <a href="https://en.wikipedia.org/wiki/Heat_of_combustion#Higher_heating_values_of_natural_gases_from_various_sources">IEA-reported China HHV reference used by the project</a>; <a href="https://www.eia.gov/energyexplained/units-and-calculators/">EIA units</a>; <a href="https://www.eia.gov/environment/emissions/co2_vol_mass.php">EIA CO2 coefficients</a>.</p>
+      </section>
+    </main>
+  </body>
+</html>

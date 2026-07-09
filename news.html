@@ -3,14 +3,24 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>China LNG News Monitor</title>
+    <title>China Natural Gas News Monitor</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">China LNG</p>
+          <div class="eyebrow-row">
+            <p class="eyebrow">China natural gas</p>
+            <a class="note-link" href="docs/gas-conversion-cheatsheet.html" aria-label="Open gas conversion cheatsheet" title="Gas conversion cheatsheet">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M6 3h8l4 4v14H6z"></path>
+                <path d="M14 3v5h5"></path>
+                <path d="M9 13h6"></path>
+                <path d="M9 17h4"></path>
+              </svg>
+            </a>
+          </div>
           <h1>News Monitor</h1>
         </div>
         <div class="topbar-actions">
@@ -41,7 +51,7 @@
         <p id="news-note" class="dashboard-note"></p>
       </section>
 
-      <section class="factor-grid" id="news-factor-grid" aria-label="China LNG demand factor map"></section>
+      <section class="factor-grid" id="news-factor-grid" aria-label="China natural gas demand factor map"></section>
 
       <section class="panel">
         <div class="panel-head">
@@ -57,7 +67,7 @@
         <div class="panel-head">
           <div>
             <p class="eyebrow">Monitor table</p>
-            <h2>China LNG News Items</h2>
+            <h2>China Natural Gas News Items</h2>
           </div>
         </div>
         <div class="table-wrap">
