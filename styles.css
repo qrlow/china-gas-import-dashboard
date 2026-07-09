@@ -582,6 +582,137 @@ th.num {
   display: inline-block;
 }
 
+.news-card-list {
+  display: grid;
+  gap: 10px;
+}
+
+.news-card {
+  border-top: 1px solid #edf1f5;
+  padding-top: 11px;
+}
+
+.news-card:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.news-card-meta,
+.source-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.news-card-meta {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.news-card h3 {
+  margin: 7px 0 5px;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.news-card h3 a,
+.news-headline a {
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.news-card h3 a:hover,
+.news-headline a:hover {
+  text-decoration: underline;
+}
+
+.news-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.news-card .news-action {
+  margin-top: 6px;
+  color: #334150;
+}
+
+.priority-badge,
+.coverage-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 750;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.priority-high {
+  color: #fff;
+  background: var(--red);
+}
+
+.priority-medium {
+  color: #fff;
+  background: var(--amber);
+}
+
+.priority-manual {
+  color: #fff;
+  background: var(--muted);
+}
+
+.coverage-direct {
+  color: #fff;
+  background: var(--teal);
+}
+
+.coverage-indexed {
+  color: #fff;
+  background: var(--blue);
+}
+
+.coverage-manual {
+  color: #fff;
+  background: var(--muted);
+}
+
+.news-source {
+  display: grid;
+  gap: 5px;
+}
+
+.news-source h3 {
+  margin: 0;
+}
+
+.news-source p strong {
+  color: #334150;
+}
+
+.news-table {
+  min-width: 1320px;
+}
+
+.news-table th:nth-child(5),
+.news-table td:nth-child(5) {
+  min-width: 250px;
+}
+
+.news-table th:nth-child(6),
+.news-table td:nth-child(6),
+.news-table th:nth-child(7),
+.news-table td:nth-child(7) {
+  min-width: 260px;
+}
+
 @media (max-width: 980px) {
   .topbar,
   .control-band {

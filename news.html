@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>China LNG News Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">China LNG</p>
+          <h1>News Monitor</h1>
+        </div>
+        <div class="topbar-actions">
+          <nav class="topnav" aria-label="Dashboard navigation">
+            <a class="is-active" href="news.html">News Monitor</a>
+            <a href="index.html">JODI actuals</a>
+            <a href="sector.html">Sector model</a>
+            <a href="switching.html">Switch model</a>
+          </nav>
+          <div class="meta">
+            <span id="news-scan-date">Scan date</span>
+            <span id="news-source-count">Sources</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="control-band" aria-label="News monitor controls">
+        <div class="control-fields">
+          <div class="field">
+            <label for="news-source-filter">Source</label>
+            <select id="news-source-filter"></select>
+          </div>
+          <div class="field">
+            <label for="news-theme-filter">Theme</label>
+            <select id="news-theme-filter"></select>
+          </div>
+        </div>
+        <p id="news-note" class="dashboard-note"></p>
+      </section>
+
+      <section class="kpi-grid" id="news-kpis" aria-label="News monitor key metrics"></section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Latest signals</p>
+              <h2>Highest Priority Items</h2>
+            </div>
+          </div>
+          <div id="news-priority-list" class="news-card-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Source coverage</p>
+              <h2>Required Sources Checked</h2>
+            </div>
+          </div>
+          <div id="news-source-coverage" class="source-list"></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Monitor table</p>
+            <h2>China LNG News Items</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="news-table" class="news-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Source</th>
+                <th>Theme</th>
+                <th>Priority</th>
+                <th>Headline / signal</th>
+                <th>Why it matters</th>
+                <th>Monitor action</th>
+                <th>Access</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="src/news-data.js"></script>
+    <script src="src/news-app.js"></script>
+  </body>
+</html>
