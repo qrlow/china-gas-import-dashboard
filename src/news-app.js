@@ -25,6 +25,12 @@
     return factorMap.get(item.factorId) ?? { id: item.factorId, name: item.factorId, index: 999 };
   }
 
+  function itemsForFactor(factorId) {
+    return data.items
+      .filter((item) => item.factorId === factorId)
+      .sort((a, b) => b.date.localeCompare(a.date));
+  }
+
   function filteredItems() {
     return data.items
       .filter((item) => sourceFilter === "All" || item.source === sourceFilter)
@@ -74,6 +80,22 @@
     renderTable(items);
   }
 
+  function currentReadLinks(factor) {
+    const items = itemsForFactor(factor.id);
+    if (!items.length) return "";
+
+    return `
+      <ul class="current-read-links" aria-label="${escapeHtml(factor.name)} current read article links">
+        ${items.map((item) => `
+          <li>
+            <span>${escapeHtml(item.date)} - ${escapeHtml(item.source)}</span>
+            <a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.headline)}</a>
+          </li>
+        `).join("")}
+      </ul>
+    `;
+  }
+
   function renderFactors() {
     byId("news-factor-grid").innerHTML = data.factors.map((factor) => `
       <article class="factor-card">
@@ -82,7 +104,10 @@
         <dl>
           <div>
             <dt>Current read</dt>
-            <dd>${escapeHtml(factor.read)}</dd>
+            <dd>
+              <span>${escapeHtml(factor.read)}</span>
+              ${currentReadLinks(factor)}
+            </dd>
           </div>
           <div>
             <dt>Watch</dt>
