@@ -640,30 +640,36 @@ th.num {
 
 .current-read-links {
   display: grid;
-  gap: 5px;
+  gap: 6px;
   list-style: none;
-  margin: 8px 0 0;
+  margin: 10px 0 0;
   padding: 0;
 }
 
 .current-read-links li {
   display: grid;
-  gap: 2px;
+  gap: 3px;
+  padding: 7px 9px 7px 10px;
+  border-left: 3px solid #123d67;
+  border-radius: 6px;
+  background: #edf4fb;
 }
 
 .current-read-links span {
-  color: #52616f;
+  color: #1d4f80;
   font-size: 11px;
   font-weight: 750;
   text-transform: uppercase;
 }
 
 .current-read-links a {
-  color: var(--navy);
+  color: #092b4c;
+  font-weight: 750;
   text-decoration: none;
 }
 
 .current-read-links a:hover {
+  color: #071f38;
   text-decoration: underline;
 }
 
