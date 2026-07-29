@@ -1,14 +1,15 @@
 # China Gas Dashboards
 
-China Gas Dashboards is a static analytics project for China natural gas balances.
-It shows monthly JODI gas actuals and a separate historical sector-demand model for power, industrial, buildings/city gas, and transport.
+China Gas Dashboards is a static analytics project for natural gas analysis.
+It shows China monthly JODI gas actuals, historical sector demand and fuel switching models, and a browser-based TTF storage optimizer.
 
 ## Use It
 
-Open `index.html` in a browser for the JODI actuals page, or `sector.html` for the sector-demand model. The public GitHub Pages versions are:
+Open `index.html` in a browser for the JODI actuals page, `sector.html` for the sector-demand model, or `storage.html` for the TTF storage optimizer. The public GitHub Pages versions are:
 
 - JODI actuals: https://qrlow.github.io/china-gas-import-dashboard/
 - Sector model: https://qrlow.github.io/china-gas-import-dashboard/sector.html
+- TTF storage optimizer: https://qrlow.github.io/china-gas-import-dashboard/storage.html
 
 To regenerate the data file from the public JODI gas CSV package:
 
@@ -36,6 +37,19 @@ node scripts/build-sector-data.mjs
 - JODI flow-code definitions and source links.
 - Historical monthly allocation of JODI apparent demand, split into power/residual, industrial/chemical, buildings/city gas, and transport.
 - Carbon Monitor China monthly proxy indexes and source-visible IEA/JODI annual anchors used by the sector model.
+- An editable 12-month TTF curve and deterministic intrinsic storage schedule subject to capacity, rate, efficiency, cost, and terminal-inventory constraints.
+
+## Storage Optimizer
+
+The storage page is an educational prototype. It uses dynamic programming on a 10 GWh inventory grid to maximize forward cash flow after injection and withdrawal losses and variable costs. The required ending inventory prevents the model from creating apparent value by emptying the asset at the end of the horizon.
+
+The included curves are illustrative, not current market settlements. A production model would need daily products, asset-specific ratchets, fixed capacity and financing costs, outages, bid-offer spreads, and stochastic re-optimization.
+
+Run the storage model tests with:
+
+```sh
+node --test tests/storage-model.test.js
+```
 
 ## Data Sources
 

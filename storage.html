@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TTF Storage Optimizer</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">European natural gas</p>
+          <h1>TTF Storage Optimizer</h1>
+        </div>
+        <div class="topbar-actions">
+          <nav class="topnav" aria-label="Dashboard navigation">
+            <a href="news.html">News Monitor</a>
+            <a href="index.html">JODI actuals</a>
+            <a href="sector.html">Sector model</a>
+            <a href="switching.html">Switch model</a>
+            <a class="is-active" href="storage.html">Storage optimizer</a>
+          </nav>
+          <div class="meta">
+            <span>Illustrative TTF curve</span>
+            <span>Monthly intrinsic value</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="control-band storage-control-band" aria-label="Storage scenario controls">
+        <div class="control-fields">
+          <div class="field">
+            <label for="scenario-select">Curve scenario</label>
+            <select id="scenario-select">
+              <option value="seasonal">Seasonal contango</option>
+              <option value="backwardation">Winter backwardation</option>
+              <option value="flat">Flat curve</option>
+              <option value="volatile">Volatile shoulders</option>
+            </select>
+          </div>
+          <button class="secondary-button" id="reset-button" type="button">Reset assumptions</button>
+        </div>
+        <p class="dashboard-note">Edit the curve or asset constraints. Results recalculate immediately.</p>
+      </section>
+
+      <section class="storage-input-layout" aria-label="Storage model inputs">
+        <article class="panel storage-assumptions-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Asset constraints</p>
+              <h2>Storage Assumptions</h2>
+            </div>
+          </div>
+          <div class="storage-field-grid">
+            <div class="number-field">
+              <label for="capacity">Working capacity</label>
+              <div><input id="capacity" type="number" min="100" step="10" value="1000"><span>GWh</span></div>
+            </div>
+            <div class="number-field">
+              <label for="minimum-inventory">Minimum inventory</label>
+              <div><input id="minimum-inventory" type="number" min="0" step="10" value="50"><span>GWh</span></div>
+            </div>
+            <div class="number-field">
+              <label for="starting-inventory">Starting inventory</label>
+              <div><input id="starting-inventory" type="number" min="0" step="10" value="350"><span>GWh</span></div>
+            </div>
+            <div class="number-field">
+              <label for="terminal-inventory">Required ending inventory</label>
+              <div><input id="terminal-inventory" type="number" min="0" step="10" value="350"><span>GWh</span></div>
+            </div>
+            <div class="number-field">
+              <label for="max-injection">Max monthly injection</label>
+              <div><input id="max-injection" type="number" min="10" step="10" value="100"><span>GWh</span></div>
+            </div>
+            <div class="number-field">
+              <label for="max-withdrawal">Max monthly withdrawal</label>
+              <div><input id="max-withdrawal" type="number" min="10" step="10" value="140"><span>GWh</span></div>
+            </div>
+            <div class="number-field">
+              <label for="injection-efficiency">Injection efficiency</label>
+              <div><input id="injection-efficiency" type="number" min="50" max="100" step="1" value="97"><span>%</span></div>
+            </div>
+            <div class="number-field">
+              <label for="withdrawal-efficiency">Withdrawal efficiency</label>
+              <div><input id="withdrawal-efficiency" type="number" min="50" max="100" step="1" value="98"><span>%</span></div>
+            </div>
+            <div class="number-field">
+              <label for="injection-cost">Injection cost</label>
+              <div><input id="injection-cost" type="number" min="0" step="0.05" value="0.35"><span>€/MWh</span></div>
+            </div>
+            <div class="number-field">
+              <label for="withdrawal-cost">Withdrawal cost</label>
+              <div><input id="withdrawal-cost" type="number" min="0" step="0.05" value="0.25"><span>€/MWh</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel curve-editor-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Editable forward marks</p>
+              <h2>TTF Settlement Curve</h2>
+            </div>
+            <span class="curve-unit">€/MWh</span>
+          </div>
+          <div id="curve-inputs" class="curve-input-grid"></div>
+          <p class="panel-note">Illustrative prices for testing the model. They are not current market settlements.</p>
+        </article>
+      </section>
+
+      <div id="model-error" class="model-error" role="alert" hidden></div>
+      <section class="kpi-grid storage-kpis" id="storage-kpis" aria-label="Optimization results"></section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Forward economics</p>
+              <h2>Curve and Optimal Action</h2>
+            </div>
+          </div>
+          <div id="action-chart" class="chart storage-chart" role="img" aria-label="TTF forward prices and optimized monthly storage actions"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Operating path</p>
+              <h2>Inventory Through Time</h2>
+            </div>
+          </div>
+          <div id="inventory-chart" class="chart storage-chart" role="img" aria-label="Optimized storage inventory path"></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Monthly nomination plan</p>
+            <h2>Optimal Schedule</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="storage-table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th class="num">TTF</th>
+                <th>Action</th>
+                <th class="num">Inventory change</th>
+                <th class="num">Ending inventory</th>
+                <th class="num">Market volume</th>
+                <th class="num">Monthly cash flow</th>
+                <th class="num">Cumulative cash flow</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="grid two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Decision logic</p>
+              <h2>What the Optimizer Does</h2>
+            </div>
+          </div>
+          <ol class="model-flow">
+            <li>Observe the editable monthly TTF forward curve.</li>
+            <li>Test feasible inventory moves on a 10 GWh grid.</li>
+            <li>Account for injection and withdrawal losses and variable costs.</li>
+            <li>Choose the highest-value path that respects capacity, rate, and ending-inventory constraints.</li>
+          </ol>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Prototype boundary</p>
+              <h2>How to Read the Result</h2>
+            </div>
+          </div>
+          <p class="method-copy">Intrinsic value is the cash value available from the entered forward curve if the nominated schedule can be locked in. It is not a forecast or the full value of storage optionality.</p>
+          <p class="method-copy">A desk model would next add daily products, inventory-dependent ratchets, booked capacity fees, financing, outages, bid-offer spreads, and stochastic re-optimization.</p>
+        </article>
+      </section>
+    </main>
+
+    <script src="src/storage-model.js"></script>
+    <script src="src/storage-app.js"></script>
+  </body>
+</html>
