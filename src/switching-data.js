@@ -1,10 +1,10 @@
 window.CHINA_GAS_SWITCHING_DATA = {
   "meta": {
-    "generatedAt": "2026-07-08T05:56:48.250Z",
+    "generatedAt": "2026-08-09T06:27:42.058Z",
     "title": "China gas-to-coal switching model",
     "report": "IEA Gas Market Report, Q3-2026, pages 47-53",
     "latestActualPeriod": "2026-03",
-    "latestCarbonPowerPeriod": "2026-05",
+    "latestCarbonPowerPeriod": "2026-06",
     "units": "bcm, TWh, Mt, USD unless otherwise stated",
     "note": "Fuel-switching dashboard calibrated to the report's China discussion. It estimates gas-to-coal saving potential, not an official dispatch forecast."
   },
@@ -36,15 +36,15 @@ window.CHINA_GAS_SWITCHING_DATA = {
     "calendar2025ApparentDemandBcm": 418.468,
     "calendar2025LNGImportsBcm": 91.688,
     "calendar2023ApparentDemandBcm": 380.901,
-    "carbonPowerLatestPeriod": "2026-05",
+    "carbonPowerLatestPeriod": "2026-06",
     "carbonPowerLatestTwelveMonths": {
-      "startPeriod": "2025-06",
-      "endPeriod": "2026-05",
-      "coalGenerationTwh": 5439.5,
-      "gasGenerationTwh": 382.4,
-      "coalGasTotalTwh": 5821.9,
-      "gasShareCoalGas": 0.0657,
-      "gasToCoalRatio": 0.0703
+      "startPeriod": "2025-07",
+      "endPeriod": "2026-06",
+      "coalGenerationTwh": 5447.1,
+      "gasGenerationTwh": 382.3,
+      "coalGasTotalTwh": 5829.4,
+      "gasShareCoalGas": 0.0656,
+      "gasToCoalRatio": 0.0702
     },
     "carbonPowerLatestCompleteYear": {
       "year": "2025",
@@ -59,17 +59,17 @@ window.CHINA_GAS_SWITCHING_DATA = {
     "source": "Carbon Monitor-Power",
     "sourceUrl": "https://datas.carbonmonitor.org/API/downloadFullDataset.php?source=energy_global",
     "unit": "TWh electric per month",
-    "rowCount": 5416,
+    "rowCount": 5476,
     "earliestPeriod": "2019-01",
-    "latestPeriod": "2026-05",
+    "latestPeriod": "2026-06",
     "latestTwelveMonths": {
-      "startPeriod": "2025-06",
-      "endPeriod": "2026-05",
-      "coalGenerationTwh": 5439.5,
-      "gasGenerationTwh": 382.4,
-      "coalGasTotalTwh": 5821.9,
-      "gasShareCoalGas": 0.0657,
-      "gasToCoalRatio": 0.0703
+      "startPeriod": "2025-07",
+      "endPeriod": "2026-06",
+      "coalGenerationTwh": 5447.1,
+      "gasGenerationTwh": 382.3,
+      "coalGasTotalTwh": 5829.4,
+      "gasShareCoalGas": 0.0656,
+      "gasToCoalRatio": 0.0702
     },
     "annual": [
       {
@@ -131,9 +131,9 @@ window.CHINA_GAS_SWITCHING_DATA = {
       {
         "year": "2026",
         "complete": false,
-        "months": 5,
-        "coalGenerationTwh": 2160.6,
-        "gasGenerationTwh": 140.8,
+        "months": 6,
+        "coalGenerationTwh": 2579.2,
+        "gasGenerationTwh": 168.3,
         "gasShareCoalGas": 0.0612
       }
     ],
@@ -1116,6 +1116,17 @@ window.CHINA_GAS_SWITCHING_DATA = {
         "gasGenerationTwh": 24.72,
         "coalGasTotalTwh": 419.7,
         "gasShareCoalGas": 0.0589
+      },
+      {
+        "period": "2026-06",
+        "label": "Jun",
+        "gasYear": "2025/26",
+        "gasYearMonth": 9,
+        "month": 6,
+        "coalGenerationTwh": 418.6,
+        "gasGenerationTwh": 27.44,
+        "coalGasTotalTwh": 446,
+        "gasShareCoalGas": 0.0615
       }
     ]
   },
@@ -1371,7 +1382,7 @@ window.CHINA_GAS_SWITCHING_DATA = {
     },
     {
       "title": "Historical power data show the scale constraint",
-      "text": "Carbon Monitor-Power shows China gas-fired generation was only 6.6% of coal-plus-gas generation in the latest twelve months (2025-06 to 2026-05). This is why the dashboard treats switching as a constrained gas-sector effect, not a large China power-mix displacement."
+      "text": "Carbon Monitor-Power shows China gas-fired generation was only 6.6% of coal-plus-gas generation in the latest twelve months (2025-07 to 2026-06). This is why the dashboard treats switching as a constrained gas-sector effect, not a large China power-mix displacement."
     },
     {
       "title": "Administrative measures matter",

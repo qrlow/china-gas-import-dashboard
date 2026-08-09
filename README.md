@@ -18,6 +18,15 @@ node scripts/build-dashboard-data.mjs
 ```
 
 The script downloads the JODI Gas World Database zip into `.cache/`, extracts China natural gas rows, and writes `src/data.js`.
+Use `--force-download` to refresh the cached ZIP before rebuilding.
+
+To refresh all generated dashboard data that depends on JODI:
+
+```sh
+node scripts/update-jodi-data.mjs
+```
+
+That command force-downloads the latest JODI gas ZIP, refreshes supporting public Carbon Monitor CSVs used by the sector and switching pages, rebuilds `src/data.js`, `src/sector-data.js`, and `src/switching-data.js`, and suppresses timestamp-only generated-file changes.
 
 To regenerate the sector model, first download the open Carbon Monitor China CSV into `.cache/carbon_china.csv`, then run the generator:
 
@@ -50,6 +59,25 @@ Run the storage model tests with:
 ```sh
 node --test tests/storage-model.test.js
 ```
+
+## Automatic JODI Updates
+
+GitHub Actions runs `.github/workflows/update-jodi-data.yml` on the day after each published 2026 JODI World Database update date:
+
+- January 22
+- February 20
+- March 19
+- April 22
+- May 21
+- June 23
+- July 22
+- August 21
+- September 23
+- October 22
+- November 20
+- December 22
+
+The workflow can also be run manually from GitHub Actions. It commits generated data only when the rebuilt dashboard data changes beyond `generatedAt` timestamps.
 
 ## Data Sources
 

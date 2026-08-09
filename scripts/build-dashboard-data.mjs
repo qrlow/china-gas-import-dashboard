@@ -8,12 +8,15 @@ const cacheDir = path.join(repoRoot, ".cache");
 const zipPath = path.join(cacheDir, "GAS_world_NewFormat.zip");
 const outPath = path.join(repoRoot, "src", "data.js");
 const dataUrl = "https://www.jodidata.org/jodi-publisher/gas/23/GAS_world_NewFormat.zip";
+const forceDownload = process.argv.includes("--force-download") || process.env.JODI_FORCE_DOWNLOAD === "1";
 
 await fs.mkdir(cacheDir, { recursive: true });
 await fs.mkdir(path.dirname(outPath), { recursive: true });
 
-if (!existsSync(zipPath)) {
-  execFileSync("curl", ["-L", "--fail", "-o", zipPath, dataUrl], { stdio: "inherit" });
+if (forceDownload || !existsSync(zipPath)) {
+  const tmpPath = `${zipPath}.tmp`;
+  execFileSync("curl", ["-L", "--fail", "--retry", "3", "--retry-delay", "5", "-o", tmpPath, dataUrl], { stdio: "inherit" });
+  await fs.rename(tmpPath, zipPath);
 }
 
 const csvText = execFileSync("unzip", ["-p", zipPath, "STAGING_world_NewFormat.csv"], {

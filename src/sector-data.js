@@ -1,6 +1,6 @@
 window.CHINA_GAS_SECTOR_DATA = {
   "meta": {
-    "generatedAt": "2026-07-07T09:28:58.548Z",
+    "generatedAt": "2026-08-09T06:27:41.504Z",
     "earliestModeledPeriod": "2019-01",
     "latestModeledPeriod": "2026-03",
     "currentGasYear": "2025/26",
@@ -8,7 +8,7 @@ window.CHINA_GAS_SECTOR_DATA = {
     "note": "Historical top-down allocation of JODI apparent demand. Because China stock change is not reported in this JODI extract, modeled sectors are not storage-adjusted end-use demand.",
     "carbonMonitorPeriod": {
       "earliest": "2019-01",
-      "latest": "2026-03"
+      "latest": "2026-05"
     }
   },
   "gasYears": [
@@ -4149,6 +4149,36 @@ window.CHINA_GAS_SECTOR_DATA = {
         "industrial": 1.026,
         "buildings": 1.39,
         "transport": 1.036
+      }
+    },
+    {
+      "period": "2026-04",
+      "raw": {
+        "power": 324.747,
+        "industrial": 444.375,
+        "buildings": 13.784,
+        "transport": 88.61
+      },
+      "index": {
+        "power": 0.861,
+        "industrial": 0.994,
+        "buildings": 0.307,
+        "transport": 0.964
+      }
+    },
+    {
+      "period": "2026-05",
+      "raw": {
+        "power": 330.312,
+        "industrial": 421.483,
+        "buildings": 5.629,
+        "transport": 90.723
+      },
+      "index": {
+        "power": 0.875,
+        "industrial": 0.95,
+        "buildings": 0.126,
+        "transport": 0.984
       }
     }
   ],
