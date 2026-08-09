@@ -1,15 +1,19 @@
 # China Gas Dashboards
 
+> [!IMPORTANT]
+> The live JODI dashboard has moved to [qrlow.me/china-gas](https://qrlow.me/china-gas/).
+> This repository is retained as an archive. The scheduled JODI refresh now runs from the website repository.
+
 China Gas Dashboards is a static analytics project for natural gas analysis.
 It shows China monthly JODI gas actuals, historical sector demand and fuel switching models, and a browser-based TTF storage optimizer.
 
-## Use It
+## Archived Pages
 
-Open `index.html` in a browser for the JODI actuals page, `sector.html` for the sector-demand model, or `storage.html` for the TTF storage optimizer. The public GitHub Pages versions are:
+The maintained JODI explorer is now available at:
 
-- JODI actuals: https://qrlow.github.io/china-gas-import-dashboard/
-- Sector model: https://qrlow.github.io/china-gas-import-dashboard/sector.html
-- TTF storage optimizer: https://qrlow.github.io/china-gas-import-dashboard/storage.html
+- https://qrlow.me/china-gas/
+
+The historical sector model, switching model, news monitor, and storage optimizer remain in this archive for reference.
 
 To regenerate the data file from the public JODI gas CSV package:
 
@@ -62,22 +66,7 @@ node --test tests/storage-model.test.js
 
 ## Automatic JODI Updates
 
-GitHub Actions runs `.github/workflows/update-jodi-data.yml` on the day after each published 2026 JODI World Database update date:
-
-- January 22
-- February 20
-- March 19
-- April 22
-- May 21
-- June 23
-- July 22
-- August 21
-- September 23
-- October 22
-- November 20
-- December 22
-
-The workflow can also be run manually from GitHub Actions. It commits generated data only when the rebuilt dashboard data changes beyond `generatedAt` timestamps.
+The scheduled refresh moved with the dashboard to the `qrlowme` website repository. The workflow in this archive is manual-only and remains available for historical maintenance.
 
 ## Data Sources
 
