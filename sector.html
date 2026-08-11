@@ -3,171 +3,84 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>China Gas Apparent Sector Demand Model</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>China Gas Apparent Sector Demand Model has moved</title>
+    <meta name="description" content="The China Gas Apparent Sector Demand Model now lives at qrlow.me/china-gas-sector/.">
+    <link rel="canonical" href="https://qrlow.me/china-gas-sector/">
+    <meta http-equiv="refresh" content="6; url=https://qrlow.me/china-gas-sector/">
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #17212b;
+        background: #f8fafc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      main {
+        width: min(620px, 100%);
+        padding: clamp(28px, 7vw, 56px);
+        border: 1px solid #d9e1e8;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.08);
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 7vw, 52px);
+        line-height: 1.05;
+        letter-spacing: -0.035em;
+      }
+
+      p {
+        margin: 0 0 24px;
+        color: #5d6b78;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 10px 16px;
+        border-radius: 7px;
+        background: #1c3f5f;
+        color: #fff;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus-visible {
+        background: #15324c;
+      }
+
+      a:focus-visible {
+        outline: 3px solid rgba(60, 120, 181, 0.4);
+        outline-offset: 3px;
+      }
+    </style>
   </head>
   <body>
-    <main class="shell">
-      <header class="topbar">
-        <div>
-          <div class="eyebrow-row">
-            <p class="eyebrow">China natural gas</p>
-            <a class="note-link" href="docs/gas-conversion-cheatsheet.html" aria-label="Open gas conversion cheatsheet" title="Gas conversion cheatsheet">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M6 3h8l4 4v14H6z"></path>
-                <path d="M14 3v5h5"></path>
-                <path d="M9 13h6"></path>
-                <path d="M9 17h4"></path>
-              </svg>
-            </a>
-          </div>
-          <h1>Apparent Sector Demand Model</h1>
-        </div>
-        <div class="topbar-actions">
-          <nav class="topnav" aria-label="Dashboard navigation">
-            <a href="news.html">News Monitor</a>
-            <a href="index.html">JODI actuals</a>
-            <a class="is-active" href="sector.html">Sector model</a>
-            <a href="switching.html">Switch model</a>
-            <a href="storage.html">Storage optimizer</a>
-          </nav>
-          <div class="meta">
-            <span id="latest-modeled">Latest modeled</span>
-            <span id="sector-gas-year-range">Gas year</span>
-          </div>
-        </div>
-      </header>
-
-      <section class="control-band" aria-label="Sector model controls">
-        <div class="control-fields">
-          <div class="field">
-            <label>Year basis</label>
-            <div class="segmented year-basis-toggle" role="group" aria-label="Year basis">
-              <button class="segment" type="button" data-year-basis="gas">Gas year</button>
-              <button class="segment" type="button" data-year-basis="calendar">Calendar year</button>
-            </div>
-          </div>
-          <div class="field">
-            <label id="sector-period-select-label" for="sector-gas-year-select">Gas year</label>
-            <select id="sector-gas-year-select"></select>
-          </div>
-        </div>
-        <p id="sector-dashboard-note" class="dashboard-note"></p>
-      </section>
-
-      <section class="kpi-grid" id="sector-kpis" aria-label="Modeled apparent sector demand metrics"></section>
-
-      <section class="grid two-col">
-        <article class="panel">
-          <div class="panel-head">
-            <div>
-              <p class="eyebrow">Monthly demand</p>
-              <h2 id="sector-stack-title">Modeled Apparent Sector Stack</h2>
-            </div>
-          </div>
-          <div id="sector-stack-chart" class="chart" role="img" aria-label="Monthly modeled apparent gas demand by sector"></div>
-        </article>
-
-        <article class="panel">
-          <div class="panel-head">
-            <div>
-              <p class="eyebrow">Sector share</p>
-              <h2 id="sector-share-title">Monthly Sector Shares</h2>
-            </div>
-          </div>
-          <div id="sector-share-chart" class="chart" role="img" aria-label="Monthly modeled apparent sector demand shares"></div>
-        </article>
-      </section>
-
-      <section class="grid two-col">
-        <article class="panel">
-          <div class="panel-head">
-            <div>
-              <p class="eyebrow">Proxy signal</p>
-              <h2 id="proxy-title">Carbon Monitor Monthly Index</h2>
-            </div>
-          </div>
-          <div id="proxy-chart" class="chart" role="img" aria-label="Monthly Carbon Monitor sector proxy indexes"></div>
-        </article>
-
-        <article class="panel">
-          <div class="panel-head">
-            <div>
-              <p class="eyebrow">Model construction</p>
-              <h2 class="title-with-info">
-                <span>How the Allocation Works</span>
-                <span class="info-tip" tabindex="0" aria-label="Model scope" title="This is a historical allocation of JODI apparent demand, not storage-adjusted end-use sector demand.">i
-                  <span class="tooltip" role="tooltip">This is a historical allocation of JODI apparent demand, not storage-adjusted end-use sector demand.</span>
-                </span>
-              </h2>
-            </div>
-          </div>
-          <div id="methodology" class="assumption-list"></div>
-        </article>
-      </section>
-
-      <section class="grid two-col">
-        <article class="panel">
-          <div class="panel-head">
-            <div>
-              <p class="eyebrow">Annual anchor</p>
-              <h2>2023 Annual Anchor</h2>
-            </div>
-          </div>
-          <div id="anchor-shares" class="anchor-list"></div>
-        </article>
-
-        <article class="panel">
-          <div class="panel-head">
-            <div>
-              <p class="eyebrow">Sector mapping</p>
-              <h2>Dashboard to IEA Mapping</h2>
-            </div>
-          </div>
-          <div id="sector-definitions" class="assumption-list"></div>
-        </article>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <p class="eyebrow">Monthly table</p>
-            <h2 id="sector-table-title">Modeled Monthly Apparent Sector Demand</h2>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table id="sector-table" class="sector-table">
-            <thead>
-              <tr>
-                <th>Month</th>
-                <th>JODI Apparent Demand</th>
-                <th>Power / residual</th>
-                <th>Industrial</th>
-                <th>Buildings</th>
-                <th>Transport</th>
-                <th>Power Share</th>
-                <th>Industrial Share</th>
-                <th>Buildings Share</th>
-                <th>Transport Share</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <p class="eyebrow">Sources</p>
-            <h2>Where the Data Comes From</h2>
-          </div>
-        </div>
-        <div id="sector-sources" class="source-list"></div>
-      </section>
+    <main>
+      <h1>The China Gas Apparent Sector Demand Model has moved.</h1>
+      <p>
+        The live sector model and its step-by-step explanation now have a permanent home on qrlow.me.
+        This repository is retained as an archive.
+      </p>
+      <a href="https://qrlow.me/china-gas-sector/">Open the China Gas Apparent Sector Demand Model</a>
     </main>
-
-    <script src="src/sector-data.js"></script>
-    <script src="src/sector-app.js"></script>
   </body>
 </html>
