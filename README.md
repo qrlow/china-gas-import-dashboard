@@ -2,7 +2,7 @@
 
 > [!IMPORTANT]
 > The maintained JODI dashboard is available at [qrlow.me/china-gas](https://qrlow.me/china-gas/), and the original dashboard remains available on [GitHub Pages](https://qrlow.github.io/china-gas-import-dashboard/).
-> The live sector model has moved to [qrlow.me/china-gas-sector](https://qrlow.me/china-gas-sector/).
+> The maintained sector model is available at [qrlow.me/china-gas-sector](https://qrlow.me/china-gas-sector/), and the original model remains available on [GitHub Pages](https://qrlow.github.io/china-gas-import-dashboard/sector.html).
 > The scheduled JODI and sector-model refreshes run from the website repository.
 
 China Gas Dashboards is a static analytics project for natural gas analysis.
@@ -15,9 +15,10 @@ The maintained JODI explorer and sector model are available at:
 - https://qrlow.me/china-gas/
 - https://qrlow.me/china-gas-sector/
 
-The original JODI dashboard is also available at:
+The original JODI dashboard and sector model are also available at:
 
 - https://qrlow.github.io/china-gas-import-dashboard/
+- https://qrlow.github.io/china-gas-import-dashboard/sector.html
 
 The historical switching model, news monitor, and storage optimizer remain in this repository for reference.
 
